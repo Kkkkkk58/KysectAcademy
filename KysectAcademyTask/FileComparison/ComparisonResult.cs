@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace KysectAcademyTask.FileComparison;
+﻿namespace KysectAcademyTask.FileComparison;
 
 public readonly struct ComparisonResult
 {
@@ -17,6 +15,6 @@ public readonly struct ComparisonResult
 
     public override string ToString()
     {
-        return $"{FileName1}, {FileName2} => {SimilarityRate.ToString(CultureInfo.InvariantCulture)}";
+        return $"|{FileName1}\n|{FileName2}\n=> {SimilarityRate:0.##}";
     }
 }
