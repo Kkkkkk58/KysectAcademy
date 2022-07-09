@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace KysectAcademyTask;
+namespace KysectAcademyTask.FileComparison;
 
 internal class AppSettingsParser
 {
@@ -18,5 +18,5 @@ internal class AppSettingsParser
         return new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile(jsonFileName).Build();
-    } 
+    }
 }

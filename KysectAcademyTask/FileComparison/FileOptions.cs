@@ -1,4 +1,4 @@
-﻿namespace KysectAcademyTask;
+﻿namespace KysectAcademyTask.FileComparison;
 
 public struct FileOptions
 {

@@ -1,4 +1,6 @@
-﻿namespace KysectAcademyTask;
+﻿using KysectAcademyTask.FileComparison;
+
+namespace KysectAcademyTask;
 
 public class Program
 {

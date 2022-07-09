@@ -1,4 +1,4 @@
-﻿namespace KysectAcademyTask;
+﻿namespace KysectAcademyTask.FileComparison;
 
 internal class ComparisonResultsTable
 {
