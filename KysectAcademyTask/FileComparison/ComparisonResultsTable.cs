@@ -2,15 +2,24 @@
 
 internal class ComparisonResultsTable
 {
-    private FileProcessor fileProcessor;
+    private readonly List<ComparisonResult> _comparisonResults;
 
-    public ComparisonResultsTable(FileProcessor fileProcessor)
+    public ComparisonResultsTable()
     {
-        this.fileProcessor = fileProcessor;
+        _comparisonResults = new List<ComparisonResult>();
     }
 
-    internal void Show()
+    public void AddComparisonResult(ComparisonResult result)
     {
-        throw new NotImplementedException();
+        _comparisonResults.Add(result);
+    }
+
+    public void Show()
+    {
+        foreach (ComparisonResult comparisonResult in _comparisonResults)
+        {
+            Console.WriteLine(comparisonResult.ToString());
+            Console.WriteLine();
+        }
     }
 }
