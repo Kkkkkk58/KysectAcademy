@@ -3,13 +3,11 @@
 internal class FileProcessor
 {
     private readonly FileGetterConfig _config;
-    private readonly FileComparer _comparer;
     private readonly ComparisonResultsTable _comparisonResultsTable;
 
     public FileProcessor()
     {
-        _config = new AppSettingsParser().GetConfig();
-        _comparer = new FileComparer();
+        _config = new AppSettingsParser().GetFileGetterConfig();
         _comparisonResultsTable = new ComparisonResultsTable();
     }
 
@@ -22,13 +20,33 @@ internal class FileProcessor
     private void CompareFiles()
     {
         string[] fileNames = GetFileNames();
+        string[] fileContents = new string[fileNames.Length];
+
         for (int i = 0; i < fileNames.Length - 1; ++i)
         {
             for (int j = i + 1; j < fileNames.Length; ++j)
             {
-                ComparisonResult comparisonResult = new FileComparer().Compare(fileNames[i], fileNames[j]);
+                WriteFileContents(fileNames, fileContents, i, j);
+                ComparisonResult comparisonResult = new FileComparer(fileNames[i], fileNames[j])
+                    .Compare(fileContents[i], fileContents[j]);
                 _comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
+
+            fileContents[i] = string.Empty;
+        }
+    }
+
+    private void WriteFileContents(string[] fileNames, string[] fileContents, int i, int j)
+    {
+        WriteFileContent(fileNames[i], fileContents, i);
+        WriteFileContent(fileNames[j], fileContents, j);
+    }
+
+    private void WriteFileContent(string fileName, string[] fileContents, int i)
+    {
+        if (fileContents[i] == null)
+        {
+            fileContents[i] = File.ReadAllText(fileName);
         }
     }
 

@@ -8,6 +8,8 @@ public class Program
     {
         FileProcessor fileProcessor = new();
         ComparisonResultsTable comparisonResultsTable = fileProcessor.GetComparisonResults();
-        comparisonResultsTable.Show();
+        string outputFileName = new AppSettingsParser().GetOutputDir(); 
+        using StreamWriter writer = new(outputFileName);
+        comparisonResultsTable.Write(writer);
     }
 }

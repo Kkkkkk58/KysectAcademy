@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.FileComparison;
 
-public struct ComparisonResult
+public readonly struct ComparisonResult
 {
     public string FileName1 { get; }
     public string FileName2 { get; }
@@ -17,6 +17,6 @@ public struct ComparisonResult
 
     public override string ToString()
     {
-        return $"{FileName1} is {SimilarityRate.ToString(CultureInfo.InvariantCulture)} similar to {FileName2}";
+        return $"{FileName1}, {FileName2} => {SimilarityRate.ToString(CultureInfo.InvariantCulture)}";
     }
 }

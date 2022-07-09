@@ -14,12 +14,13 @@ internal class ComparisonResultsTable
         _comparisonResults.Add(result);
     }
 
-    public void Show()
+    public void Write(StreamWriter writer)
     {
         foreach (ComparisonResult comparisonResult in _comparisonResults)
         {
-            Console.WriteLine(comparisonResult.ToString());
-            Console.WriteLine();
+            writer.WriteLine(comparisonResult.ToString());
+            writer.WriteLine();
         }
     }
+
 }
