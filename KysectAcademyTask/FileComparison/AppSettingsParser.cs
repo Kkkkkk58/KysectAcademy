@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
+using Microsoft.Extensions.Configuration;
 
 namespace KysectAcademyTask.FileComparison;
 
@@ -13,21 +14,54 @@ internal class AppSettingsParser
 
     public FileGetterConfig GetFileGetterConfig()
     {
-        IConfigurationSection section = _config.GetSection(nameof(FileGetterConfig));
-        FileGetterConfig fileGetterConfig = section.Get<FileGetterConfig>();
-
-        return fileGetterConfig;
+        try
+        {
+            IConfigurationSection section = _config.GetSection(nameof(FileGetterConfig));
+            FileGetterConfig fileGetterConfig = section.Get<FileGetterConfig>();
+            return fileGetterConfig;
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new ArgumentException($"Invalid FileGetterConfig argument: {e.Message}");
+        }
     }
 
-    public string GetOutputDir()
+    public string GetOutputFile()
     {
-        string? outputDir  = _config.GetValue<string>("OutputFile");
-        if (outputDir == null)
+        try
         {
-            throw new ArgumentException("Output file was not provided");
-        }
+            string? outputFile = _config.GetValue<string>("OutputFile");
 
-        return outputDir;
+
+            if (outputFile == null)
+            {
+                throw new ArgumentException("Output file was not provided");
+            }
+
+            return outputFile;
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new ArgumentException($"Invalid OutputFile argument: {e.Message}");
+        }
+    }
+
+    public ComparisonAlgorithm.Metrics GetComparisonMetrics()
+    {
+        try
+        {
+            ComparisonAlgorithm.Metrics? metrics = _config.GetValue<ComparisonAlgorithm.Metrics>("Metrics");
+            if (metrics is null)
+            {
+                return ComparisonAlgorithm.Metrics.Jaccard;
+            }
+
+            return (ComparisonAlgorithm.Metrics)metrics;
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new ArgumentException($"Invalid Metrics argument: {e.Message}");
+        }
     }
 
     private static IConfigurationRoot GetConfigurationRoot(string jsonFileName)

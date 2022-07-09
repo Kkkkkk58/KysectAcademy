@@ -1,4 +1,6 @@
-﻿namespace KysectAcademyTask.FileComparison;
+﻿using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
+
+namespace KysectAcademyTask.FileComparison;
 
 internal class FileProcessor
 {
@@ -11,13 +13,13 @@ internal class FileProcessor
         _comparisonResultsTable = new ComparisonResultsTable();
     }
 
-    public ComparisonResultsTable GetComparisonResults()
+    public ComparisonResultsTable GetComparisonResults(ComparisonAlgorithm.Metrics metrics)
     {
-        CompareFiles();
+        CompareFiles(metrics);
         return _comparisonResultsTable;
     }
 
-    private void CompareFiles()
+    private void CompareFiles(ComparisonAlgorithm.Metrics metrics)
     {
         string[] fileNames = GetFileNames();
         string[] fileContents = new string[fileNames.Length];
@@ -27,7 +29,7 @@ internal class FileProcessor
             for (int j = i + 1; j < fileNames.Length; ++j)
             {
                 WriteFileContents(fileNames, fileContents, i, j);
-                ComparisonResult comparisonResult = new FileComparer(fileNames[i], fileNames[j])
+                ComparisonResult comparisonResult = new FileComparer(fileNames[i], fileNames[j], metrics)
                     .Compare(fileContents[i], fileContents[j]);
                 _comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
