@@ -1,2 +1,11 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace KysectAcademyTask;
+
+public class Program
+{
+    public static void Main()
+    {
+        FileProcessor fileProcessor = new();
+        fileProcessor.CompareFiles();
+        //new ComparisonResultsTable(fileProcessor).Show();
+    }
+}
