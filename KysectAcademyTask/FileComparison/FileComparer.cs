@@ -17,8 +17,8 @@ internal class FileComparer
 
     public ComparisonResult Compare(string fileContent1, string fileContent2)
     {
-        double similarityRate = new ComparisonAlgorithm().SetImplementation(_metrics).GetSimilarityRate(fileContent1, fileContent2);
+        double similarityRate = new ComparisonAlgorithm().SetImplementation(_metrics)
+            .GetSimilarityRate(fileContent1, fileContent2);
         return new ComparisonResult(_fileName1, _fileName2, similarityRate);
     }
-
 }

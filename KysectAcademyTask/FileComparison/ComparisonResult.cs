@@ -1,10 +1,10 @@
 ﻿namespace KysectAcademyTask.FileComparison;
 
-public readonly struct ComparisonResult
+internal readonly struct ComparisonResult
 {
-    public string FileName1 { get; }
-    public string FileName2 { get; }
-    public double SimilarityRate { get; }
+    private string FileName1 { get; }
+    private string FileName2 { get; }
+    private double SimilarityRate { get; }
 
     public ComparisonResult(string fileName1, string fileName2, double similarityRate)
     {

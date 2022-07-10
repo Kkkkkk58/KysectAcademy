@@ -33,24 +33,22 @@ internal class FileProcessor
                     .Compare(fileContents[i], fileContents[j]);
                 _comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
+
             // Setting the processed fileContent to an empty string to let the GarbageCollector
             // get rid of the large string that is not needed anymore
             fileContents[i] = string.Empty;
         }
     }
 
-    private void WriteFileContents(string[] fileNames, string[] fileContents, int i, int j)
+    private void WriteFileContents(string[] fileNames, string?[] fileContents, int i, int j)
     {
         WriteFileContent(fileNames[i], fileContents, i);
         WriteFileContent(fileNames[j], fileContents, j);
     }
 
-    private void WriteFileContent(string fileName, string[] fileContents, int i)
+    private void WriteFileContent(string fileName, string?[] fileContents, int i)
     {
-        if (fileContents[i] == null)
-        {
-            fileContents[i] = File.ReadAllText(fileName);
-        }
+        fileContents[i] ??= File.ReadAllText(fileName);
     }
 
     private string[] GetFileNames()
@@ -75,6 +73,7 @@ internal class FileProcessor
             return Directory.GetFiles(_config.FolderName, _config.FileOptions.SearchPattern,
                 (SearchOption)_config.FileOptions.SearchOption);
         }
+
         return Directory.GetFiles(_config.FolderName, _config.FileOptions.SearchPattern);
     }
 }

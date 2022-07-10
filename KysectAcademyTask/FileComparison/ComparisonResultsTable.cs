@@ -22,5 +22,4 @@ internal class ComparisonResultsTable
             writer.WriteLine();
         }
     }
-
 }

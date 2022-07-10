@@ -1,7 +1,7 @@
 ﻿namespace KysectAcademyTask.FileComparison;
 
-public struct FileOptions
+internal struct FileOptions
 {
-    public string? SearchPattern { get; set; }
-    public SearchOption? SearchOption { get; set; }
+    public string? SearchPattern { get; init; }
+    public SearchOption? SearchOption { get; init; }
 }

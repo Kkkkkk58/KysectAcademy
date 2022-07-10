@@ -1,7 +1,7 @@
 ﻿namespace KysectAcademyTask.FileComparison;
 
-public struct FileGetterConfig
+internal struct FileGetterConfig
 {
-    public string FolderName { get; set; }
-    public FileOptions FileOptions { get; set; }
+    public string FolderName { get; init; }
+    public FileOptions FileOptions { get; init; }
 }
