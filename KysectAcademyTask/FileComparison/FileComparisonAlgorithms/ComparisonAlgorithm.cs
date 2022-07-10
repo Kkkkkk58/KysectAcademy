@@ -12,7 +12,7 @@ internal class ComparisonAlgorithm
         RatcliffObershelp
     }
 
-    public IComparisonAlgorithm SetImplementation(Metrics metrics)
+    public IComparisonAlgorithmImpl SetImplementation(Metrics metrics)
     {
         return metrics switch
         {

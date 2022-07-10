@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 
-internal class NormalizedLevenshteinAlgorithm : IComparisonAlgorithm
+internal class NormalizedLevenshteinAlgorithm : IComparisonAlgorithmImpl
 {
     public double GetSimilarityRate(string fileContent1, string fileContent2)
     {

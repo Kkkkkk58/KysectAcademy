@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 
-internal class JaroWinklerAlgorithm : IComparisonAlgorithm
+internal class JaroWinklerAlgorithm : IComparisonAlgorithmImpl
 {
     public double GetSimilarityRate(string fileContent1, string fileContent2)
     {
