@@ -18,7 +18,7 @@ public class Program
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Error occured while performing: {e.Message}");
+            Console.WriteLine($"Error occurred while performing: {e.Message}");
         }
     }
 }
