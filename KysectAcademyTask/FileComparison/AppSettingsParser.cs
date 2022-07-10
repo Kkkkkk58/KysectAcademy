@@ -33,7 +33,7 @@ internal class AppSettingsParser
             string? outputFile = Config.GetValue<string>("OutputFile");
 
 
-            if (outputFile == null)
+            if (outputFile is null)
             {
                 throw new ArgumentException("Output file was not provided");
             }
