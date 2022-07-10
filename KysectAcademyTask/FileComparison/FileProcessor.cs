@@ -23,7 +23,7 @@ internal class FileProcessor
     {
         string[] fileNames = GetFileNames();
         string[] fileContents = new string[fileNames.Length];
-
+        // Loop through each pair of files
         for (int i = 0; i < fileNames.Length - 1; ++i)
         {
             for (int j = i + 1; j < fileNames.Length; ++j)
@@ -33,7 +33,8 @@ internal class FileProcessor
                     .Compare(fileContents[i], fileContents[j]);
                 _comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
-
+            // Setting the processed fileContent to an empty string to let the GarbageCollector
+            // get rid of the large string that is not needed anymore
             fileContents[i] = string.Empty;
         }
     }
