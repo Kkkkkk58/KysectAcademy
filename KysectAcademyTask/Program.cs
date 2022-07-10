@@ -7,6 +7,11 @@ public class Program
 {
     public static void Main()
     {
+        CompareFiles();
+    }
+
+    private static void CompareFiles()
+    {
         try
         {
             FileProcessor fileProcessor = new();
@@ -18,7 +23,7 @@ public class Program
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Error occurred while performing: {e.Message}");
+            Console.WriteLine($"Error occurred while performing file comparison: {e.Message}");
         }
     }
 }
