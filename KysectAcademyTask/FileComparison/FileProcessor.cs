@@ -64,12 +64,12 @@ internal class FileProcessor
 
     private string[] GetFileNamesFromSuitableCtor()
     {
-        if (_config.FileOptions.SearchPattern is null)
+        if (_config.FileOptions.SearchPattern == null)
         {
             return Directory.GetFiles(_config.FolderName);
         }
 
-        if (_config.FileOptions.SearchOption is not null)
+        if (_config.FileOptions.SearchOption != null)
         {
             return Directory.GetFiles(_config.FolderName, _config.FileOptions.SearchPattern,
                 (SearchOption)_config.FileOptions.SearchOption);

@@ -5,18 +5,18 @@ namespace KysectAcademyTask.FileComparison;
 
 internal class AppSettingsParser
 {
-    private static readonly IConfigurationRoot Config;
+    private static IConfigurationRoot _config;
 
     static AppSettingsParser()
     {
-        Config = GetConfigurationRoot("appsettings.json");
+        _config = GetConfigurationRoot("appsettings.json");
     }
 
     public FileGetterConfig GetFileGetterConfig()
     {
         try
         {
-            IConfigurationSection section = Config.GetSection(nameof(FileGetterConfig));
+            IConfigurationSection section = _config.GetSection(nameof(FileGetterConfig));
             FileGetterConfig fileGetterConfig = section.Get<FileGetterConfig>();
             return fileGetterConfig;
         }
@@ -30,11 +30,14 @@ internal class AppSettingsParser
     {
         try
         {
-            string? outputFile = Config.GetValue<string>("OutputFile");
+            string? outputFile = _config.GetValue<string>("OutputFile");
+
+
             if (outputFile == null)
             {
                 throw new ArgumentException("Output file was not provided");
             }
+
             return outputFile;
         }
         catch (InvalidOperationException e)
@@ -47,11 +50,12 @@ internal class AppSettingsParser
     {
         try
         {
-            ComparisonAlgorithm.Metrics? metrics = Config.GetValue<ComparisonAlgorithm.Metrics>("Metrics");
+            ComparisonAlgorithm.Metrics? metrics = _config.GetValue<ComparisonAlgorithm.Metrics>("Metrics");
             if (metrics is null)
             {
                 return ComparisonAlgorithm.Metrics.Jaccard;
             }
+
             return (ComparisonAlgorithm.Metrics)metrics;
         }
         catch (InvalidOperationException e)
