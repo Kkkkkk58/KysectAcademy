@@ -44,7 +44,7 @@ internal class AppSettingsParser
         ValidateConfigRoot();
         try
         {
-            IConfigurationSection section = 
+            IConfigurationSection section =
                 _configRoot.GetSection(nameof(FileGetterConfig));
             FileGetterConfig? fileGetterConfig = section.Get<FileGetterConfig>();
             return fileGetterConfig;

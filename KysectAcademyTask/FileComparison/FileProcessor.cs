@@ -34,6 +34,7 @@ internal class FileProcessor
 
             fileLoader.FreeFileContent(fileNames[i]);
         }
+
         return comparisonResultsTable;
     }
 
@@ -47,5 +48,4 @@ internal class FileProcessor
 
         throw new DirectoryNotFoundException(_config.FolderName);
     }
-    
 }

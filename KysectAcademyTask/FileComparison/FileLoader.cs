@@ -15,6 +15,7 @@ internal class FileLoader
         {
             throw new ArgumentException("No such file among listed fileNames");
         }
+
         return fileContent;
     }
 
@@ -24,6 +25,7 @@ internal class FileLoader
         {
             throw new ArgumentException("No such file among listed fileNames");
         }
+
         _files.Remove(fileName);
     }
 

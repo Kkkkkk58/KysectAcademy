@@ -11,7 +11,6 @@ internal struct AppSettingsConfig
     public AppSettingsConfig(FileGetterConfig? fileGetterConfig, string? outputFilePath,
         ComparisonAlgorithm.Metrics? metrics)
     {
-
         FileGetterConfig = fileGetterConfig ?? throw new ArgumentNullException(nameof(fileGetterConfig));
         OutputFilePath = outputFilePath ?? throw new ArgumentNullException(nameof(outputFilePath));
         Metrics = metrics ?? ComparisonAlgorithm.Metrics.Jaccard;
