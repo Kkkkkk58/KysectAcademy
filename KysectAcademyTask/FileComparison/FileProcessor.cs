@@ -20,20 +20,19 @@ internal class FileProcessor
     {
         ComparisonResultsTable comparisonResultsTable = new();
         string[] fileNames = GetFileNames();
-        string[] fileContents = GetFileContents(fileNames);
+
+        FileLoader fileLoader = new(fileNames);
         // Loop through each pair of files
         for (int i = 0; i < fileNames.Length - 1; ++i)
         {
             for (int j = i + 1; j < fileNames.Length; ++j)
             {
-                ComparisonResult comparisonResult = new FileComparer(fileNames[i], fileNames[j], metrics)
-                    .Compare(fileContents[i], fileContents[j]);
+                ComparisonResult comparisonResult = new FileComparer(fileLoader, fileNames[i], fileNames[j], metrics)
+                    .Compare();
                 comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
 
-            // Setting the processed fileContent to an empty string to let the GarbageCollector
-            // get rid of the large string that is not needed anymore
-            fileContents[i] = string.Empty;
+            fileLoader.FreeFileContent(fileNames[i]);
         }
         return comparisonResultsTable;
     }
@@ -49,13 +48,4 @@ internal class FileProcessor
         throw new DirectoryNotFoundException(_config.FolderName);
     }
     
-    private string[] GetFileContents(string[] fileNames)
-    {
-        string[] fileContents = new string[fileNames.Length];
-        for (int i = 0; i < fileContents.Length; ++i)
-        {
-            fileContents[i] = File.ReadAllText(fileNames[i]);
-        }
-        return fileContents;
-    }
 }
