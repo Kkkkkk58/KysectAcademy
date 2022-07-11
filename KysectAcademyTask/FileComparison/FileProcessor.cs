@@ -22,13 +22,12 @@ internal class FileProcessor
     private void CompareFiles(ComparisonAlgorithm.Metrics metrics)
     {
         string[] fileNames = GetFileNames();
-        string[] fileContents = new string[fileNames.Length];
+        string[] fileContents = GetFileContents(fileNames);
         // Loop through each pair of files
         for (int i = 0; i < fileNames.Length - 1; ++i)
         {
             for (int j = i + 1; j < fileNames.Length; ++j)
             {
-                WriteFileContents(fileNames, fileContents, i, j);
                 ComparisonResult comparisonResult = new FileComparer(fileNames[i], fileNames[j], metrics)
                     .Compare(fileContents[i], fileContents[j]);
                 _comparisonResultsTable.AddComparisonResult(comparisonResult);
@@ -38,17 +37,6 @@ internal class FileProcessor
             // get rid of the large string that is not needed anymore
             fileContents[i] = string.Empty;
         }
-    }
-
-    private void WriteFileContents(string[] fileNames, string?[] fileContents, int i, int j)
-    {
-        WriteFileContent(fileNames[i], fileContents, i);
-        WriteFileContent(fileNames[j], fileContents, j);
-    }
-
-    private void WriteFileContent(string fileName, string?[] fileContents, int i)
-    {
-        fileContents[i] ??= File.ReadAllText(fileName);
     }
 
     private string[] GetFileNames()
@@ -75,5 +63,15 @@ internal class FileProcessor
         }
 
         return Directory.GetFiles(_config.FolderName, _config.FileOptions.SearchPattern);
+    }
+
+    private string[] GetFileContents(string[] fileNames)
+    {
+        string[] fileContents = new string[fileNames.Length];
+        for (int i = 0; i < fileContents.Length; ++i)
+        {
+            fileContents[i] = File.ReadAllText(fileNames[i]);
+        }
+        return fileContents;
     }
 }
