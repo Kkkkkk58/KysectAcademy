@@ -1,5 +1,4 @@
 ﻿using KysectAcademyTask.FileComparison;
-using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 
 namespace KysectAcademyTask;
 
@@ -16,10 +15,8 @@ public class Program
         {
             AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
             FileProcessor fileProcessor = new(config.FileGetterConfig);
-            ComparisonAlgorithm.Metrics comparisonMetrics = config.Metrics;
-            ComparisonResultsTable comparisonResultsTable = fileProcessor.GetComparisonResults(comparisonMetrics);
-            string outputFileName = config.OutputFilePath;
-            using StreamWriter writer = new(outputFileName);
+            ComparisonResultsTable comparisonResultsTable = fileProcessor.GetComparisonResults(config.Metrics);
+            using StreamWriter writer = new(config.OutputFilePath);
             comparisonResultsTable.Write(writer);
         }
         catch (Exception e)
