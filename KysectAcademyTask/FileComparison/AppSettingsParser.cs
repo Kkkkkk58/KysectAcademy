@@ -5,19 +5,48 @@ namespace KysectAcademyTask.FileComparison;
 
 internal class AppSettingsParser
 {
-    private static readonly IConfigurationRoot Config;
+    private static AppSettingsParser? _instance;
+    private static readonly object Lock = new();
 
-    static AppSettingsParser()
+    private readonly IConfigurationRoot _configRoot;
+
+    public AppSettingsConfig Config { get; }
+
+    public static AppSettingsParser GetInstance()
     {
-        Config = GetConfigurationRoot("appsettings.json");
+        if (_instance is null)
+        {
+            lock (Lock)
+            {
+                _instance ??= new AppSettingsParser();
+            }
+        }
+
+        return _instance;
     }
 
-    public FileGetterConfig GetFileGetterConfig()
+    private AppSettingsParser()
     {
+        _configRoot = GetConfigurationRoot("appsettings.json");
+        Config = GetConfig();
+    }
+
+    private AppSettingsConfig GetConfig()
+    {
+        FileGetterConfig? fileGetterConfig = GetFileGetterConfig();
+        string? outputFilePath = GetOutputFile();
+        ComparisonAlgorithm.Metrics? metrics = GetComparisonMetrics();
+        return new AppSettingsConfig(fileGetterConfig, outputFilePath, metrics);
+    }
+
+    private FileGetterConfig? GetFileGetterConfig()
+    {
+        ValidateConfigRoot();
         try
         {
-            IConfigurationSection section = Config.GetSection(nameof(FileGetterConfig));
-            FileGetterConfig fileGetterConfig = section.Get<FileGetterConfig>();
+            IConfigurationSection section = 
+                _configRoot.GetSection(nameof(FileGetterConfig));
+            FileGetterConfig? fileGetterConfig = section.Get<FileGetterConfig>();
             return fileGetterConfig;
         }
         catch (InvalidOperationException e)
@@ -26,18 +55,12 @@ internal class AppSettingsParser
         }
     }
 
-    public string GetOutputFile()
+    private string? GetOutputFile()
     {
+        ValidateConfigRoot();
         try
         {
-            string? outputFile = Config.GetValue<string>("OutputFile");
-
-
-            if (outputFile is null)
-            {
-                throw new ArgumentException("Output file was not provided");
-            }
-
+            string? outputFile = _configRoot.GetValue<string>("OutputFile");
             return outputFile;
         }
         catch (InvalidOperationException e)
@@ -46,17 +69,13 @@ internal class AppSettingsParser
         }
     }
 
-    public ComparisonAlgorithm.Metrics GetComparisonMetrics()
+    private ComparisonAlgorithm.Metrics? GetComparisonMetrics()
     {
+        ValidateConfigRoot();
         try
         {
-            ComparisonAlgorithm.Metrics? metrics = Config.GetValue<ComparisonAlgorithm.Metrics>("Metrics");
-            if (metrics is null)
-            {
-                return ComparisonAlgorithm.Metrics.Jaccard;
-            }
-
-            return (ComparisonAlgorithm.Metrics)metrics;
+            ComparisonAlgorithm.Metrics? metrics = _configRoot.GetValue<ComparisonAlgorithm.Metrics>("Metrics");
+            return metrics;
         }
         catch (InvalidOperationException e)
         {
@@ -69,5 +88,13 @@ internal class AppSettingsParser
         return new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile(jsonFileName).Build();
+    }
+
+    private void ValidateConfigRoot()
+    {
+        if (_configRoot is null)
+        {
+            throw new InvalidOperationException("Config root was not set");
+        }
     }
 }

@@ -6,9 +6,9 @@ internal class FileProcessor
 {
     private readonly FileGetterConfig _config;
 
-    public FileProcessor()
+    public FileProcessor(FileGetterConfig config)
     {
-        _config = new AppSettingsParser().GetFileGetterConfig();
+        _config = config;
     }
 
     public ComparisonResultsTable GetComparisonResults(ComparisonAlgorithm.Metrics metrics)
@@ -42,28 +42,13 @@ internal class FileProcessor
     {
         if (Directory.Exists(_config.FolderName))
         {
-            return GetFileNamesFromSuitableCtor();
+            return Directory.GetFiles(_config.FolderName, _config.FileOptions.SearchPattern,
+                _config.FileOptions.SearchOption);
         }
 
         throw new DirectoryNotFoundException(_config.FolderName);
     }
-
-    private string[] GetFileNamesFromSuitableCtor()
-    {
-        if (_config.FileOptions.SearchPattern is null)
-        {
-            return Directory.GetFiles(_config.FolderName);
-        }
-
-        if (_config.FileOptions.SearchOption is not null)
-        {
-            return Directory.GetFiles(_config.FolderName, _config.FileOptions.SearchPattern,
-                (SearchOption)_config.FileOptions.SearchOption);
-        }
-
-        return Directory.GetFiles(_config.FolderName, _config.FileOptions.SearchPattern);
-    }
-
+    
     private string[] GetFileContents(string[] fileNames)
     {
         string[] fileContents = new string[fileNames.Length];

@@ -14,10 +14,11 @@ public class Program
     {
         try
         {
-            FileProcessor fileProcessor = new();
-            ComparisonAlgorithm.Metrics comparisonMetrics = new AppSettingsParser().GetComparisonMetrics();
+            AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
+            FileProcessor fileProcessor = new(config.FileGetterConfig);
+            ComparisonAlgorithm.Metrics comparisonMetrics = config.Metrics;
             ComparisonResultsTable comparisonResultsTable = fileProcessor.GetComparisonResults(comparisonMetrics);
-            string outputFileName = new AppSettingsParser().GetOutputFile();
+            string outputFileName = config.OutputFilePath;
             using StreamWriter writer = new(outputFileName);
             comparisonResultsTable.Write(writer);
         }
