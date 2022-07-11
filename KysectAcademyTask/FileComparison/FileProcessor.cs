@@ -27,8 +27,8 @@ internal class FileProcessor
         {
             for (int j = i + 1; j < fileNames.Length; ++j)
             {
-                ComparisonResult comparisonResult = new FileComparer(fileLoader, fileNames[i], fileNames[j], metrics)
-                    .Compare();
+                ComparisonResult comparisonResult = 
+                    new FileComparer(fileLoader, fileNames[i], fileNames[j], metrics).Compare();
                 comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
 
