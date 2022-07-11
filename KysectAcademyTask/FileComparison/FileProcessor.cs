@@ -5,22 +5,20 @@ namespace KysectAcademyTask.FileComparison;
 internal class FileProcessor
 {
     private readonly FileGetterConfig _config;
-    private readonly ComparisonResultsTable _comparisonResultsTable;
 
     public FileProcessor()
     {
         _config = new AppSettingsParser().GetFileGetterConfig();
-        _comparisonResultsTable = new ComparisonResultsTable();
     }
 
     public ComparisonResultsTable GetComparisonResults(ComparisonAlgorithm.Metrics metrics)
     {
-        CompareFiles(metrics);
-        return _comparisonResultsTable;
+        return CompareFiles(metrics);
     }
 
-    private void CompareFiles(ComparisonAlgorithm.Metrics metrics)
+    private ComparisonResultsTable CompareFiles(ComparisonAlgorithm.Metrics metrics)
     {
+        ComparisonResultsTable comparisonResultsTable = new();
         string[] fileNames = GetFileNames();
         string[] fileContents = GetFileContents(fileNames);
         // Loop through each pair of files
@@ -30,13 +28,14 @@ internal class FileProcessor
             {
                 ComparisonResult comparisonResult = new FileComparer(fileNames[i], fileNames[j], metrics)
                     .Compare(fileContents[i], fileContents[j]);
-                _comparisonResultsTable.AddComparisonResult(comparisonResult);
+                comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
 
             // Setting the processed fileContent to an empty string to let the GarbageCollector
             // get rid of the large string that is not needed anymore
             fileContents[i] = string.Empty;
         }
+        return comparisonResultsTable;
     }
 
     private string[] GetFileNames()
