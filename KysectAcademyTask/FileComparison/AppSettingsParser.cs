@@ -41,7 +41,6 @@ internal class AppSettingsParser
 
     private FileGetterConfig? GetFileGetterConfig()
     {
-        ValidateConfigRoot();
         try
         {
             IConfigurationSection section =
@@ -57,7 +56,6 @@ internal class AppSettingsParser
 
     private string? GetOutputFile()
     {
-        ValidateConfigRoot();
         try
         {
             string? outputFile = _configRoot.GetValue<string>("OutputFile");
@@ -71,7 +69,6 @@ internal class AppSettingsParser
 
     private ComparisonAlgorithm.Metrics? GetComparisonMetrics()
     {
-        ValidateConfigRoot();
         try
         {
             ComparisonAlgorithm.Metrics? metrics = _configRoot.GetValue<ComparisonAlgorithm.Metrics>("Metrics");
@@ -88,13 +85,5 @@ internal class AppSettingsParser
         return new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile(jsonFileName).Build();
-    }
-
-    private void ValidateConfigRoot()
-    {
-        if (_configRoot is null)
-        {
-            throw new InvalidOperationException("Config root was not set");
-        }
     }
 }
