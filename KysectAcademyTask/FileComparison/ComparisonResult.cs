@@ -2,19 +2,19 @@
 
 internal readonly struct ComparisonResult
 {
-    private string FileName1 { get; }
-    private string FileName2 { get; }
-    private double SimilarityRate { get; }
+    private readonly string _fileName1;
+    private readonly string _fileName2;
+    private readonly double _similarityRate;
 
     public ComparisonResult(string fileName1, string fileName2, double similarityRate)
     {
-        FileName1 = fileName1;
-        FileName2 = fileName2;
-        SimilarityRate = similarityRate;
+        _fileName1 = fileName1;
+        _fileName2 = fileName2;
+        _similarityRate = similarityRate;
     }
 
     public override string ToString()
     {
-        return $"|{FileName1}\n|{FileName2}\n=> {SimilarityRate:0.##}";
+        return $"|{_fileName1}\n|{_fileName2}\n=> {_similarityRate:0.##}";
     }
 }
