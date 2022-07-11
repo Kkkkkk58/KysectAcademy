@@ -22,7 +22,7 @@ internal class AppSettingsParser
         }
         catch (InvalidOperationException e)
         {
-            throw new ArgumentException($"Invalid FileGetterConfig argument: {e.Message}");
+            throw new ArgumentException($"Invalid FileGetterConfig argument: {e.Message}", e);
         }
     }
 
@@ -42,7 +42,7 @@ internal class AppSettingsParser
         }
         catch (InvalidOperationException e)
         {
-            throw new ArgumentException($"Invalid OutputFile argument: {e.Message}");
+            throw new ArgumentException($"Invalid OutputFile argument: {e.Message}", e);
         }
     }
 
@@ -60,7 +60,7 @@ internal class AppSettingsParser
         }
         catch (InvalidOperationException e)
         {
-            throw new ArgumentException($"Invalid Metrics argument: {e.Message}");
+            throw new ArgumentException($"Invalid Metrics argument: {e.Message}", e);
         }
     }
 
