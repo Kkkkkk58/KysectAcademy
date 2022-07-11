@@ -31,6 +31,13 @@ internal class AppSettingsParser
         Config = GetConfig();
     }
 
+    private IConfigurationRoot GetConfigurationRoot(string jsonFileName)
+    {
+        return new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile(jsonFileName).Build();
+    }
+
     private AppSettingsConfig GetConfig()
     {
         FileGetterConfig? fileGetterConfig = GetFileGetterConfig();
@@ -78,12 +85,5 @@ internal class AppSettingsParser
         {
             throw new ArgumentException($"Invalid Metrics argument: {e.Message}", e);
         }
-    }
-
-    private static IConfigurationRoot GetConfigurationRoot(string jsonFileName)
-    {
-        return new ConfigurationBuilder()
-            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-            .AddJsonFile(jsonFileName).Build();
     }
 }
