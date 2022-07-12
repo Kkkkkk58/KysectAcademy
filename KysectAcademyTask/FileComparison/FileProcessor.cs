@@ -22,13 +22,13 @@ internal class FileProcessor
         string[] fileNames = GetFileNames();
 
         FileLoader fileLoader = new(fileNames);
+        FileComparer fileComparer = new(fileLoader, metrics);
         // Loop through each pair of files
         for (int i = 0; i < fileNames.Length - 1; ++i)
         {
             for (int j = i + 1; j < fileNames.Length; ++j)
             {
-                ComparisonResult comparisonResult = 
-                    new FileComparer(fileLoader, fileNames[i], fileNames[j], metrics).Compare();
+                ComparisonResult comparisonResult = fileComparer.Compare(fileNames[i], fileNames[j]);
                 comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
 
