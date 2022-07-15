@@ -21,5 +21,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+	
+	<ItemGroup>
+	  <PackageReference Include="F23.StringSimilarity" Version="5.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.0-preview.5.22301.12" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0-preview.5.22301.12" />
+  </ItemGroup>
 
 </Project>
