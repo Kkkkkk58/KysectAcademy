@@ -1,20 +1,24 @@
-﻿namespace KysectAcademyTask.FileComparison;
+﻿using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
+
+namespace KysectAcademyTask.FileComparison;
 
 internal readonly struct ComparisonResult
 {
-    private readonly string _fileName1;
-    private readonly string _fileName2;
-    private readonly double _similarityRate;
+    public string FileName1 { get; }
+    public string FileName2 { get; }
+    public ComparisonAlgorithm.Metrics Metrics { get; }
+    public double SimilarityRate { get; }
 
-    public ComparisonResult(string fileName1, string fileName2, double similarityRate)
+    public ComparisonResult(string fileName1, string fileName2, ComparisonAlgorithm.Metrics metrics, double similarityRate)
     {
-        _fileName1 = fileName1;
-        _fileName2 = fileName2;
-        _similarityRate = similarityRate;
+        FileName1 = fileName1;
+        FileName2 = fileName2;
+        Metrics = metrics;
+        SimilarityRate = similarityRate;
     }
 
     public override string ToString()
     {
-        return $"|{_fileName1}\n|{_fileName2}\n=> {_similarityRate:0.##}";
+        return $"|{FileName1}\n|{FileName2}\n|{{using {Metrics} metrics}}\n=> {SimilarityRate:0.##}";
     }
 }

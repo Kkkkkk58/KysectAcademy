@@ -1,4 +1,7 @@
-﻿using KysectAcademyTask.FileComparison;
+﻿using KysectAcademyTask.AppSettings;
+using KysectAcademyTask.FileComparison;
+using KysectAcademyTask.Report.Reporters;
+using KysectAcademyTask.SubmitsComparison;
 
 namespace KysectAcademyTask;
 
@@ -6,22 +9,15 @@ public class Program
 {
     public static void Main()
     {
-        CompareFiles();
+        CompareSubmits();
     }
 
-    private static void CompareFiles()
+    private static void CompareSubmits()
     {
-        try
-        {
-            AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
-            FileProcessor fileProcessor = new(config.FileGetterConfig);
-            ComparisonResultsTable comparisonResultsTable = fileProcessor.GetComparisonResults(config.Metrics);
-            using StreamWriter writer = new(config.OutputFilePath);
-            comparisonResultsTable.Write(writer);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine($"Error occurred while performing file comparison: {e.Message}");
-        }
+        AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
+        SubmitProcessor submitProcessor = new(config.InputDirectory, config.Filters, config.Metrics);
+        ComparisonResultsTable results = submitProcessor.GetComparisonResults();
+        IReporter reporter = new ReporterFactory().GetReporter(config.Report);
+        reporter.MakeReport(results);
     }
 }

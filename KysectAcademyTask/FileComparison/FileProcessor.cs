@@ -1,51 +1,66 @@
 ﻿using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
+using KysectAcademyTask.Submit.SubmitFilters;
+using KysectAcademyTask.Utils;
 
 namespace KysectAcademyTask.FileComparison;
 
 internal class FileProcessor
 {
-    private readonly FileGetterConfig _config;
+    private string[] _fileNames1, _fileNames2;
+    private FileLoader _loader;
 
-    public FileProcessor(FileGetterConfig config)
+    public FileProcessor(string directory1, string directory2, FileRequirements? fileRequirements, DirectoryRequirements? directoryRequirements)
     {
-        _config = config;
+        InitFileNames(directory1, directory2, fileRequirements, directoryRequirements);
+        InitLoader();
+        if (_fileNames1 is null || _fileNames2 is null || _loader is null)
+        {
+            throw new ApplicationException("Unable to initialize FileProcessor");
+        }
     }
 
-    public ComparisonResultsTable GetComparisonResults(ComparisonAlgorithm.Metrics metrics)
+    private void InitFileNames(string directory1, string directory2, FileRequirements? fileRequirements, DirectoryRequirements? directoryRequirements)
     {
-        return CompareFiles(metrics);
+        FileNamesGetter fileNamesGetter = new(fileRequirements, directoryRequirements);
+        _fileNames1 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory1);
+        _fileNames2 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory2);
+    }
+
+    private void InitLoader()
+    {
+        FileLoader fileLoader1 = new(_fileNames1);
+        FileLoader fileLoader2 = new(_fileNames2);
+        fileLoader1.CombineWithOtherLoaders(fileLoader2);
+        _loader = fileLoader1;
+    }
+
+    public ComparisonResultsTable GetComparisonResults(IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics)
+    {
+        ComparisonResultsTable comparisonResultsTable = new();
+        foreach (ComparisonAlgorithm.Metrics metric in metrics)
+        {
+            ComparisonResultsTable resultsUsingMetrics = CompareFiles(metric);
+            comparisonResultsTable.AddTable(resultsUsingMetrics);
+        }
+        return comparisonResultsTable;
     }
 
     private ComparisonResultsTable CompareFiles(ComparisonAlgorithm.Metrics metrics)
     {
         ComparisonResultsTable comparisonResultsTable = new();
-        string[] fileNames = GetFileNames();
 
-        FileLoader fileLoader = new(fileNames);
-        FileComparer fileComparer = new(fileLoader, metrics);
-        // Loop through each pair of files
-        for (int i = 0; i < fileNames.Length - 1; ++i)
+        FileComparer fileComparer = new(_loader, metrics);
+
+        foreach (string fileName1 in _fileNames1)
         {
-            for (int j = i + 1; j < fileNames.Length; ++j)
+            foreach (string fileName2 in _fileNames2)
             {
-                ComparisonResult comparisonResult = fileComparer.Compare(fileNames[i], fileNames[j]);
+                ComparisonResult comparisonResult = fileComparer.Compare(fileName1, fileName2);
                 comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
-
-            fileLoader.FreeFileContent(fileNames[i]);
         }
 
         return comparisonResultsTable;
     }
 
-    private string[] GetFileNames()
-    {
-        if (Directory.Exists(_config.FolderName))
-        {
-            return Directory.GetFiles(_config.FolderName, _config.FileOptions.SearchPattern,
-                _config.FileOptions.SearchOption);
-        }
-
-        throw new DirectoryNotFoundException(_config.FolderName);
-    }
 }

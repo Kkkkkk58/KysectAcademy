@@ -2,7 +2,7 @@
 
 internal class FileLoader
 {
-    private readonly Dictionary<string, string> _files;
+    private Dictionary<string, string> _files;
 
     public FileLoader(string[] fileNames)
     {
@@ -27,6 +27,16 @@ internal class FileLoader
         }
 
         _files.Remove(fileName);
+    }
+
+    public void CombineWithOtherLoaders(params FileLoader[] fileLoaders)
+    {
+        var loaders = new FileLoader[fileLoaders.Length + 1];
+        loaders[0] = this;
+        fileLoaders.CopyTo(loaders, 1);
+        _files = loaders
+            .SelectMany(dict => dict._files)
+            .ToDictionary(pair => pair.Key, pair => pair.Value);
     }
 
     private Dictionary<string, string> GetAllContents(string[] fileNames)
