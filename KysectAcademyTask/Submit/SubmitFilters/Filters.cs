@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Submit.SubmitFilters;
 
-internal struct Filters
+internal readonly struct Filters
 {
     public SubmitInfoRequirements? SubmitInfoRequirements { get; init; }
     public FileRequirements? FileRequirements { get; init; }
@@ -30,7 +30,7 @@ internal struct Filters
                ((SubmitInfoRequirements)SubmitInfoRequirements).AreSatisfiedBy(submitInfo);
     }
 
-    public bool IsAuthorNameNullOrSatisfied(string authorName)
+    public bool IsAuthorNameNullOrIsContainedInWhiteList(string authorName)
     {
         return SubmitInfoRequirements?.AuthorFilter is null
                || ((SubmitInfoRequirements)SubmitInfoRequirements).AuthorFilter.WhiteList.Count == 0

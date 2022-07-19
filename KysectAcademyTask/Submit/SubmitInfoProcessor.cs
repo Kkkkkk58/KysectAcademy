@@ -9,11 +9,11 @@ internal class SubmitInfoProcessor : ISubmitInfoProcessor
     {
         string submitRelativePath = Path.GetRelativePath(rootPath, submitPath);
         IReadOnlyList<string> subDirectories = new DirectoryPathSplitter(submitRelativePath).SplitDirectories;
-        SubmitInfo submitInfo = GetSubmitInfoParsedFromSubDirectories(subDirectories, dateTimeFormat);
+        SubmitInfo submitInfo = GetSubmitInfoFromSubDirectories(subDirectories, dateTimeFormat);
         return submitInfo;
     }
 
-    private SubmitInfo GetSubmitInfoParsedFromSubDirectories(IReadOnlyList<string> subDirectories,
+    private SubmitInfo GetSubmitInfoFromSubDirectories(IReadOnlyList<string> subDirectories,
         string dateTimeFormat)
     {
         try
