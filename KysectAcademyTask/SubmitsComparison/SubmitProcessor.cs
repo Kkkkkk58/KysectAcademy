@@ -1,8 +1,8 @@
 ﻿using KysectAcademyTask.FileComparison;
 using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
-using KysectAcademyTask.Report.Reporters;
 using KysectAcademyTask.Submit;
 using KysectAcademyTask.Submit.SubmitFilters;
+using KysectAcademyTask.Utils.ProgressTracking;
 
 namespace KysectAcademyTask.SubmitsComparison;
 
@@ -23,35 +23,50 @@ internal class SubmitProcessor
 
     public ComparisonResultsTable GetComparisonResults()
     {
+        IReadOnlyCollection<(string dirName1, string dirName2)> suitablePairs = GetSuitablePairsDirNames();
         ComparisonResultsTable results = new();
-        for (int i = 0; i < _submits.Count - 1; ++i)
-        {
-            for (int j = i; j < _submits.Count; ++j)
-            {
-                AddComparisonToTableIfSuitable(results, _submits[i], _submits[j]);
 
-            }
+        ConsoleComparisonProgressBar progressBar = new();
+        ComparisonProgressTracker progressTracker = new(progressBar, suitablePairs.Count);
+
+        foreach ((string dirName1, string dirName2) pair in suitablePairs)
+        {
+            AddComparisonToTable(results, pair);
+            progressTracker.IncreaseProgress();
         }
         return results;
     }
 
-    private void AddComparisonToTableIfSuitable(ComparisonResultsTable results, SubmitInfo submit1, SubmitInfo submit2)
+    private void AddComparisonToTable(ComparisonResultsTable results, (string dirName1, string dirName2) pairToCompare)
     {
-        if (AreSuitable(submit1, submit2))
-        {
-
-            string dirname1 =
-                new SubmitInfoProcessor().SubmitInfoToDirectoryPath(submit1, _rootDir, "yyyyMMddHHmmss");
-            string dirname2 =
-                new SubmitInfoProcessor().SubmitInfoToDirectoryPath(submit2, _rootDir, "yyyyMMddHHmmss");
-            FileProcessor fileProcessor = new(dirname1, dirname2, _filters.FileRequirements,
-                _filters.DirectoryRequirements);
-            ComparisonResultsTable curSubmitsTable = fileProcessor.GetComparisonResults(_metrics);
-            ConsoleReporter r = new();
-            r.MakeReport(curSubmitsTable);
-            results.AddTable(curSubmitsTable);
-        }
+        FileProcessor fileProcessor = new(pairToCompare.dirName1, pairToCompare.dirName2, _filters.FileRequirements,
+            _filters.DirectoryRequirements);
+        ComparisonResultsTable curSubmitsTable = fileProcessor.GetComparisonResults(_metrics);
+        results.AddTable(curSubmitsTable);
     }
+
+
+    private IReadOnlyCollection<(string dirName1, string dirName2)> GetSuitablePairsDirNames()
+    {
+        List<(string dirName1, string dirName2)> pairs = new();
+
+        for (int i = 0; i < _submits.Count - 1; ++i)
+        {
+            for (int j = i; j < _submits.Count; ++j)
+            {
+                if (!AreSuitable(_submits[i], _submits[j])) continue;
+                string dirname1 =
+                    new SubmitInfoProcessor().SubmitInfoToDirectoryPath(_submits[i], _rootDir, "yyyyMMddHHmmss");
+                string dirname2 =
+                    new SubmitInfoProcessor().SubmitInfoToDirectoryPath(_submits[j], _rootDir, "yyyyMMddHHmmss");
+                (string dirName1, string dirName2) pair = new(dirname1, dirname2);
+                pairs.Add(pair);
+            }
+        }
+
+        return pairs;
+    }
+
 
     private bool AreSuitable(SubmitInfo submit1, SubmitInfo submit2)
     {
