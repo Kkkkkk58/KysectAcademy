@@ -2,6 +2,7 @@
 using KysectAcademyTask.FileComparison;
 using KysectAcademyTask.Report.Reporters;
 using KysectAcademyTask.SubmitsComparison;
+using KysectAcademyTask.Utils.ProgressTracking;
 
 namespace KysectAcademyTask;
 
@@ -15,8 +16,9 @@ public class Program
     private static void CompareSubmits()
     {
         AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
-        SubmitProcessor submitProcessor = new(config.InputDirectory, config.Filters, config.Metrics);
-        ComparisonResultsTable results = submitProcessor.GetComparisonResults();
+        SubmitComparisonProcessor submitComparisonProcessor = new(config.InputDirectory, config.Filters, config.Metrics);
+        submitComparisonProcessor.SetProgressBar(new ConsoleComparisonProgressBar());
+        ComparisonResultsTable results = submitComparisonProcessor.GetComparisonResults();
         IReporter reporter = new ReporterFactory().GetReporter(config.Report);
         reporter.MakeReport(results);
     }

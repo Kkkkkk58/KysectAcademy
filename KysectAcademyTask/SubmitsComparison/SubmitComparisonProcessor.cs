@@ -6,14 +6,17 @@ using KysectAcademyTask.Utils.ProgressTracking;
 
 namespace KysectAcademyTask.SubmitsComparison;
 
-internal class SubmitProcessor
+internal class SubmitComparisonProcessor
 {
     private readonly IReadOnlyList<SubmitInfo> _submits;
     private Filters _filters;
     private readonly string _rootDir;
     private readonly IReadOnlyList<ComparisonAlgorithm.Metrics> _metrics;
+    private IProgressBar? _progressBar;
+    private delegate void ProgressBarUpdater();
+    private event ProgressBarUpdater? ProgressBarUpdate;
 
-    public SubmitProcessor(string rootDir, Filters? filters, IReadOnlyList<ComparisonAlgorithm.Metrics> metrics)
+    public SubmitComparisonProcessor(string rootDir, Filters? filters, IReadOnlyList<ComparisonAlgorithm.Metrics> metrics)
     {
         _submits = new SubmitGetter(rootDir, filters).GetSubmits();
         _filters = filters ?? new Filters();
@@ -21,18 +24,26 @@ internal class SubmitProcessor
         _metrics = metrics;
     }
 
+    public void SetProgressBar(IProgressBar progressBar)
+    {
+        _progressBar = progressBar;
+    }
+
     public ComparisonResultsTable GetComparisonResults()
     {
         IReadOnlyCollection<(string dirName1, string dirName2)> suitablePairs = GetSuitablePairsDirNames();
         ComparisonResultsTable results = new();
 
-        ConsoleComparisonProgressBar progressBar = new();
-        ComparisonProgressTracker progressTracker = new(progressBar, suitablePairs.Count);
+        if (_progressBar is not null)
+        {
+            ComparisonProgressTracker progressTracker = new(_progressBar, suitablePairs.Count);
+            ProgressBarUpdate = progressTracker.IncreaseProgress;
+        }
 
         foreach ((string dirName1, string dirName2) pair in suitablePairs)
         {
             AddComparisonToTable(results, pair);
-            progressTracker.IncreaseProgress();
+            OnProgressBarUpdate();
         }
         return results;
     }
@@ -90,5 +101,10 @@ internal class SubmitProcessor
     {
         return string.Equals(submit1.HomeworkName,
             submit2.HomeworkName, StringComparison.CurrentCultureIgnoreCase);
+    }
+
+    protected virtual void OnProgressBarUpdate()
+    {
+        ProgressBarUpdate?.Invoke();
     }
 }
