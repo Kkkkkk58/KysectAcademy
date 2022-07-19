@@ -14,6 +14,4 @@ internal readonly struct SubmitInfo
         HomeworkName = homeworkName;
         SubmitDate = submitDate;
     }
-
-
 }

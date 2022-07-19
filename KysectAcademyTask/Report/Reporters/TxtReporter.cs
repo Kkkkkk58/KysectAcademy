@@ -6,12 +6,14 @@ namespace KysectAcademyTask.Report.Reporters;
 internal class TxtReporter : IReporter
 {
     private readonly string _fileName;
+
     public TxtReporter(string? fileName)
     {
         if (fileName is null)
         {
             throw new ArgumentNullException(nameof(fileName));
         }
+
         _fileName = new ExtensionApplier().GetFileNameWithDesiredExtension(fileName, ".txt");
     }
 

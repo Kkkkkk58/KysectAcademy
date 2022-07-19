@@ -1,9 +1,7 @@
 ﻿namespace KysectAcademyTask.Utils;
 
-
 internal class DirectoryPathSplitter
 {
-
     public IReadOnlyList<string> SplitDirectories
     {
         get => _splitDirectories;

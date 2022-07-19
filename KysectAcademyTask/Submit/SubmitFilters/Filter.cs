@@ -17,8 +17,7 @@ internal class Filter<T>
     {
         if (WhiteList
                 .Intersect(BlackList)
-                .ToList().
-                Count > 0)
+                .ToList().Count > 0)
         {
             throw new ArgumentException("Provided the same values in WhiteList and BlackList");
         }

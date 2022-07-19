@@ -81,7 +81,8 @@ internal class AppSettingsParser
     {
         try
         {
-            IReadOnlyList<ComparisonAlgorithm.Metrics>? metrics = _configRoot.GetValue<IReadOnlyList<ComparisonAlgorithm.Metrics>?>("Metrics");
+            IReadOnlyList<ComparisonAlgorithm.Metrics>? metrics =
+                _configRoot.GetValue<IReadOnlyList<ComparisonAlgorithm.Metrics>?>("Metrics");
             return metrics;
         }
         catch (InvalidOperationException e)

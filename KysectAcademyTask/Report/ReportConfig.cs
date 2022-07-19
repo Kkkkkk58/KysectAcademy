@@ -8,6 +8,6 @@ public struct ReportConfig
     public ReportConfig(ReportType type, string? path = null)
     {
         Type = type;
-        Path = path;    
+        Path = path;
     }
 }

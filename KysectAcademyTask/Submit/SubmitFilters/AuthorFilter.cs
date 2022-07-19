@@ -2,10 +2,12 @@
 
 internal class AuthorFilter : Filter<string>
 {
-    public AuthorFilter(IReadOnlyList<string>? whiteList = null, IReadOnlyList<string>? blackList = null)
-    : base(whiteList, blackList) {}
+    public AuthorFilter(IReadOnlyList<string>? whiteList, IReadOnlyList<string>? blackList)
+        : base(whiteList, blackList)
+    {
+    }
 
-    public AuthorFilter() : base() {}
+    public AuthorFilter() : base() { }
 
     public override bool IsSatisfiedBy(string value)
     {

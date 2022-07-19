@@ -9,7 +9,8 @@ internal class FileProcessor
     private string[] _fileNames1, _fileNames2;
     private FileLoader _loader;
 
-    public FileProcessor(string directory1, string directory2, FileRequirements? fileRequirements, DirectoryRequirements? directoryRequirements)
+    public FileProcessor(string directory1, string directory2, FileRequirements? fileRequirements,
+        DirectoryRequirements? directoryRequirements)
     {
         InitFileNames(directory1, directory2, fileRequirements, directoryRequirements);
         InitLoader();
@@ -19,7 +20,8 @@ internal class FileProcessor
         }
     }
 
-    private void InitFileNames(string directory1, string directory2, FileRequirements? fileRequirements, DirectoryRequirements? directoryRequirements)
+    private void InitFileNames(string directory1, string directory2, FileRequirements? fileRequirements,
+        DirectoryRequirements? directoryRequirements)
     {
         FileNamesGetter fileNamesGetter = new(fileRequirements, directoryRequirements);
         _fileNames1 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory1);
@@ -42,6 +44,7 @@ internal class FileProcessor
             ComparisonResultsTable resultsUsingMetrics = CompareFiles(metric);
             comparisonResultsTable.AddTable(resultsUsingMetrics);
         }
+
         return comparisonResultsTable;
     }
 
@@ -62,5 +65,4 @@ internal class FileProcessor
 
         return comparisonResultsTable;
     }
-
 }

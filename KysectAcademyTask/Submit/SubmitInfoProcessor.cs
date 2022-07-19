@@ -13,7 +13,8 @@ internal class SubmitInfoProcessor : ISubmitInfoProcessor
         return submitInfo;
     }
 
-    private SubmitInfo GetSubmitInfoParsedFromSubDirectories(IReadOnlyList<string> subDirectories, string dateTimeFormat)
+    private SubmitInfo GetSubmitInfoParsedFromSubDirectories(IReadOnlyList<string> subDirectories,
+        string dateTimeFormat)
     {
         try
         {

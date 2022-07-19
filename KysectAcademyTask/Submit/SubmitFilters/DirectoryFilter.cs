@@ -4,8 +4,11 @@ namespace KysectAcademyTask.Submit.SubmitFilters;
 
 internal class DirectoryFilter : Filter<string>
 {
-    public DirectoryFilter(IReadOnlyList<string>? whiteList = null, IReadOnlyList<string>? blackList = null)
-        : base(whiteList, blackList) { }
+    public DirectoryFilter(IReadOnlyList<string>? whiteList, IReadOnlyList<string>? blackList)
+        : base(whiteList, blackList)
+    {
+    }
+
     public DirectoryFilter() : base() { }
 
     public override bool IsSatisfiedBy(string path)

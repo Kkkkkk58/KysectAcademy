@@ -3,7 +3,9 @@
 internal class HomeworkFilter : Filter<string>
 {
     public HomeworkFilter(IReadOnlyList<string> whiteList, IReadOnlyList<string> blackList)
-        : base(whiteList, blackList) { }
+        : base(whiteList, blackList)
+    {
+    }
 
-    public HomeworkFilter() : base() {}
+    public HomeworkFilter() : base() { }
 }

@@ -10,12 +10,14 @@ namespace KysectAcademyTask.Report.Reporters;
 internal class JsonReporter : IReporter
 {
     private readonly string _fileName;
+
     public JsonReporter(string? fileName)
     {
         if (fileName is null)
         {
             throw new ArgumentNullException(nameof(fileName));
         }
+
         _fileName = new ExtensionApplier().GetFileNameWithDesiredExtension(fileName, ".json");
     }
 

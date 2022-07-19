@@ -6,7 +6,8 @@ internal struct Filters
     public FileRequirements? FileRequirements { get; init; }
     public DirectoryRequirements? DirectoryRequirements { get; init; }
 
-    public Filters(SubmitInfoRequirements? submitInfoRequirements, FileRequirements? fileRequirements, DirectoryRequirements? directoryRequirements)
+    public Filters(SubmitInfoRequirements? submitInfoRequirements, FileRequirements? fileRequirements,
+        DirectoryRequirements? directoryRequirements)
     {
         SubmitInfoRequirements = submitInfoRequirements;
         FileRequirements = fileRequirements;
@@ -25,7 +26,8 @@ internal struct Filters
 
     public bool AreSubmitRequirementsNullOrSatisfied(SubmitInfo submitInfo)
     {
-        return SubmitInfoRequirements is null || ((SubmitInfoRequirements)SubmitInfoRequirements).AreSatisfiedBy(submitInfo);
+        return SubmitInfoRequirements is null ||
+               ((SubmitInfoRequirements)SubmitInfoRequirements).AreSatisfiedBy(submitInfo);
     }
 
     public bool IsAuthorNameNullOrSatisfied(string authorName)
@@ -34,4 +36,4 @@ internal struct Filters
                || ((SubmitInfoRequirements)SubmitInfoRequirements).AuthorFilter.WhiteList.Count == 0
                || ((SubmitInfoRequirements)SubmitInfoRequirements).AuthorFilter.WhiteList.Contains(authorName);
     }
-} 
+}

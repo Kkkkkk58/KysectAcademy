@@ -11,7 +11,8 @@ internal struct AppSettingsConfig
     public IReadOnlyList<ComparisonAlgorithm.Metrics> Metrics { get; init; }
     public ReportConfig Report { get; init; }
 
-    public AppSettingsConfig(string? inputDirectory, Filters? filters, IReadOnlyList<ComparisonAlgorithm.Metrics>? metrics, ReportConfig? report)
+    public AppSettingsConfig(string? inputDirectory, Filters? filters,
+        IReadOnlyList<ComparisonAlgorithm.Metrics>? metrics, ReportConfig? report)
     {
         InputDirectory = inputDirectory ?? throw new ArgumentNullException(nameof(inputDirectory));
         Filters = filters;

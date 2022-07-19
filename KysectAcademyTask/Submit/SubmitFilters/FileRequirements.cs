@@ -8,13 +8,13 @@ internal readonly struct FileRequirements : IRequirements<string>
     public FileRequirements(FileNameFilter? fileNameFilter = null, FileExtensionFilter? fileExtensionFilter = null)
     {
         FileNameFilter = fileNameFilter;
-        FileExtensionFilter = fileExtensionFilter;  
+        FileExtensionFilter = fileExtensionFilter;
     }
 
     public bool AreSatisfiedBy(string path)
     {
         return IsFilterNullOrSatisfiedBy(FileNameFilter, path)
-            && IsFilterNullOrSatisfiedBy(FileExtensionFilter, path);
+               && IsFilterNullOrSatisfiedBy(FileExtensionFilter, path);
     }
 
     private bool IsFilterNullOrSatisfiedBy<T>(Filter<T>? filter, T? value)

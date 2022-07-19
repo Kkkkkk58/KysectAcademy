@@ -9,7 +9,8 @@ internal readonly struct ComparisonResult
     public ComparisonAlgorithm.Metrics Metrics { get; }
     public double SimilarityRate { get; }
 
-    public ComparisonResult(string fileName1, string fileName2, ComparisonAlgorithm.Metrics metrics, double similarityRate)
+    public ComparisonResult(string fileName1, string fileName2, ComparisonAlgorithm.Metrics metrics,
+        double similarityRate)
     {
         FileName1 = fileName1;
         FileName2 = fileName2;

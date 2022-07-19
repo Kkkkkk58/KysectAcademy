@@ -10,6 +10,7 @@ internal class ExtensionApplier
         {
             return Path.ChangeExtension(fileName, extensionWithDot);
         }
+
         return fileName;
     }
 

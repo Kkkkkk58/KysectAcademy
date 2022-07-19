@@ -7,7 +7,8 @@ internal readonly struct SubmitInfoRequirements : IRequirements<SubmitInfo>
     public HomeworkFilter? HomeworkFilter { get; init; }
     public SubmitDateFilter? SubmitDateFilter { get; init; }
 
-    public SubmitInfoRequirements(GroupFilter? groupFilter, AuthorFilter? authorFilter, HomeworkFilter? homeworkFilter, SubmitDateFilter? submitDateFilter)
+    public SubmitInfoRequirements(GroupFilter? groupFilter, AuthorFilter? authorFilter, HomeworkFilter? homeworkFilter,
+        SubmitDateFilter? submitDateFilter)
     {
         GroupFilter = groupFilter;
         AuthorFilter = authorFilter;
@@ -18,11 +19,11 @@ internal readonly struct SubmitInfoRequirements : IRequirements<SubmitInfo>
     public bool AreSatisfiedBy(SubmitInfo item)
     {
         return IsFilterNullOrSatisfiedBy(GroupFilter, item.GroupName)
-            && IsFilterNullOrSatisfiedBy(AuthorFilter, item.AuthorName)
-            && IsFilterNullOrSatisfiedBy(HomeworkFilter, item.HomeworkName)
-            && IsFilterNullOrSatisfiedBy(SubmitDateFilter, item.SubmitDate);
+               && IsFilterNullOrSatisfiedBy(AuthorFilter, item.AuthorName)
+               && IsFilterNullOrSatisfiedBy(HomeworkFilter, item.HomeworkName)
+               && IsFilterNullOrSatisfiedBy(SubmitDateFilter, item.SubmitDate);
     }
-    
+
     private bool IsFilterNullOrSatisfiedBy<T>(Filter<T>? filter, T? value)
     {
         return filter is null

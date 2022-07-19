@@ -13,10 +13,13 @@ internal class SubmitComparisonProcessor
     private readonly string _rootDir;
     private readonly IReadOnlyList<ComparisonAlgorithm.Metrics> _metrics;
     private IProgressBar? _progressBar;
+
     private delegate void ProgressBarUpdater();
+
     private event ProgressBarUpdater? ProgressBarUpdate;
 
-    public SubmitComparisonProcessor(string rootDir, Filters? filters, IReadOnlyList<ComparisonAlgorithm.Metrics> metrics)
+    public SubmitComparisonProcessor(string rootDir, Filters? filters,
+        IReadOnlyList<ComparisonAlgorithm.Metrics> metrics)
     {
         _submits = new SubmitGetter(rootDir, filters).GetSubmits();
         _filters = filters ?? new Filters();
@@ -45,6 +48,7 @@ internal class SubmitComparisonProcessor
             AddComparisonToTable(results, pair);
             OnProgressBarUpdate();
         }
+
         return results;
     }
 
@@ -103,7 +107,7 @@ internal class SubmitComparisonProcessor
             submit2.HomeworkName, StringComparison.CurrentCultureIgnoreCase);
     }
 
-    protected virtual void OnProgressBarUpdate()
+    private void OnProgressBarUpdate()
     {
         ProgressBarUpdate?.Invoke();
     }

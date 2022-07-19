@@ -13,6 +13,7 @@ internal class ComparisonProgressTracker : IProgressTracker
         TotalWorkUnits = totalWorkUnits;
         CompletedWorkUnits = completedWorkUnits;
     }
+
     public void IncreaseProgress()
     {
         ++CompletedWorkUnits;
@@ -25,5 +26,4 @@ internal class ComparisonProgressTracker : IProgressTracker
         int percentageInt = (int)Math.Round(percentageDouble, 0);
         return percentageInt;
     }
-
 }
