@@ -1,22 +1,16 @@
-﻿using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
-using KysectAcademyTask.Report;
-using KysectAcademyTask.Submit.SubmitFilters;
+﻿using KysectAcademyTask.Report;
+using KysectAcademyTask.SubmitComparison;
 
 namespace KysectAcademyTask.AppSettings;
 
 internal struct AppSettingsConfig
 {
-    public string InputDirectory { get; init; }
-    public Filters? Filters { get; init; }
-    public IReadOnlyList<ComparisonAlgorithm.Metrics> Metrics { get; init; }
-    public ReportConfig Report { get; init; }
+    public SubmitConfig SubmitConfig { get; init; }
+    public ReportConfig ReportConfig { get; init; }
 
-    public AppSettingsConfig(string? inputDirectory, Filters? filters,
-        IReadOnlyList<ComparisonAlgorithm.Metrics>? metrics, ReportConfig? report)
+    public AppSettingsConfig(SubmitConfig submitConfig, ReportConfig reportConfig)
     {
-        InputDirectory = inputDirectory ?? throw new ArgumentNullException(nameof(inputDirectory));
-        Filters = filters;
-        Metrics = metrics ?? new List<ComparisonAlgorithm.Metrics> { ComparisonAlgorithm.Metrics.Jaccard };
-        Report = report ?? new ReportConfig(ReportType.Console);
+        SubmitConfig = submitConfig;
+        ReportConfig = reportConfig;
     }
 }

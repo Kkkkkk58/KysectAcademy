@@ -1,6 +1,7 @@
 ﻿using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.Submit.SubmitFilters;
+using KysectAcademyTask.SubmitComparison;
 using Microsoft.Extensions.Configuration;
 
 namespace KysectAcademyTask.AppSettings;
@@ -42,19 +43,27 @@ internal class AppSettingsParser
 
     private AppSettingsConfig GetConfig()
     {
-        string? inputDirectory = GetInputDirectory();
+        string inputDirectory = GetInputDirectory();
         Filters? filters = GetFilters();
-        IReadOnlyList<ComparisonAlgorithm.Metrics>? metrics = GetComparisonMetrics();
-        ReportConfig? reportConfig = GetReportConfig();
-        return new AppSettingsConfig(inputDirectory, filters, metrics, reportConfig);
+        IReadOnlyList<ComparisonAlgorithm.Metrics> metrics = GetComparisonMetrics();
+        string submitTimeFormat = GetSubmitTimeFormat();
+        int submitDirDepth = GetSubmitDirDepth();
+        SubmitConfig submitConfig = new(inputDirectory, filters, metrics, submitTimeFormat, submitDirDepth);
+        ReportConfig reportConfig = GetReportConfig();
+        return new AppSettingsConfig(submitConfig, reportConfig);
     }
 
-    private string? GetInputDirectory()
+    private string GetInputDirectory()
     {
         try
         {
-            string? outputFile = _configRoot.GetValue<string>("InputDirectory");
-            return outputFile;
+            string? inputDirectory = _configRoot.GetValue<string>("InputDirectory");
+            if (inputDirectory is null)
+            {
+                throw new ArgumentNullException(nameof(inputDirectory));
+            }
+
+            return inputDirectory;
         }
         catch (InvalidOperationException e)
         {
@@ -68,8 +77,8 @@ internal class AppSettingsParser
         {
             IConfigurationSection section =
                 _configRoot.GetSection(nameof(Filters));
-            Filters? fileGetterConfig = section.Get<Filters>();
-            return fileGetterConfig;
+            Filters? filtersConfig = section.Get<Filters>();
+            return filtersConfig;
         }
         catch (InvalidOperationException e)
         {
@@ -77,12 +86,13 @@ internal class AppSettingsParser
         }
     }
 
-    private IReadOnlyList<ComparisonAlgorithm.Metrics>? GetComparisonMetrics()
+    private IReadOnlyList<ComparisonAlgorithm.Metrics> GetComparisonMetrics()
     {
         try
         {
-            IReadOnlyList<ComparisonAlgorithm.Metrics>? metrics =
-                _configRoot.GetValue<IReadOnlyList<ComparisonAlgorithm.Metrics>?>("Metrics");
+            IReadOnlyList<ComparisonAlgorithm.Metrics> metrics =
+                _configRoot.GetValue<IReadOnlyList<ComparisonAlgorithm.Metrics>?>("Metrics")
+                ?? new List<ComparisonAlgorithm.Metrics> { ComparisonAlgorithm.Metrics.Jaccard };
             return metrics;
         }
         catch (InvalidOperationException e)
@@ -91,18 +101,46 @@ internal class AppSettingsParser
         }
     }
 
-    private ReportConfig? GetReportConfig()
+    private string GetSubmitTimeFormat()
+    {
+        try
+        {
+            string submitTimeFormat = _configRoot.GetValue<string>("SubmitTimeFormat")
+                                      ?? "yyyyMMddHHmmss";
+            return submitTimeFormat;
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new ArgumentException($"Invalid SubmitTimeFormat argument: {e.Message}", e);
+        }
+    }
+
+    private int GetSubmitDirDepth()
+    {
+        try
+        {
+            int submitDirDepth = _configRoot.GetValue<int?>("SubmitDirDepth") ?? 5;
+            return submitDirDepth;
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new ArgumentException($"Invalid SubmitDirDepth argument: {e.Message}", e);
+        }
+    }
+
+    private ReportConfig GetReportConfig()
     {
         try
         {
             IConfigurationSection section =
                 _configRoot.GetSection(nameof(ReportConfig));
-            ReportConfig? fileGetterConfig = section.Get<ReportConfig>();
-            return fileGetterConfig;
+            ReportConfig reportConfig = section.Get<ReportConfig?>()
+                                        ?? new ReportConfig(ReportType.Console);
+            return reportConfig;
         }
         catch (InvalidOperationException e)
         {
-            throw new ArgumentException($"Invalid Report argument: {e.Message}", e);
+            throw new ArgumentException($"Invalid ReportConfig argument: {e.Message}", e);
         }
     }
 }
