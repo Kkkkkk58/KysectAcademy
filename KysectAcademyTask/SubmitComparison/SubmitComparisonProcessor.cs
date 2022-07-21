@@ -10,9 +10,7 @@ internal class SubmitComparisonProcessor
     private readonly SubmitConfig _submitConfig;
     private IProgressBar? _progressBar;
 
-    private delegate void ProgressBarUpdater();
-
-    private event ProgressBarUpdater? ProgressBarUpdate;
+    private event Action? ProgressBarUpdate;
 
     public SubmitComparisonProcessor(SubmitConfig submitConfig)
     {
