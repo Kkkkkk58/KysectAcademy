@@ -1,6 +1,5 @@
 ﻿using KysectAcademyTask.FileComparison;
 using KysectAcademyTask.Submit;
-using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.Utils.ProgressTracking;
 
 namespace KysectAcademyTask.SubmitComparison;
@@ -58,14 +57,13 @@ internal class SubmitComparisonProcessor
         {
             for (int j = i; j < _submits.Count; ++j)
             {
-                if (!AreSuitable(_submits[i], _submits[j])) continue;
-                string dirname1 =
-                    new SubmitInfoProcessor().SubmitInfoToDirectoryPath(_submits[i], _submitConfig.RootDir,
-                        _submitConfig.SubmitTimeFormat);
-                string dirname2 =
-                    new SubmitInfoProcessor().SubmitInfoToDirectoryPath(_submits[j], _submitConfig.RootDir,
-                        _submitConfig.SubmitTimeFormat);
-                (string dirName1, string dirName2) pair = new(dirname1, dirname2);
+                var submitSuitabilityChecker = new SubmitSuitabilityChecker(_submitConfig.Filters);
+                if (!submitSuitabilityChecker.AreSuitable(_submits[i], _submits[j]))
+                {
+                    continue;
+                }
+
+                (string dirName1, string dirName2) pair = GetPairOfDirNames(_submits[i], _submits[j]);
                 pairs.Add(pair);
             }
         }
@@ -73,38 +71,28 @@ internal class SubmitComparisonProcessor
         return pairs;
     }
 
-    private bool AreSuitable(SubmitInfo submit1, SubmitInfo submit2)
+    private (string dirName1, string dirName2) GetPairOfDirNames(SubmitInfo submit1, SubmitInfo submit2)
     {
-        return IsAnyAuthorFromWhiteList(submit1, submit2)
-               && AreSubmitsFromDifferentAuthors(submit1, submit2)
-               && IsSameHomework(submit1, submit2);
-    }
 
-    private bool IsAnyAuthorFromWhiteList(SubmitInfo submit1, SubmitInfo submit2)
-    {
-        return _submitConfig.Filters is null
-               || ((Filters)_submitConfig.Filters).IsAuthorNameNullOrIsContainedInWhiteList(submit1.AuthorName)
-               || ((Filters)_submitConfig.Filters).IsAuthorNameNullOrIsContainedInWhiteList(submit2.AuthorName);
-    }
+        string dirname1 =
+            new SubmitInfoProcessor().SubmitInfoToDirectoryPath(submit1, _submitConfig.RootDir,
+                _submitConfig.SubmitTimeFormat);
+        string dirname2 =
+            new SubmitInfoProcessor().SubmitInfoToDirectoryPath(submit2, _submitConfig.RootDir,
+                _submitConfig.SubmitTimeFormat);
 
-    private bool AreSubmitsFromDifferentAuthors(SubmitInfo submit1, SubmitInfo submit2)
-    {
-        return submit1.AuthorName != submit2.AuthorName;
-    }
-
-    private bool IsSameHomework(SubmitInfo submit1, SubmitInfo submit2)
-    {
-        return string.Equals(submit1.HomeworkName,
-            submit2.HomeworkName, StringComparison.CurrentCultureIgnoreCase);
+        return new ValueTuple<string, string>(dirname1, dirname2);
     }
 
     private void ConnectProgressBarEventIfNeeded(int workToDo)
     {
-        if (_progressBar is not null)
+        if (_progressBar is null)
         {
-            ComparisonProgressTracker progressTracker = new(_progressBar, workToDo);
-            ProgressBarUpdate = progressTracker.IncreaseProgress;
+            return;
         }
+
+        ComparisonProgressTracker progressTracker = new(_progressBar, workToDo);
+        ProgressBarUpdate = progressTracker.IncreaseProgress;
     }
 
     private void OnProgressBarUpdate()
