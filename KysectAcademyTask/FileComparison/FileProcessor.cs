@@ -32,8 +32,7 @@ internal class FileProcessor
     {
         FileLoader fileLoader1 = new(_fileNames1);
         FileLoader fileLoader2 = new(_fileNames2);
-        fileLoader1.CombineWithOtherLoaders(fileLoader2);
-        _loader = fileLoader1;
+        _loader = new FileLoadersCombiner().Combine(fileLoader1, fileLoader2);
     }
 
     public ComparisonResultsTable GetComparisonResults(IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics)
