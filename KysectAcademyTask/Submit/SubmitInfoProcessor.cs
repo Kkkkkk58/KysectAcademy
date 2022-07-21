@@ -47,18 +47,17 @@ internal class SubmitInfoProcessor : ISubmitInfoProcessor
 
     private DateTime? GetSubmitDate(IReadOnlyList<string> subDirectories, string dateTimeFormat)
     {
-        try
-        {
-            return DateTime.ParseExact(subDirectories[3], dateTimeFormat, CultureInfo.InvariantCulture);
-        }
-        catch (ArgumentOutOfRangeException)
+        if (subDirectories.Count < 4)
         {
             return null;
         }
-        catch (FormatException e)
+
+        if (!DateTime.TryParseExact(subDirectories[3], dateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime submitDate))
         {
-            throw new ArgumentException($"Wrong format of SubmitDate folder name, {e.Message}", e);
+            throw new ArgumentException($"Wrong format of SubmitDate folder name: {subDirectories[3]}");
         }
+
+        return submitDate;
     }
 
     public string SubmitInfoToDirectoryPath(SubmitInfo submitInfo, string rootPath, string dateTimeFormat)
