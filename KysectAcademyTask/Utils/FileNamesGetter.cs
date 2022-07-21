@@ -22,12 +22,12 @@ internal class FileNamesGetter
         }
 
         return Directory
-                .GetFiles(directoryPath, "*", SearchOption.AllDirectories)
-                .Where(fileName =>
-                    (_directoryRequirements is null
-                     || ((DirectoryRequirements)_directoryRequirements).AreSatisfiedBy(fileName))
-                    && (_fileRequirements is null
-                        || ((FileRequirements)_fileRequirements).AreSatisfiedBy(fileName)))
-                .ToArray();
+            .GetFiles(directoryPath, "*", SearchOption.AllDirectories)
+            .Where(fileName =>
+                (_directoryRequirements is null
+                 || ((DirectoryRequirements)_directoryRequirements).AreSatisfiedBy(fileName))
+                && (_fileRequirements is null
+                    || ((FileRequirements)_fileRequirements).AreSatisfiedBy(fileName)))
+            .ToArray();
     }
 }

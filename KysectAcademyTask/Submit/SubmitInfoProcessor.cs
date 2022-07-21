@@ -60,7 +60,8 @@ internal class SubmitInfoProcessor : ISubmitInfoProcessor
             return null;
         }
 
-        if (!DateTime.TryParseExact(subDirectories[3], _dateTimeFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime submitDate))
+        if (!DateTime.TryParseExact(subDirectories[3], _dateTimeFormat, CultureInfo.InvariantCulture,
+                DateTimeStyles.None, out DateTime submitDate))
         {
             throw new ArgumentException($"Wrong format of SubmitDate folder name: {subDirectories[3]}");
         }

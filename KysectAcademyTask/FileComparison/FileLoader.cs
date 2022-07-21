@@ -6,6 +6,7 @@ internal class FileLoader
     {
         get => _files;
     }
+
     private readonly Dictionary<string, string> _files;
 
     public FileLoader(Dictionary<string, string> files)
@@ -17,7 +18,7 @@ internal class FileLoader
     {
         _files = GetAllContents(fileNames);
     }
-    
+
     public string GetFileContent(string fileName)
     {
         if (!_files.TryGetValue(fileName, out string? fileContent))

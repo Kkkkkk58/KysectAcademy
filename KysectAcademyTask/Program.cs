@@ -27,7 +27,8 @@ public class Program
     private static SubmitComparisonProcessor GetSubmitComparisonProcessor(AppSettingsConfig config)
     {
         var submitGetter = new SubmitGetter(config.SubmitConfig);
-        var submitInfoProcessor = new SubmitInfoProcessor(config.SubmitConfig.RootDir, config.SubmitConfig.SubmitTimeFormat);
+        var submitInfoProcessor =
+            new SubmitInfoProcessor(config.SubmitConfig.RootDir, config.SubmitConfig.SubmitTimeFormat);
         var submitSuitabilityChecker = new SubmitSuitabilityChecker(config.SubmitConfig.Filters);
         FileProcessorBuilder fileProcessorBuilder = new FileProcessorBuilder()
             .BuildDirectoryRequirements(config.SubmitConfig.Filters?.DirectoryRequirements)

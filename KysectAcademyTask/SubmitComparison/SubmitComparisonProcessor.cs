@@ -14,7 +14,8 @@ internal class SubmitComparisonProcessor
 
     private event Action? ProgressBarUpdate;
 
-    public SubmitComparisonProcessor(SubmitGetter submitGetter, SubmitInfoProcessor submitInfoProcessor, SubmitSuitabilityChecker submitSuitabilityChecker, FileProcessorBuilder fileProcessorBuilder)
+    public SubmitComparisonProcessor(SubmitGetter submitGetter, SubmitInfoProcessor submitInfoProcessor,
+        SubmitSuitabilityChecker submitSuitabilityChecker, FileProcessorBuilder fileProcessorBuilder)
     {
         _submits = submitGetter.GetSubmits();
         _submitInfoProcessor = submitInfoProcessor;

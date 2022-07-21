@@ -10,7 +10,9 @@ internal class FileProcessorBuilder
     private readonly DirectoryRequirements? _directoryRequirements;
     private readonly IReadOnlyCollection<ComparisonAlgorithm.Metrics>? _metrics;
 
-    public FileProcessorBuilder(string? directory1 = null, string? directory2 = null, FileRequirements? fileRequirements = null, DirectoryRequirements? directoryRequirements = null, IReadOnlyCollection<ComparisonAlgorithm.Metrics>? metrics = null)
+    public FileProcessorBuilder(string? directory1 = null, string? directory2 = null,
+        FileRequirements? fileRequirements = null, DirectoryRequirements? directoryRequirements = null,
+        IReadOnlyCollection<ComparisonAlgorithm.Metrics>? metrics = null)
     {
         _directory1 = directory1;
         _directory2 = directory2;
@@ -23,7 +25,8 @@ internal class FileProcessorBuilder
     {
         if (_directory1 is null || _directory2 is null || _metrics is null)
         {
-            throw new InvalidOperationException("FileProcessor object must have non-null values for paths to directories");
+            throw new InvalidOperationException(
+                "FileProcessor object must have non-null values for paths to directories");
         }
 
         return new FileProcessor(_directory1, _directory2, _fileRequirements, _directoryRequirements, _metrics);
@@ -53,5 +56,4 @@ internal class FileProcessorBuilder
     {
         return new FileProcessorBuilder(_directory1, _directory2, _fileRequirements, _directoryRequirements, metrics);
     }
-
 }
