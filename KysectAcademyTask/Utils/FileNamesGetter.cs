@@ -16,9 +16,12 @@ internal class FileNamesGetter
 
     public string[] GetFileNamesSatisfyingRequirements(string directoryPath)
     {
-        if (Directory.Exists(directoryPath))
+        if (!Directory.Exists(directoryPath))
         {
-            return Directory
+            throw new DirectoryNotFoundException(directoryPath);
+        }
+
+        return Directory
                 .GetFiles(directoryPath, "*", SearchOption.AllDirectories)
                 .Where(fileName =>
                     (_directoryRequirements is null
@@ -26,8 +29,5 @@ internal class FileNamesGetter
                     && (_fileRequirements is null
                         || ((FileRequirements)_fileRequirements).AreSatisfiedBy(fileName)))
                 .ToArray();
-        }
-
-        throw new DirectoryNotFoundException(directoryPath);
     }
 }
