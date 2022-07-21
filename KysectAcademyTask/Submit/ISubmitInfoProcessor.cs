@@ -2,7 +2,7 @@
 
 internal interface ISubmitInfoProcessor
 {
-    public SubmitInfo GetSubmitInfo(string rootPath, string submitPath, string dateTimeFormat);
+    public SubmitInfo GetSubmitInfo(string submitPath);
 
-    public string SubmitInfoToDirectoryPath(SubmitInfo submitInfo, string rootPath, string dateTimeFormat);
+    public string SubmitInfoToDirectoryPath(SubmitInfo submitInfo);
 }

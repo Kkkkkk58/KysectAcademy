@@ -8,13 +8,15 @@ internal class FileProcessor
 {
     private string[] _fileNames1, _fileNames2;
     private FileLoader _loader;
+    private IReadOnlyCollection<ComparisonAlgorithm.Metrics> _metrics;
 
     public FileProcessor(string directory1, string directory2, FileRequirements? fileRequirements,
-        DirectoryRequirements? directoryRequirements)
+        DirectoryRequirements? directoryRequirements, IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics)
     {
         InitFileNames(directory1, directory2, fileRequirements, directoryRequirements);
         InitLoader();
-        if (_fileNames1 is null || _fileNames2 is null || _loader is null)
+        InitMetrics(metrics);
+        if (_fileNames1 is null || _fileNames2 is null || _loader is null || _metrics is null)
         {
             throw new ApplicationException("Unable to initialize FileProcessor");
         }
@@ -28,6 +30,11 @@ internal class FileProcessor
         _fileNames2 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory2);
     }
 
+    private void InitMetrics(IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics)
+    {
+        _metrics = metrics;
+    }
+
     private void InitLoader()
     {
         FileLoader fileLoader1 = new(_fileNames1);
@@ -35,10 +42,10 @@ internal class FileProcessor
         _loader = new FileLoadersCombiner().Combine(fileLoader1, fileLoader2);
     }
 
-    public ComparisonResultsTable GetComparisonResults(IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics)
+    public ComparisonResultsTable GetComparisonResults()
     {
         ComparisonResultsTable comparisonResultsTable = new();
-        foreach (ComparisonAlgorithm.Metrics metric in metrics)
+        foreach (ComparisonAlgorithm.Metrics metric in _metrics)
         {
             ComparisonResultsTable resultsUsingMetrics = CompareFiles(metric);
             comparisonResultsTable.AddTable(resultsUsingMetrics);

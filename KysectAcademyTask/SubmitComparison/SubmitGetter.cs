@@ -21,15 +21,15 @@ internal class SubmitGetter
         return allSubmitDirectories
             .Where(PassesFilters)
             .Select(submitDir =>
-                new SubmitInfoProcessor()
-                    .GetSubmitInfo(_config.RootDir, submitDir, _config.SubmitTimeFormat))
+                new SubmitInfoProcessor(_config.RootDir, _config.SubmitTimeFormat)
+                    .GetSubmitInfo(submitDir))
             .ToImmutableList();
     }
 
     private bool PassesFilters(string submitDirectory)
     {
         SubmitInfo curSubmitInfo =
-            new SubmitInfoProcessor().GetSubmitInfo(_config.RootDir, submitDirectory, _config.SubmitTimeFormat);
+            new SubmitInfoProcessor(_config.RootDir, _config.SubmitTimeFormat).GetSubmitInfo(submitDirectory);
         return _config.Filters is null
                || ((Filters)_config.Filters).AreDirectoryRequirementsNullOrSatisfied(submitDirectory)
                && ((Filters)_config.Filters).AreSubmitRequirementsNullOrSatisfied(curSubmitInfo);

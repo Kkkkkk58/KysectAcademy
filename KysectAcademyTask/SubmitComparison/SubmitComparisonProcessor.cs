@@ -7,15 +7,19 @@ namespace KysectAcademyTask.SubmitComparison;
 internal class SubmitComparisonProcessor
 {
     private readonly IReadOnlyList<SubmitInfo> _submits;
-    private readonly SubmitConfig _submitConfig;
+    private readonly SubmitInfoProcessor _submitInfoProcessor;
+    private readonly SubmitSuitabilityChecker _submitSuitabilityChecker;
+    private readonly FileProcessorBuilder _fileProcessorBuilder;
     private IProgressBar? _progressBar;
 
     private event Action? ProgressBarUpdate;
 
-    public SubmitComparisonProcessor(SubmitConfig submitConfig)
+    public SubmitComparisonProcessor(SubmitGetter submitGetter, SubmitInfoProcessor submitInfoProcessor, SubmitSuitabilityChecker submitSuitabilityChecker, FileProcessorBuilder fileProcessorBuilder)
     {
-        _submitConfig = submitConfig;
-        _submits = new SubmitGetter(_submitConfig).GetSubmits();
+        _submits = submitGetter.GetSubmits();
+        _submitInfoProcessor = submitInfoProcessor;
+        _submitSuitabilityChecker = submitSuitabilityChecker;
+        _fileProcessorBuilder = fileProcessorBuilder;
     }
 
     public void SetProgressBar(IProgressBar progressBar)
@@ -40,10 +44,11 @@ internal class SubmitComparisonProcessor
 
     private void AddComparisonToTable(ComparisonResultsTable results, (string dirName1, string dirName2) pairToCompare)
     {
-        FileProcessor fileProcessor = new(pairToCompare.dirName1, pairToCompare.dirName2,
-            _submitConfig.Filters?.FileRequirements,
-            _submitConfig.Filters?.DirectoryRequirements);
-        ComparisonResultsTable curSubmitsTable = fileProcessor.GetComparisonResults(_submitConfig.Metrics);
+        FileProcessorBuilder completedFileBuilder = _fileProcessorBuilder
+            .BuildDirectory1(pairToCompare.dirName1)
+            .BuildDirectory2(pairToCompare.dirName2);
+        FileProcessor fileProcessor = completedFileBuilder.GetFileProcessorInstance();
+        ComparisonResultsTable curSubmitsTable = fileProcessor.GetComparisonResults();
         results.AddTable(curSubmitsTable);
     }
 
@@ -55,8 +60,7 @@ internal class SubmitComparisonProcessor
         {
             for (int j = i; j < _submits.Count; ++j)
             {
-                var submitSuitabilityChecker = new SubmitSuitabilityChecker(_submitConfig.Filters);
-                if (!submitSuitabilityChecker.AreSuitable(_submits[i], _submits[j]))
+                if (!_submitSuitabilityChecker.AreSuitable(_submits[i], _submits[j]))
                 {
                     continue;
                 }
@@ -71,13 +75,10 @@ internal class SubmitComparisonProcessor
 
     private (string dirName1, string dirName2) GetPairOfDirNames(SubmitInfo submit1, SubmitInfo submit2)
     {
-
         string dirname1 =
-            new SubmitInfoProcessor().SubmitInfoToDirectoryPath(submit1, _submitConfig.RootDir,
-                _submitConfig.SubmitTimeFormat);
+            _submitInfoProcessor.SubmitInfoToDirectoryPath(submit1);
         string dirname2 =
-            new SubmitInfoProcessor().SubmitInfoToDirectoryPath(submit2, _submitConfig.RootDir,
-                _submitConfig.SubmitTimeFormat);
+            _submitInfoProcessor.SubmitInfoToDirectoryPath(submit2);
 
         return new ValueTuple<string, string>(dirname1, dirname2);
     }
