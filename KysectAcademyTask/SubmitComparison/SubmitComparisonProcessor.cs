@@ -62,9 +62,7 @@ internal class SubmitComparisonProcessor
             for (int j = i; j < _submits.Count; ++j)
             {
                 if (!_submitSuitabilityChecker.AreSuitable(_submits[i], _submits[j]))
-                {
                     continue;
-                }
 
                 (string dirName1, string dirName2) pair = GetPairOfDirNames(_submits[i], _submits[j]);
                 pairs.Add(pair);
@@ -87,9 +85,7 @@ internal class SubmitComparisonProcessor
     private void ConnectProgressBarEventIfNeeded(int workToDo)
     {
         if (_progressBar is null)
-        {
             return;
-        }
 
         ComparisonProgressTracker progressTracker = new(_progressBar, workToDo);
         ProgressBarUpdate = progressTracker.IncreaseProgress;
