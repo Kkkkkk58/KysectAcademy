@@ -45,7 +45,7 @@ internal class SubmitComparisonProcessor
 
     private void AddComparisonToTable(ComparisonResultsTable results, (string dirName1, string dirName2) pairToCompare)
     {
-        ComparisonResultsTable curSubmitsTable = _fileProcessor.Compare(pairToCompare.dirName1, pairToCompare.dirName2);
+        ComparisonResultsTable curSubmitsTable = _fileProcessor.CompareDirectories(pairToCompare.dirName1, pairToCompare.dirName2);
         results.AddTable(curSubmitsTable);
     }
 

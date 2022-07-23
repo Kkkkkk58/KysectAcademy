@@ -20,7 +20,7 @@ internal class FileProcessor
         _metrics = metrics;
     }
 
-    public ComparisonResultsTable Compare(string directory1, string directory2)
+    public ComparisonResultsTable CompareDirectories(string directory1, string directory2)
     {
         PrepareForComparison(directory1, directory2);
         return GetComparisonResults();
