@@ -5,14 +5,14 @@ namespace KysectAcademyTask.FileComparison;
 
 internal class FileProcessorBuilder
 {
-    private readonly string? _directory1, _directory2;
+    private readonly string _directory1, _directory2;
     private readonly FileRequirements? _fileRequirements;
     private readonly DirectoryRequirements? _directoryRequirements;
-    private readonly IReadOnlyCollection<ComparisonAlgorithm.Metrics>? _metrics;
+    private readonly IReadOnlyCollection<ComparisonAlgorithm.Metrics> _metrics;
 
-    public FileProcessorBuilder(string? directory1 = null, string? directory2 = null,
+    public FileProcessorBuilder(string directory1 = null, string directory2 = null,
         FileRequirements? fileRequirements = null, DirectoryRequirements? directoryRequirements = null,
-        IReadOnlyCollection<ComparisonAlgorithm.Metrics>? metrics = null)
+        IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics = null)
     {
         _directory1 = directory1;
         _directory2 = directory2;

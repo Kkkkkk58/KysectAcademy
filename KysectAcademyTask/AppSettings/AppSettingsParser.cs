@@ -8,7 +8,7 @@ namespace KysectAcademyTask.AppSettings;
 
 internal class AppSettingsParser
 {
-    private static AppSettingsParser? _instance;
+    private static AppSettingsParser _instance;
     private static readonly object Lock = new();
 
     private readonly IConfigurationRoot _configRoot;
@@ -57,7 +57,7 @@ internal class AppSettingsParser
     {
         try
         {
-            string? inputDirectory = _configRoot.GetValue<string>("InputDirectory");
+            string inputDirectory = _configRoot.GetValue<string>("InputDirectory");
             if (inputDirectory is null)
             {
                 throw new ArgumentNullException(nameof(inputDirectory));
@@ -91,7 +91,7 @@ internal class AppSettingsParser
         try
         {
             IReadOnlyList<ComparisonAlgorithm.Metrics> metrics =
-                _configRoot.GetValue<IReadOnlyList<ComparisonAlgorithm.Metrics>?>("Metrics")
+                _configRoot.GetValue<IReadOnlyList<ComparisonAlgorithm.Metrics>>("Metrics")
                 ?? new List<ComparisonAlgorithm.Metrics> { ComparisonAlgorithm.Metrics.Jaccard };
             return metrics;
         }

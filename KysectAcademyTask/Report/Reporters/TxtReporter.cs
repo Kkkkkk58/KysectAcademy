@@ -7,7 +7,7 @@ internal class TxtReporter : IReporter
 {
     private readonly string _fileName;
 
-    public TxtReporter(string? fileName)
+    public TxtReporter(string fileName)
     {
         if (fileName is null)
         {

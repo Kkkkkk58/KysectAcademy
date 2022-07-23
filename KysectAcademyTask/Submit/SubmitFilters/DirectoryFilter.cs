@@ -4,7 +4,7 @@ namespace KysectAcademyTask.Submit.SubmitFilters;
 
 internal class DirectoryFilter : Filter<string>
 {
-    public DirectoryFilter(IReadOnlyList<string>? whiteList, IReadOnlyList<string>? blackList)
+    public DirectoryFilter(IReadOnlyList<string> whiteList, IReadOnlyList<string> blackList)
         : base(whiteList, blackList)
     {
     }

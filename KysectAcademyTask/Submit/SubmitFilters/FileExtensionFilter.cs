@@ -2,7 +2,7 @@
 
 internal class FileExtensionFilter : Filter<string>
 {
-    public FileExtensionFilter(IReadOnlyList<string>? whiteList, IReadOnlyList<string>? blackList)
+    public FileExtensionFilter(IReadOnlyList<string> whiteList, IReadOnlyList<string> blackList)
         : base(whiteList, blackList)
     {
     }

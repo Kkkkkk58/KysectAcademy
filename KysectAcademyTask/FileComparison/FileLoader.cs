@@ -21,7 +21,7 @@ internal class FileLoader
 
     public string GetFileContent(string fileName)
     {
-        if (!_files.TryGetValue(fileName, out string? fileContent))
+        if (!_files.TryGetValue(fileName, out string fileContent))
         {
             throw new ArgumentException("No such file among listed fileNames");
         }

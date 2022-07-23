@@ -6,7 +6,7 @@ internal class Filter<T>
 
     public IReadOnlyList<T> BlackList { get; init; }
 
-    public Filter(IReadOnlyList<T>? whiteList = null, IReadOnlyList<T>? blackList = null)
+    public Filter(IReadOnlyList<T> whiteList = null, IReadOnlyList<T> blackList = null)
     {
         WhiteList = whiteList ?? new List<T>();
         BlackList = blackList ?? new List<T>();

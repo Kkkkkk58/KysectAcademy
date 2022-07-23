@@ -2,10 +2,10 @@
 
 internal readonly struct FileRequirements : IRequirements<string>
 {
-    public FileNameFilter? FileNameFilter { get; init; }
-    public FileExtensionFilter? FileExtensionFilter { get; init; }
+    public FileNameFilter FileNameFilter { get; init; }
+    public FileExtensionFilter FileExtensionFilter { get; init; }
 
-    public FileRequirements(FileNameFilter? fileNameFilter = null, FileExtensionFilter? fileExtensionFilter = null)
+    public FileRequirements(FileNameFilter fileNameFilter = null, FileExtensionFilter fileExtensionFilter = null)
     {
         FileNameFilter = fileNameFilter;
         FileExtensionFilter = fileExtensionFilter;
@@ -17,7 +17,7 @@ internal readonly struct FileRequirements : IRequirements<string>
                && IsFilterNullOrSatisfiedBy(FileExtensionFilter, path);
     }
 
-    private bool IsFilterNullOrSatisfiedBy<T>(Filter<T>? filter, T? value)
+    private bool IsFilterNullOrSatisfiedBy<T>(Filter<T> filter, T value)
     {
         return filter is null
                || (value is null && filter.WhiteList.Count == 0)

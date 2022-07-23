@@ -2,9 +2,9 @@
 
 internal readonly struct DirectoryRequirements : IRequirements<string>
 {
-    public DirectoryFilter? DirectoryFilter { get; init; }
+    public DirectoryFilter DirectoryFilter { get; init; }
 
-    public DirectoryRequirements(DirectoryFilter? directoryFilter)
+    public DirectoryRequirements(DirectoryFilter directoryFilter)
     {
         DirectoryFilter = directoryFilter;
     }
@@ -14,7 +14,7 @@ internal readonly struct DirectoryRequirements : IRequirements<string>
         return IsFilterNullOrSatisfiedBy(DirectoryFilter, path);
     }
 
-    private bool IsFilterNullOrSatisfiedBy<T>(Filter<T>? filter, T? value)
+    private bool IsFilterNullOrSatisfiedBy<T>(Filter<T> filter, T value)
     {
         return filter is null
                || (value is null && filter.WhiteList.Count == 0)

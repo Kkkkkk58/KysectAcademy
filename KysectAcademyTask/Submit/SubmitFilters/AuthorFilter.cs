@@ -2,7 +2,7 @@
 
 internal class AuthorFilter : Filter<string>
 {
-    public AuthorFilter(IReadOnlyList<string>? whiteList, IReadOnlyList<string>? blackList)
+    public AuthorFilter(IReadOnlyList<string> whiteList, IReadOnlyList<string> blackList)
         : base(whiteList, blackList)
     {
     }

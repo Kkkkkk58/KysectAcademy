@@ -2,7 +2,7 @@
 
 internal class FileNameFilter : Filter<string>
 {
-    public FileNameFilter(IReadOnlyList<string>? whiteList, IReadOnlyList<string>? blackList)
+    public FileNameFilter(IReadOnlyList<string> whiteList, IReadOnlyList<string> blackList)
         : base(whiteList, blackList)
     {
     }

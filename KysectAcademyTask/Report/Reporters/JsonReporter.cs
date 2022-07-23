@@ -11,7 +11,7 @@ internal class JsonReporter : IReporter
 {
     private readonly string _fileName;
 
-    public JsonReporter(string? fileName)
+    public JsonReporter(string fileName)
     {
         if (fileName is null)
         {
