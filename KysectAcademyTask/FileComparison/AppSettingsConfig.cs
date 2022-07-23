@@ -8,11 +8,11 @@ internal struct AppSettingsConfig
     public string OutputFilePath { get; init; }
     public ComparisonAlgorithm.Metrics Metrics { get; init; }
 
-    public AppSettingsConfig(FileGetterConfig? fileGetterConfig, string? outputFilePath,
-        ComparisonAlgorithm.Metrics? metrics)
+    public AppSettingsConfig(FileGetterConfig fileGetterConfig, string outputFilePath,
+        ComparisonAlgorithm.Metrics metrics)
     {
-        FileGetterConfig = fileGetterConfig ?? throw new ArgumentNullException(nameof(fileGetterConfig));
+        FileGetterConfig = fileGetterConfig;
         OutputFilePath = outputFilePath ?? throw new ArgumentNullException(nameof(outputFilePath));
-        Metrics = metrics ?? ComparisonAlgorithm.Metrics.Jaccard;
+        Metrics = metrics;
     }
 }
