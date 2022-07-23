@@ -9,8 +9,6 @@ internal class FileProcessor
     private readonly FileRequirements? _fileRequirements;
     private readonly DirectoryRequirements? _directoryRequirements;
     private readonly IReadOnlyCollection<ComparisonAlgorithm.Metrics> _metrics;
-    private string[] _fileNames1, _fileNames2;
-    private FileLoader _loader;
 
     public FileProcessor(FileRequirements? fileRequirements,
         DirectoryRequirements? directoryRequirements, IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics)
@@ -22,51 +20,47 @@ internal class FileProcessor
 
     public ComparisonResultsTable CompareDirectories(string directory1, string directory2)
     {
-        PrepareForComparison(directory1, directory2);
-        return GetComparisonResults();
-    }
-
-    private void PrepareForComparison(string dirName1, string dirName2)
-    {
-        SetFileNames(dirName1, dirName2);
-        SetLoader();
-    }
-
-    private void SetFileNames(string directory1, string directory2)
-    {
         FileNamesGetter fileNamesGetter = new(_fileRequirements, _directoryRequirements);
-        _fileNames1 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory1);
-        _fileNames2 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory2);
+        string[] fileNames1 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory1);
+        string[] fileNames2 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory2);
+
+        FileLoader loader = GetCombinedLoader(fileNames1, fileNames2);
+
+        return GetComparisonResults(fileNames1, fileNames2, loader);
     }
 
-    private void SetLoader()
+
+    private FileLoader GetCombinedLoader(string[] fileNames1, string[] fileNames2)
     {
-        FileLoader fileLoader1 = new(_fileNames1);
-        FileLoader fileLoader2 = new(_fileNames2);
-        _loader = new FileLoadersCombiner().Combine(fileLoader1, fileLoader2);
+        FileLoader fileLoader1 = new(fileNames1);
+        FileLoader fileLoader2 = new(fileNames2);
+        FileLoader commonLoader = new FileLoadersCombiner().Combine(fileLoader1, fileLoader2);
+
+        return commonLoader;
     }
 
-    private ComparisonResultsTable GetComparisonResults()
+    private ComparisonResultsTable GetComparisonResults(string[] fileNames1, string[] fileNames2, FileLoader loader)
     {
         ComparisonResultsTable comparisonResultsTable = new();
         foreach (ComparisonAlgorithm.Metrics metric in _metrics)
         {
-            ComparisonResultsTable resultsUsingMetrics = PerformFilesComparison(metric);
+            ComparisonResultsTable resultsUsingMetrics = PerformFilesComparison(fileNames1, fileNames2, loader, metric);
             comparisonResultsTable.AddTable(resultsUsingMetrics);
         }
 
         return comparisonResultsTable;
     }
 
-    private ComparisonResultsTable PerformFilesComparison(ComparisonAlgorithm.Metrics metrics)
+    private ComparisonResultsTable PerformFilesComparison(string[] fileNames1, string[] fileNames2, FileLoader loader,
+        ComparisonAlgorithm.Metrics metrics)
     {
         ComparisonResultsTable comparisonResultsTable = new();
 
-        FileComparer fileComparer = new(_loader, metrics);
+        FileComparer fileComparer = new(loader, metrics);
 
-        foreach (string fileName1 in _fileNames1)
+        foreach (string fileName1 in fileNames1)
         {
-            foreach (string fileName2 in _fileNames2)
+            foreach (string fileName2 in fileNames2)
             {
                 ComparisonResult comparisonResult = fileComparer.Compare(fileName1, fileName2);
                 comparisonResultsTable.AddComparisonResult(comparisonResult);
