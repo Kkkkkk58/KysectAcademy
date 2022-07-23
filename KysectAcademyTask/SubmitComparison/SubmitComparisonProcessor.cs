@@ -9,18 +9,18 @@ internal class SubmitComparisonProcessor
     private readonly IReadOnlyList<SubmitInfo> _submits;
     private readonly SubmitInfoProcessor _submitInfoProcessor;
     private readonly SubmitSuitabilityChecker _submitSuitabilityChecker;
-    private readonly FileProcessorBuilder _fileProcessorBuilder;
+    private readonly FileProcessor _fileProcessor;
     private IProgressBar _progressBar;
 
     private event Action ProgressBarUpdate;
 
     public SubmitComparisonProcessor(SubmitGetter submitGetter, SubmitInfoProcessor submitInfoProcessor,
-        SubmitSuitabilityChecker submitSuitabilityChecker, FileProcessorBuilder fileProcessorBuilder)
+        SubmitSuitabilityChecker submitSuitabilityChecker, FileProcessor fileProcessor)
     {
         _submits = submitGetter.GetSubmits();
         _submitInfoProcessor = submitInfoProcessor;
         _submitSuitabilityChecker = submitSuitabilityChecker;
-        _fileProcessorBuilder = fileProcessorBuilder;
+        _fileProcessor = fileProcessor;
     }
 
     public void SetProgressBar(IProgressBar progressBar)
@@ -45,11 +45,7 @@ internal class SubmitComparisonProcessor
 
     private void AddComparisonToTable(ComparisonResultsTable results, (string dirName1, string dirName2) pairToCompare)
     {
-        FileProcessorBuilder completedFileBuilder = _fileProcessorBuilder
-            .BuildDirectory1(pairToCompare.dirName1)
-            .BuildDirectory2(pairToCompare.dirName2);
-        FileProcessor fileProcessor = completedFileBuilder.GetFileProcessorInstance();
-        ComparisonResultsTable curSubmitsTable = fileProcessor.GetComparisonResults();
+        ComparisonResultsTable curSubmitsTable = _fileProcessor.Compare(pairToCompare.dirName1, pairToCompare.dirName2);
         results.AddTable(curSubmitsTable);
     }
 
