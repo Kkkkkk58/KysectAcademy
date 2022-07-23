@@ -5,7 +5,7 @@ namespace KysectAcademyTask.FileComparison;
 
 internal class AppSettingsParser
 {
-    private static AppSettingsParser? _instance;
+    private static AppSettingsParser _instance;
     private static readonly object Lock = new();
 
     private readonly IConfigurationRoot _configRoot;
@@ -40,19 +40,19 @@ internal class AppSettingsParser
 
     private AppSettingsConfig GetConfig()
     {
-        FileGetterConfig? fileGetterConfig = GetFileGetterConfig();
-        string? outputFilePath = GetOutputFile();
-        ComparisonAlgorithm.Metrics? metrics = GetComparisonMetrics();
+        FileGetterConfig fileGetterConfig = GetFileGetterConfig();
+        string outputFilePath = GetOutputFile();
+        ComparisonAlgorithm.Metrics metrics = GetComparisonMetrics();
         return new AppSettingsConfig(fileGetterConfig, outputFilePath, metrics);
     }
 
-    private FileGetterConfig? GetFileGetterConfig()
+    private FileGetterConfig GetFileGetterConfig()
     {
         try
         {
             IConfigurationSection section =
                 _configRoot.GetSection(nameof(FileGetterConfig));
-            FileGetterConfig? fileGetterConfig = section.Get<FileGetterConfig>();
+            FileGetterConfig fileGetterConfig = section.Get<FileGetterConfig>();
             return fileGetterConfig;
         }
         catch (InvalidOperationException e)
@@ -61,11 +61,11 @@ internal class AppSettingsParser
         }
     }
 
-    private string? GetOutputFile()
+    private string GetOutputFile()
     {
         try
         {
-            string? outputFile = _configRoot.GetValue<string>("OutputFile");
+            string outputFile = _configRoot.GetValue<string>("OutputFile");
             return outputFile;
         }
         catch (InvalidOperationException e)
@@ -74,11 +74,11 @@ internal class AppSettingsParser
         }
     }
 
-    private ComparisonAlgorithm.Metrics? GetComparisonMetrics()
+    private ComparisonAlgorithm.Metrics GetComparisonMetrics()
     {
         try
         {
-            ComparisonAlgorithm.Metrics? metrics = _configRoot.GetValue<ComparisonAlgorithm.Metrics>("Metrics");
+            ComparisonAlgorithm.Metrics metrics = _configRoot.GetValue<ComparisonAlgorithm.Metrics>("Metrics");
             return metrics;
         }
         catch (InvalidOperationException e)
