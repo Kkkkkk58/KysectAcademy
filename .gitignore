@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # JetBrains (e.g. Rider) generated files
 .idea/
+
+# VS Code generated files
+.vscode/
