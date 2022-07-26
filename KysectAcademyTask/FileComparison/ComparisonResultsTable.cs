@@ -1,8 +1,11 @@
-﻿namespace KysectAcademyTask.FileComparison;
+﻿using System.Collections;
 
-internal class ComparisonResultsTable
+namespace KysectAcademyTask.FileComparison;
+
+internal class ComparisonResultsTable : IReadOnlyCollection<ComparisonResult>
 {
     private readonly List<ComparisonResult> _comparisonResults;
+    public int Count => _comparisonResults.Count;
 
     public ComparisonResultsTable()
     {
@@ -14,12 +17,18 @@ internal class ComparisonResultsTable
         _comparisonResults.Add(result);
     }
 
-    public void Write(StreamWriter writer)
+    public void AddTable(ComparisonResultsTable other)
     {
-        foreach (ComparisonResult comparisonResult in _comparisonResults)
-        {
-            writer.WriteLine(comparisonResult.ToString());
-            writer.WriteLine();
-        }
+        _comparisonResults.AddRange(other._comparisonResults);
+    }
+
+    public IEnumerator<ComparisonResult> GetEnumerator()
+    {
+        return _comparisonResults.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return ((IEnumerable)_comparisonResults).GetEnumerator();
     }
 }
