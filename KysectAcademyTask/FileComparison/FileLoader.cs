@@ -2,9 +2,19 @@
 
 internal class FileLoader
 {
+    public IReadOnlyDictionary<string, string> Files
+    {
+        get => _files;
+    }
+
     private readonly Dictionary<string, string> _files;
 
-    public FileLoader(string[] fileNames)
+    public FileLoader(Dictionary<string, string> files)
+    {
+        _files = files;
+    }
+
+    public FileLoader(IEnumerable<string> fileNames)
     {
         _files = GetAllContents(fileNames);
     }
@@ -19,17 +29,7 @@ internal class FileLoader
         return fileContent;
     }
 
-    public void FreeFileContent(string fileName)
-    {
-        if (!_files.ContainsKey(fileName))
-        {
-            throw new ArgumentException("No such file among listed fileNames");
-        }
-
-        _files.Remove(fileName);
-    }
-
-    private Dictionary<string, string> GetAllContents(string[] fileNames)
+    private Dictionary<string, string> GetAllContents(IEnumerable<string> fileNames)
     {
         return fileNames
             .ToDictionary(fileName => fileName, File.ReadAllText);
