@@ -8,6 +8,7 @@ internal class SubmitTypeConfiguration : IEntityTypeConfiguration<Models.Entitie
     public void Configure(EntityTypeBuilder<Models.Entities.Submit> builder)
     {
         builder.Property(s => s.StudentId).IsRequired();
+        builder.Property(s => s.Homework).IsRequired();
 
         builder.HasOne(s => s.StudentNavigation)
             .WithMany(s => s.Submits)

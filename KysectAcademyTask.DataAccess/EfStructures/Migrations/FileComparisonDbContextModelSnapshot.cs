@@ -153,6 +153,10 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Homework")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 

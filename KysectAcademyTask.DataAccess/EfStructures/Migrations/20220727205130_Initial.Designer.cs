@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 {
     [DbContext(typeof(FileComparisonDbContext))]
-    [Migration("20220727203654_Initial")]
+    [Migration("20220727205130_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -154,6 +154,10 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Homework")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
