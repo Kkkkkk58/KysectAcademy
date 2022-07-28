@@ -5,5 +5,5 @@ namespace KysectAcademyTask.DataAccess.Models.Entities;
 internal class Group : BaseEntity
 {
     public string Name { get; set; }
-    public virtual ICollection<Student> Students { get; set; } = null!;
+    public ICollection<Student> Students { get; set; } = null!;
 }

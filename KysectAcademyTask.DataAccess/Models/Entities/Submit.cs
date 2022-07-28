@@ -8,5 +8,5 @@ internal class Submit : BaseEntity
     public Student StudentNavigation { get; set; }
     public DateTime? Date { get; set; } = null!;
     public string Homework { get; set; }
-    public virtual ICollection<FileEntity> Files { get; set; } = null!;
+    public ICollection<FileEntity> Files { get; set; } = null!;
 }
