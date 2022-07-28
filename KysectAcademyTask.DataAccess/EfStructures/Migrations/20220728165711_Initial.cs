@@ -107,33 +107,33 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ComparisonResultFileEntity",
+                name: "ComparisonResultFile",
                 columns: table => new
                 {
-                    ComparisonResultsId = table.Column<int>(type: "int", nullable: false),
-                    FilesId = table.Column<int>(type: "int", nullable: false)
+                    ComparisonResultId = table.Column<int>(type: "int", nullable: false),
+                    FileId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ComparisonResultFileEntity", x => new { x.ComparisonResultsId, x.FilesId });
+                    table.PrimaryKey("PK_ComparisonResultFile", x => new { x.ComparisonResultId, x.FileId });
                     table.ForeignKey(
-                        name: "FK_ComparisonResultFileEntity_ComparisonResults_ComparisonResultsId",
-                        column: x => x.ComparisonResultsId,
+                        name: "FK_ComparisonResultFile_ComparisonResults_ComparisonResultId",
+                        column: x => x.ComparisonResultId,
                         principalTable: "ComparisonResults",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ComparisonResultFileEntity_Files_FilesId",
-                        column: x => x.FilesId,
+                        name: "FK_ComparisonResultFile_Files_FileId",
+                        column: x => x.FileId,
                         principalTable: "Files",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComparisonResultFileEntity_FilesId",
-                table: "ComparisonResultFileEntity",
-                column: "FilesId");
+                name: "IX_ComparisonResultFile_FileId",
+                table: "ComparisonResultFile",
+                column: "FileId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Files_SubmitId",
@@ -154,7 +154,7 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ComparisonResultFileEntity");
+                name: "ComparisonResultFile");
 
             migrationBuilder.DropTable(
                 name: "ComparisonResults");

@@ -7,5 +7,5 @@ internal class FileEntity : BaseEntity
     public string Path { get; set; }
     public int SubmitId { get; set; }
     public Submit SubmitNavigation { get; set; }
-    public ICollection<ComparisonResult> ComparisonResults { get; set; } = null!;
+    public ICollection<ComparisonResultFile> ComparisonResultFiles { get; set; } = null!;
 }

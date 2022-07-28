@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 {
     [DbContext(typeof(FileComparisonDbContext))]
-    [Migration("20220727205130_Initial")]
+    [Migration("20220728165711_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,21 +23,6 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("ComparisonResultFileEntity", b =>
-                {
-                    b.Property<int>("ComparisonResultsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FilesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ComparisonResultsId", "FilesId");
-
-                    b.HasIndex("FilesId");
-
-                    b.ToTable("ComparisonResultFileEntity");
-                });
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResult", b =>
                 {
@@ -70,6 +55,21 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ComparisonResults");
+                });
+
+            modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResultFile", b =>
+                {
+                    b.Property<int>("ComparisonResultId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ComparisonResultId", "FileId");
+
+                    b.HasIndex("FileId");
+
+                    b.ToTable("ComparisonResultFile");
                 });
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", b =>
@@ -174,19 +174,23 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                     b.ToTable("Submits");
                 });
 
-            modelBuilder.Entity("ComparisonResultFileEntity", b =>
+            modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResultFile", b =>
                 {
-                    b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResult", null)
-                        .WithMany()
-                        .HasForeignKey("ComparisonResultsId")
+                    b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResult", "ComparisonResultNavigation")
+                        .WithMany("ComparisonResultFiles")
+                        .HasForeignKey("ComparisonResultId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", null)
-                        .WithMany()
-                        .HasForeignKey("FilesId")
+                    b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", "FileNavigation")
+                        .WithMany("ComparisonResultFiles")
+                        .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ComparisonResultNavigation");
+
+                    b.Navigation("FileNavigation");
                 });
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", b =>
@@ -254,6 +258,16 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                         .IsRequired();
 
                     b.Navigation("StudentNavigation");
+                });
+
+            modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResult", b =>
+                {
+                    b.Navigation("ComparisonResultFiles");
+                });
+
+            modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", b =>
+                {
+                    b.Navigation("ComparisonResultFiles");
                 });
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.Group", b =>

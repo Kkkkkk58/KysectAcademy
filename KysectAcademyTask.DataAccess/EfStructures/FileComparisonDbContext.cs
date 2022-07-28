@@ -1,7 +1,5 @@
 ﻿using KysectAcademyTask.DataAccess.EfStructures.EntityTypeConfigurations;
 using KysectAcademyTask.DataAccess.Models.Entities;
-using KysectAcademyTask.DataAccess.Models.Entities.Base;
-using KysectAcademyTask.DataAccess.Models.Entities.Owned;
 using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask.DataAccess.EfStructures;
@@ -48,6 +46,7 @@ internal partial class FileComparisonDbContext : DbContext
     {
         new ComparisonResultTypeConfiguration().Configure(modelBuilder.Entity<ComparisonResult>());
         new FileEntityTypeConfiguration().Configure(modelBuilder.Entity<FileEntity>());
+        new ComparisonResultFileTypeConfiguration().Configure(modelBuilder.Entity<ComparisonResultFile>());
         new GroupTypeConfiguration().Configure(modelBuilder.Entity<Group>());
         new StudentTypeConfiguration().Configure(modelBuilder.Entity<Student>());
         new SubmitTypeConfiguration().Configure(modelBuilder.Entity<Models.Entities.Submit>());

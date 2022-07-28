@@ -12,8 +12,5 @@ internal class ComparisonResultTypeConfiguration : IEntityTypeConfiguration<Comp
         builder.Property(c => c.FileName2).IsRequired();
         builder.Property(c => c.Metrics).IsRequired();
         builder.Property(c => c.SimilarityRate).IsRequired();
-
-        builder.HasMany(c => c.Files)
-            .WithMany(f => f.ComparisonResults);
     }
 }
