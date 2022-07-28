@@ -10,6 +10,7 @@ internal class SubmitComparisonProcessor
     private readonly SubmitInfoProcessor _submitInfoProcessor;
     private readonly SubmitSuitabilityChecker _submitSuitabilityChecker;
     private readonly FileProcessor _fileProcessor;
+
     private IProgressBar _progressBar;
 
     private event Action ProgressBarUpdate;

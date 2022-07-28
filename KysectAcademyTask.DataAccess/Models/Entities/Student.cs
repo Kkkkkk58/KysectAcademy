@@ -3,7 +3,7 @@ using KysectAcademyTask.DataAccess.Models.Entities.Owned;
 
 namespace KysectAcademyTask.DataAccess.Models.Entities;
 
-internal class Student : BaseEntity
+public class Student : BaseEntity
 {
     public Person PersonalInformation { get; set; }
     public Group GroupNavigation { get; set; }

@@ -1,5 +1,4 @@
-﻿using System.Resources;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace KysectAcademyTask.DataAccess.EfStructures;

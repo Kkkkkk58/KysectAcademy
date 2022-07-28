@@ -1,4 +1,5 @@
-﻿using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
+﻿using KysectAcademyTask.DataAccess.Repos.Interfaces;
+using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.Utils;
 
@@ -9,13 +10,15 @@ internal class FileProcessor
     private readonly FileRequirements? _fileRequirements;
     private readonly DirectoryRequirements? _directoryRequirements;
     private readonly IReadOnlyCollection<ComparisonAlgorithm.Metrics> _metrics;
+    private readonly IComparisonResultRepo _resultRepo;
 
     public FileProcessor(FileRequirements? fileRequirements,
-        DirectoryRequirements? directoryRequirements, IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics)
+        DirectoryRequirements? directoryRequirements, IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics, IComparisonResultRepo resultRepo)
     {
         _fileRequirements = fileRequirements;
         _directoryRequirements = directoryRequirements;
         _metrics = metrics;
+        _resultRepo = resultRepo;
     }
 
     public ComparisonResultsTable CompareDirectories(string directory1, string directory2)
@@ -62,7 +65,21 @@ internal class FileProcessor
         {
             foreach (string fileName2 in fileNames2)
             {
-                ComparisonResult comparisonResult = fileComparer.Compare(fileName1, fileName2);
+                ComparisonResult comparisonResult;
+                if (_resultRepo.ContainsComparisonResultOfFilesWithMetrics(fileName1, fileName2, metrics.ToString()))
+                {
+                    DataAccess.Models.Entities.ComparisonResult comparisonResultData = _resultRepo
+                        .GetComparisonResultOfFilesWithMetrics(fileName1, fileName2, metrics.ToString());
+
+                    comparisonResult = new ComparisonResult(comparisonResultData);
+                }
+                else
+                {
+                    comparisonResult = fileComparer.Compare(fileName1, fileName2);
+
+                    _resultRepo.Add(comparisonResult.ToDataAccessModel());
+                }
+
                 comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
         }

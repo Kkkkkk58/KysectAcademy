@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KysectAcademyTask.DataAccess.Models.Entities.Base;
 
-internal abstract class BaseEntity
+public abstract class BaseEntity
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }

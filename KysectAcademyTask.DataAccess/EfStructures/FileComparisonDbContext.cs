@@ -5,22 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask.DataAccess.EfStructures;
 
-internal partial class FileComparisonDbContext : DbContext
+public sealed partial class FileComparisonDbContext : DbContext
 {
     public FileComparisonDbContext(DbContextOptions<FileComparisonDbContext> options)
         : base(options)
     {
-        SavingChanges += (sender, args) =>
-        {
-            Console.WriteLine(
-                $"Saving changes for {((FileComparisonDbContext)sender)!.Database.GetConnectionString()}");
-        };
-
-        SavedChanges += (sender, args) =>
-        {
-            Console.WriteLine(
-                $"Saved {args.EntitiesSavedCount} changes for {((FileComparisonDbContext)sender)!.Database.GetConnectionString()}");
-        };
+        Database.Migrate();
 
         SaveChangesFailed += (sender, args) =>
         {

@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.DataAccess.Models.Entities;
 
-internal class ComparisonResult : BaseEntity
+public class ComparisonResult : BaseEntity
 {
     public string FileName1 { get; set; }
     public string FileName2 { get; set; }

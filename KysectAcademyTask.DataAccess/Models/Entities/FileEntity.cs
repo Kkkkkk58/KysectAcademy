@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.DataAccess.Models.Entities;
 
-internal class FileEntity : BaseEntity
+public class FileEntity : BaseEntity
 {
     public string Path { get; set; }
     public int SubmitId { get; set; }

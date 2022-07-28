@@ -1,4 +1,5 @@
-﻿using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
+﻿using KysectAcademyTask.DbConfiguration;
+using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.SubmitComparison;
@@ -50,7 +51,8 @@ internal class AppSettingsParser
         int submitDirDepth = GetSubmitDirDepth();
         SubmitConfig submitConfig = new(inputDirectory, filters, metrics, submitTimeFormat, submitDirDepth);
         ReportConfig reportConfig = GetReportConfig();
-        return new AppSettingsConfig(submitConfig, reportConfig);
+        DbConfig dbConfig = GetDbConfig();
+        return new AppSettingsConfig(submitConfig, reportConfig, dbConfig);
     }
 
     private string GetInputDirectory()
@@ -141,6 +143,22 @@ internal class AppSettingsParser
         catch (InvalidOperationException e)
         {
             throw new ArgumentException($"Invalid ReportConfig argument: {e.Message}", e);
+        }
+    }
+
+    private DbConfig GetDbConfig()
+    {
+        try
+        {
+            IConfigurationSection section =
+                _configRoot.GetSection(nameof(DbConfig));
+            DbConfig dbConfig = section.Get<DbConfig?>()
+                                        ?? new DbConfig(null);
+            return dbConfig;
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new ArgumentException($"Invalid DbConfig argument: {e.Message}", e);
         }
     }
 }

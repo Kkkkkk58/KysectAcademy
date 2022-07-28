@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.DataAccess.Models.Entities;
 
-internal class Submit : BaseEntity
+public class Submit : BaseEntity
 {
     public int StudentId { get; set; }
     public Student StudentNavigation { get; set; }

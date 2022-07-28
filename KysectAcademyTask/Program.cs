@@ -1,4 +1,8 @@
 ﻿using KysectAcademyTask.AppSettings;
+using KysectAcademyTask.DataAccess.EfStructures;
+using KysectAcademyTask.DataAccess.Repos;
+using KysectAcademyTask.DataAccess.Repos.Interfaces;
+using KysectAcademyTask.DbConfiguration;
 using KysectAcademyTask.FileComparison;
 using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Report.Reporters;
@@ -6,6 +10,7 @@ using KysectAcademyTask.Submit;
 using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.SubmitComparison;
 using KysectAcademyTask.Utils.ProgressTracking;
+using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask;
 
@@ -32,18 +37,28 @@ public class Program
         var submitInfoProcessor =
             new SubmitInfoProcessor(config.SubmitConfig.RootDir, config.SubmitConfig.SubmitTimeFormat);
         var submitSuitabilityChecker = new SubmitSuitabilityChecker(config.SubmitConfig.Filters);
-        FileProcessor fileProcessor = GetFileProcessor(config.SubmitConfig);
+        IComparisonResultRepo resultRepo = GetComparisonResultRepo(config.DbConfig);
+        FileProcessor fileProcessor = GetFileProcessor(config.SubmitConfig, resultRepo);
 
         return new SubmitComparisonProcessor(submitGetter, submitInfoProcessor, submitSuitabilityChecker,
             fileProcessor);
     }
 
-    private static FileProcessor GetFileProcessor(SubmitConfig submitConfig)
+    private static IComparisonResultRepo GetComparisonResultRepo(DbConfig dbConfig)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<FileComparisonDbContext>();
+        string connectionString = dbConfig.ConnectionStrings["SubmitComparison"];
+        optionsBuilder.UseSqlServer(connectionString, options => options.EnableRetryOnFailure());
+        FileComparisonDbContext context = new(optionsBuilder.Options);
+        return new ComparisonResultRepo(context);
+    }
+
+    private static FileProcessor GetFileProcessor(SubmitConfig submitConfig, IComparisonResultRepo resultRepo)
     {
         FileRequirements? fileRequirements = submitConfig.Filters?.FileRequirements;
         DirectoryRequirements? directoryRequirements = submitConfig.Filters?.DirectoryRequirements;
         IReadOnlyList<ComparisonAlgorithm.Metrics> metrics = submitConfig.Metrics;
 
-        return new FileProcessor(fileRequirements, directoryRequirements, metrics);
+        return new FileProcessor(fileRequirements, directoryRequirements, metrics, resultRepo);
     }
 }
