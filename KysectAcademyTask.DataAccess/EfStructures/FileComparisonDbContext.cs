@@ -1,5 +1,6 @@
 ﻿using KysectAcademyTask.DataAccess.EfStructures.EntityTypeConfigurations;
 using KysectAcademyTask.DataAccess.Models.Entities;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask.DataAccess.EfStructures;
@@ -24,7 +25,7 @@ internal partial class FileComparisonDbContext : DbContext
         SaveChangesFailed += (sender, args) =>
         {
             Console.WriteLine($"An exception occurred! {args.Exception.Message}");
-            throw new ApplicationException(args.Exception.Message);
+            throw new DbUpdateException(args.Exception.Message);
         };
     }
 
