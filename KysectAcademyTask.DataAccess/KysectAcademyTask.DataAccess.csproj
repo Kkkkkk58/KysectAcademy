@@ -21,11 +21,5 @@
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="EfStructures\Migrations\" />
-	  <Folder Include="Repos\Base\" />
-	  <Folder Include="Repos\Interfaces\" />
-	</ItemGroup>
-
+	
 </Project>
