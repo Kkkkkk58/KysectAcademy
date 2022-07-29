@@ -8,11 +8,11 @@ namespace KysectAcademyTask.DataAccess.Repos;
 
 public class FileEntityRepo: BaseRepo<FileEntity>, IFileEntityRepo
 {
-    protected FileEntityRepo(FileComparisonDbContext context) : base(context)
+    public FileEntityRepo(FileComparisonDbContext context) : base(context)
     {
     }
 
-    protected FileEntityRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
+    public FileEntityRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
     {
     }
 

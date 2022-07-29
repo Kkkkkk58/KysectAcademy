@@ -8,11 +8,11 @@ namespace KysectAcademyTask.DataAccess.Repos;
 
 public class SubmitRepo : BaseRepo<Submit>, ISubmitRepo
 {
-    protected SubmitRepo(FileComparisonDbContext context) : base(context)
+    public SubmitRepo(FileComparisonDbContext context) : base(context)
     {
     }
 
-    protected SubmitRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
+    public SubmitRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
     {
     }
 

@@ -8,11 +8,11 @@ namespace KysectAcademyTask.DataAccess.Repos;
 
 public class GroupRepo: BaseRepo<Group>, IGroupRepo
 {
-    protected GroupRepo(FileComparisonDbContext context) : base(context)
+    public GroupRepo(FileComparisonDbContext context) : base(context)
     {
     }
 
-    protected GroupRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
+    public GroupRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
     {
     }
 

@@ -8,11 +8,11 @@ namespace KysectAcademyTask.DataAccess.Repos;
 
 public class StudentRepo: BaseRepo<Student>, IStudentRepo
 {
-    protected StudentRepo(FileComparisonDbContext context) : base(context)
+    public StudentRepo(FileComparisonDbContext context) : base(context)
     {
     }
 
-    protected StudentRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
+    public StudentRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
     {
     }
 

@@ -8,11 +8,11 @@ namespace KysectAcademyTask.DataAccess.Repos;
 
 public class HomeWorkRepo: BaseRepo<HomeWork>, IHomeWorkRepo
 {
-    protected HomeWorkRepo(FileComparisonDbContext context) : base(context)
+    public HomeWorkRepo(FileComparisonDbContext context) : base(context)
     {
     }
 
-    protected HomeWorkRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
+    public HomeWorkRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
     {
     }
 
