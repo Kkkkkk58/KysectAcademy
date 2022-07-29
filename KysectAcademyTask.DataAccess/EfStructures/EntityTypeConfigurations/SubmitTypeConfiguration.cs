@@ -9,11 +9,12 @@ internal class SubmitTypeConfiguration : IEntityTypeConfiguration<Models.Entitie
     {
         builder.Property(s => s.StudentId).IsRequired();
         builder.Property(s => s.Homework).IsRequired();
-
+        builder.Property(s => s.StudentId).IsRequired();
+        
         builder.HasOne(s => s.StudentNavigation)
             .WithMany(s => s.Submits)
             .HasForeignKey(s => s.StudentId);
 
-
+        builder.Navigation(s => s.StudentNavigation).IsRequired();
     }
 }

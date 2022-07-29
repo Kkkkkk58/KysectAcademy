@@ -16,19 +16,11 @@ public class ComparisonResultRepo : BaseRepo<ComparisonResult>, IComparisonResul
     {
     }
 
-    public bool ContainsComparisonResultOfFilesWithMetrics(string fileName1, string fileName2, string metrics)
+    public IQueryable<ComparisonResult> GetResultOfFilesWithMetricsQuery(string fileName1, string fileName2, string metrics)
     {
         return Table
-            .Where(c => c.FileName1 == fileName1 || c.FileName2 == fileName1)
-            .Where(c => c.FileName1 == fileName2 || c.FileName2 == fileName2)
-            .Any(c => c.Metrics == metrics);
-    }
-
-    public ComparisonResult GetComparisonResultOfFilesWithMetrics(string fileName1, string fileName2, string metrics)
-    {
-        return Table
-            .Where(c => c.FileName1 == fileName1 || c.FileName2 == fileName1)
-            .Where(c => c.FileName1 == fileName2 || c.FileName2 == fileName2)
-            .First(c => c.Metrics == metrics);
+            .Where(c => (c.FileName1 == fileName1 && c.FileName2 == fileName2
+                            || c.FileName1 == fileName2 && c.FileName2 == fileName1)
+                        && c.Metrics == metrics);
     }
 }

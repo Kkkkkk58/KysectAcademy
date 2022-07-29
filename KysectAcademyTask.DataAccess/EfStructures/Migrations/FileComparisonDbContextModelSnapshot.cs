@@ -32,11 +32,11 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 
                     b.Property<string>("FileName1")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FileName2")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Metrics")
                         .IsRequired()
@@ -52,35 +52,17 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FileName1");
+
+                    b.HasIndex("FileName2");
+
                     b.ToTable("ComparisonResults");
-                });
-
-            modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResultFile", b =>
-                {
-                    b.Property<int>("ComparisonResultId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FileId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ComparisonResultId", "FileId");
-
-                    b.HasIndex("FileId");
-
-                    b.ToTable("ComparisonResultFile");
                 });
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
                     b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("SubmitId")
                         .HasColumnType("int");
@@ -90,7 +72,7 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.HasKey("Id");
+                    b.HasKey("Path");
 
                     b.HasIndex("SubmitId");
 
@@ -172,23 +154,23 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                     b.ToTable("Submits");
                 });
 
-            modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResultFile", b =>
+            modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResult", b =>
                 {
-                    b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResult", "ComparisonResultNavigation")
-                        .WithMany("ComparisonResultFiles")
-                        .HasForeignKey("ComparisonResultId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", "File1Navigation")
+                        .WithMany("AsFile1ComparisonResults")
+                        .HasForeignKey("FileName1")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", "FileNavigation")
-                        .WithMany("ComparisonResultFiles")
-                        .HasForeignKey("FileId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", "File2Navigation")
+                        .WithMany("AsFile2ComparisonResults")
+                        .HasForeignKey("FileName2")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("ComparisonResultNavigation");
+                    b.Navigation("File1Navigation");
 
-                    b.Navigation("FileNavigation");
+                    b.Navigation("File2Navigation");
                 });
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", b =>
@@ -258,14 +240,11 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                     b.Navigation("StudentNavigation");
                 });
 
-            modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.ComparisonResult", b =>
-                {
-                    b.Navigation("ComparisonResultFiles");
-                });
-
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", b =>
                 {
-                    b.Navigation("ComparisonResultFiles");
+                    b.Navigation("AsFile1ComparisonResults");
+
+                    b.Navigation("AsFile2ComparisonResults");
                 });
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.Group", b =>
