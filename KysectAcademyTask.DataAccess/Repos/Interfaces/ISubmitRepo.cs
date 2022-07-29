@@ -5,5 +5,5 @@ namespace KysectAcademyTask.DataAccess.Repos.Interfaces;
 
 public interface ISubmitRepo: IRepo<Submit>
 {
-    public IQueryable<Submit> GetQueryWithProps(string authorFullName, string groupName, string homeWorkName);
+    public IQueryable<Submit> GetQueryWithProps(string authorFullName, string groupName, string homeWorkName, DateTime? date);
 }
