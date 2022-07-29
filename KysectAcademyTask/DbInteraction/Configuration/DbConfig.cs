@@ -1,4 +1,4 @@
-﻿namespace KysectAcademyTask.DbConfiguration;
+﻿namespace KysectAcademyTask.DbInteraction.Configuration;
 
 internal struct DbConfig
 {

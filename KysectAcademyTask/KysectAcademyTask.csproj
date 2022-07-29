@@ -24,8 +24,4 @@
 	  <ProjectReference Include="..\KysectAcademyTask.DataAccess\KysectAcademyTask.DataAccess.csproj" />
 	</ItemGroup>
 	
-	<ItemGroup>
-	  <Folder Include="DbConfiguration\" />
-	</ItemGroup>
-
 </Project>

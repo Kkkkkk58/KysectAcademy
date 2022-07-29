@@ -1,4 +1,4 @@
-﻿using KysectAcademyTask.DbConfiguration;
+﻿using KysectAcademyTask.DbInteraction.Configuration;
 using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.Submit.SubmitFilters;
