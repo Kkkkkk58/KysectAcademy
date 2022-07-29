@@ -16,12 +16,12 @@ public class SubmitRepo : BaseRepo<Submit>, ISubmitRepo
     {
     }
 
-    public IQueryable<Submit> GetQueryWithProps(string authorFullName, string groupName, string homeWorkName, DateTime? date)
+    public IQueryable<Submit> GetQueryWithProps(string authorFullName, string groupName, string homeWorkName, DateTime? submitDate)
     {
         return Table
             .Where(s => s.StudentNavigation.PersonalInformation.FullName == authorFullName
                         && s.StudentNavigation.GroupNavigation.Name == groupName
                         && s.HomeWorkNavigation.Name == homeWorkName
-                        && s.Date == date);
+                        && s.Date == submitDate);
     }
 }
