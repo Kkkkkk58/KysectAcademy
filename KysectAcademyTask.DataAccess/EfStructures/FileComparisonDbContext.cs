@@ -24,6 +24,7 @@ public sealed partial class FileComparisonDbContext : DbContext
     public DbSet<Group> Groups { get; set; } = null!;
     public DbSet<Student> Students { get; set; } = null!;
     public DbSet<Models.Entities.Submit> Submits { get; set; } = null!;
+    public DbSet<HomeWork> HomeWorks { get; set; } = null!;
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -38,6 +39,7 @@ public sealed partial class FileComparisonDbContext : DbContext
         new ComparisonResultTypeConfiguration().Configure(modelBuilder.Entity<ComparisonResult>());
         new FileEntityTypeConfiguration().Configure(modelBuilder.Entity<FileEntity>());
         new GroupTypeConfiguration().Configure(modelBuilder.Entity<Group>());
+        new HomeWorkTypeConfiguration().Configure(modelBuilder.Entity<HomeWork>());
         new StudentTypeConfiguration().Configure(modelBuilder.Entity<Student>());
         new SubmitTypeConfiguration().Configure(modelBuilder.Entity<Models.Entities.Submit>());
     }

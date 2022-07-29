@@ -30,13 +30,11 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("FileName1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("File1Id")
+                        .HasColumnType("int");
 
-                    b.Property<string>("FileName2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("File2Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Metrics")
                         .IsRequired()
@@ -52,15 +50,21 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FileName1");
+                    b.HasIndex("File1Id");
 
-                    b.HasIndex("FileName2");
+                    b.HasIndex("File2Id");
 
                     b.ToTable("ComparisonResults");
                 });
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
                     b.Property<string>("Path")
                         .HasColumnType("nvarchar(450)");
 
@@ -72,7 +76,11 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.HasKey("Path");
+                    b.HasKey("Id");
+
+                    b.HasIndex("Path")
+                        .IsUnique()
+                        .HasFilter("[Path] IS NOT NULL");
 
                     b.HasIndex("SubmitId");
 
@@ -88,8 +96,7 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<byte[]>("TimeStamp")
                         .IsConcurrencyToken()
@@ -98,7 +105,36 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.HomeWork", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<byte[]>("TimeStamp")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
+
+                    b.ToTable("HomeWorks");
                 });
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.Student", b =>
@@ -135,9 +171,8 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Homework")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("HomeWorkId")
+                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -149,6 +184,8 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("HomeWorkId");
+
                     b.HasIndex("StudentId");
 
                     b.ToTable("Submits");
@@ -158,13 +195,13 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                 {
                     b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", "File1Navigation")
                         .WithMany("AsFile1ComparisonResults")
-                        .HasForeignKey("FileName1")
+                        .HasForeignKey("File1Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.FileEntity", "File2Navigation")
                         .WithMany("AsFile2ComparisonResults")
-                        .HasForeignKey("FileName2")
+                        .HasForeignKey("File2Id")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -231,11 +268,19 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
 
             modelBuilder.Entity("KysectAcademyTask.DataAccess.Models.Entities.Submit", b =>
                 {
+                    b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.HomeWork", "HomeWorkNavigation")
+                        .WithMany()
+                        .HasForeignKey("HomeWorkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("KysectAcademyTask.DataAccess.Models.Entities.Student", "StudentNavigation")
                         .WithMany("Submits")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("HomeWorkNavigation");
 
                     b.Navigation("StudentNavigation");
                 });

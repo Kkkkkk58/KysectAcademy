@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KysectAcademyTask.DataAccess.EfStructures.EntityTypeConfigurations;
 
-internal class GroupTypeConfiguration : IEntityTypeConfiguration<Group>
+public class HomeWorkTypeConfiguration: IEntityTypeConfiguration<HomeWork>
 {
-    public void Configure(EntityTypeBuilder<Group> builder)
+    public void Configure(EntityTypeBuilder<HomeWork> builder)
     {
-        builder.HasIndex(g => g.Name)
+        builder.HasIndex(h => h.Name)
             .IsUnique();
     }
 }

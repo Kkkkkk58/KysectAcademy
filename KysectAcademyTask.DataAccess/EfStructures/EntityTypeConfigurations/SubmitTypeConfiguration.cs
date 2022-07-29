@@ -7,14 +7,14 @@ internal class SubmitTypeConfiguration : IEntityTypeConfiguration<Models.Entitie
 {
     public void Configure(EntityTypeBuilder<Models.Entities.Submit> builder)
     {
-        builder.Property(s => s.StudentId).IsRequired();
-        builder.Property(s => s.Homework).IsRequired();
-        builder.Property(s => s.StudentId).IsRequired();
-        
         builder.HasOne(s => s.StudentNavigation)
             .WithMany(s => s.Submits)
-            .HasForeignKey(s => s.StudentId);
+            .HasForeignKey(s => s.StudentId)
+            .IsRequired();
 
-        builder.Navigation(s => s.StudentNavigation).IsRequired();
+        builder.HasOne(s => s.HomeWorkNavigation)
+            .WithMany()
+            .HasForeignKey(s => s.HomeWorkId)
+            .IsRequired();
     }
 }
