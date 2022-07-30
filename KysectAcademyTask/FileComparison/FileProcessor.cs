@@ -65,24 +65,31 @@ internal class FileProcessor
         {
             foreach (string fileName2 in fileNames2)
             {
-                IQueryable<DataAccess.Models.Entities.ComparisonResult> query = _resultRepo.GetQueryWithProps(fileName1, fileName2, metrics.ToString());
-
-                ComparisonResult comparisonResult;
-                if (query.Any())
-                {
-                    DataAccess.Models.Entities.ComparisonResult comparisonResultData = query.First();
-
-                    comparisonResult = new ComparisonResult(comparisonResultData);
-                }
-                else
-                {
-                    comparisonResult = fileComparer.Compare(fileName1, fileName2);
-                }
-
+                ComparisonResult comparisonResult = GetResultIfNotExists(metrics, fileName1, fileName2, fileComparer);
                 comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
         }
 
         return comparisonResultsTable;
+    }
+
+    private ComparisonResult GetResultIfNotExists(ComparisonAlgorithm.Metrics metrics, string fileName1, string fileName2,
+        FileComparer fileComparer)
+    {
+        ComparisonResult comparisonResult;
+        IQueryable<DataAccess.Models.Entities.ComparisonResult> query =
+            _resultRepo.GetQueryWithProps(fileName1, fileName2, metrics.ToString());
+
+        if (query.Any())
+        {
+            DataAccess.Models.Entities.ComparisonResult comparisonResultData = query.Single();
+            comparisonResult = new ComparisonResult(comparisonResultData);
+        }
+        else
+        {
+            comparisonResult = fileComparer.Compare(fileName1, fileName2);
+        }
+
+        return comparisonResult;
     }
 }
