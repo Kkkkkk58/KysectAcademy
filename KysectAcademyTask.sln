@@ -5,6 +5,13 @@ VisualStudioVersion = 17.3.32505.426
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KysectAcademyTask", "KysectAcademyTask\KysectAcademyTask.csproj", "{41C4E666-FF9E-4753-B7EC-4EB800C3B822}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KysectAcademyTask.Tests", "KysectAcademyTask.Tests\KysectAcademyTask.Tests.csproj", "{7847823F-C01A-4D34-8548-08ECA886C915}"
+	ProjectSection(ProjectDependencies) = postProject
+		{41C4E666-FF9E-4753-B7EC-4EB800C3B822} = {41C4E666-FF9E-4753-B7EC-4EB800C3B822}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KysectAcademyTask.DataAccess", "KysectAcademyTask.DataAccess\KysectAcademyTask.DataAccess.csproj", "{E83B5314-801F-4EF9-9E70-531571310536}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +22,14 @@ Global
 		{41C4E666-FF9E-4753-B7EC-4EB800C3B822}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41C4E666-FF9E-4753-B7EC-4EB800C3B822}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41C4E666-FF9E-4753-B7EC-4EB800C3B822}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7847823F-C01A-4D34-8548-08ECA886C915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7847823F-C01A-4D34-8548-08ECA886C915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7847823F-C01A-4D34-8548-08ECA886C915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7847823F-C01A-4D34-8548-08ECA886C915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E83B5314-801F-4EF9-9E70-531571310536}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E83B5314-801F-4EF9-9E70-531571310536}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E83B5314-801F-4EF9-9E70-531571310536}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E83B5314-801F-4EF9-9E70-531571310536}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
