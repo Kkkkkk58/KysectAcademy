@@ -1,4 +1,4 @@
-﻿namespace KysectAcademyTask.Utils.ProgressTracking;
+﻿namespace KysectAcademyTask.Utils.ProgressTracking.ProgressTracker.Base;
 
 internal interface IProgressTracker
 {

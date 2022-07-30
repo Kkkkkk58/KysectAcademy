@@ -1,11 +1,20 @@
-﻿namespace KysectAcademyTask.Utils.ProgressTracking;
+﻿using KysectAcademyTask.Utils.ProgressTracking.ProgressBar.Base;
 
-internal class ConsoleComparisonProgressBar : IProgressBar
+namespace KysectAcademyTask.Utils.ProgressTracking.ProgressBar.ConsoleProgressBar.Base;
+
+public class ConsoleProgressBar : IProgressBar
 {
+    private readonly string _displayMessage;
+
+    public ConsoleProgressBar(string displayMessage)
+    {
+        _displayMessage = displayMessage;
+    }
+
     public void Update(int workToDo, int workDone, int percentage)
     {
         Console.Clear();
-        Console.Write($"\t\t\t{percentage,3}% done. Compared {workDone} / {workToDo} pairs of submits\n");
+        Console.Write(_displayMessage, percentage, workDone, workToDo);
         Draw(percentage);
     }
 

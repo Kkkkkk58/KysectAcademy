@@ -1,13 +1,15 @@
-﻿namespace KysectAcademyTask.Utils.ProgressTracking;
+﻿using KysectAcademyTask.Utils.ProgressTracking.ProgressBar.Base;
 
-internal class ComparisonProgressTracker : IProgressTracker
+namespace KysectAcademyTask.Utils.ProgressTracking.ProgressTracker.Base;
+
+internal class ProgressTracker : IProgressTracker
 {
     private readonly int _totalWorkUnits;
     public int CompletedWorkUnits { get; private set; }
     public int ProgressInPercents { get => GetPercentage(); }
     private readonly IProgressBar _progressBar;
 
-    public ComparisonProgressTracker(IProgressBar progressBar, int totalWorkUnits, int completedWorkUnits = 0)
+    public ProgressTracker(IProgressBar progressBar, int totalWorkUnits, int completedWorkUnits = 0)
     {
         _progressBar = progressBar;
         _totalWorkUnits = totalWorkUnits;
