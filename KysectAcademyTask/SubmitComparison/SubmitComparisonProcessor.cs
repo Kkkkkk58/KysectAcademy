@@ -15,10 +15,10 @@ internal class SubmitComparisonProcessor
 
     private event Action ProgressBarUpdate;
 
-    public SubmitComparisonProcessor(SubmitGetter submitGetter, SubmitInfoProcessor submitInfoProcessor,
+    public SubmitComparisonProcessor(IReadOnlyList<SubmitInfo> submits, SubmitInfoProcessor submitInfoProcessor,
         SubmitSuitabilityChecker submitSuitabilityChecker, FileProcessor fileProcessor)
     {
-        _submits = submitGetter.GetSubmits();
+        _submits = submits;
         _submitInfoProcessor = submitInfoProcessor;
         _submitSuitabilityChecker = submitSuitabilityChecker;
         _fileProcessor = fileProcessor;
