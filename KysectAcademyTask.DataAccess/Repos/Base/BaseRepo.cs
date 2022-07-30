@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask.DataAccess.Repos.Base;
 
-public class BaseRepo<T>: IRepo<T> where T : BaseEntity, new()
+public class BaseRepo<T> : IRepo<T> where T : BaseEntity, new()
 {
     public FileComparisonDbContext Context { get; }
     public DbSet<T> Table { get; }
@@ -40,6 +40,7 @@ public class BaseRepo<T>: IRepo<T> where T : BaseEntity, new()
         {
             Context.Dispose();
         }
+
         _isDisposed = true;
     }
 

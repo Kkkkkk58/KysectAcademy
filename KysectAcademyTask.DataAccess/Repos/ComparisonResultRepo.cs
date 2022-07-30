@@ -22,8 +22,7 @@ public class ComparisonResultRepo : BaseRepo<ComparisonResult>, IComparisonResul
             .Include(c => c.File1Navigation)
             .Include(c => c.File2Navigation)
             .Where(c => (c.File1Navigation.Path == fileName1 && c.File2Navigation.Path == fileName2
-                            || c.File1Navigation.Path == fileName2 && c.File2Navigation.Path == fileName1)
+                         || c.File1Navigation.Path == fileName2 && c.File2Navigation.Path == fileName1)
                         && c.Metrics == metrics);
     }
-
 }

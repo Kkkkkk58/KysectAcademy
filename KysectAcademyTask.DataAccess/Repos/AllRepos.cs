@@ -11,7 +11,8 @@ public class AllRepos
     public IStudentRepo StudentRepo { get; }
     public ISubmitRepo SubmitRepo { get; }
 
-    public AllRepos(IComparisonResultRepo comparisonResultRepo, IFileEntityRepo fileEntityRepo, IGroupRepo groupRepo, IHomeWorkRepo homeWorkRepo, IStudentRepo studentRepo, ISubmitRepo submitRepo)
+    public AllRepos(IComparisonResultRepo comparisonResultRepo, IFileEntityRepo fileEntityRepo, IGroupRepo groupRepo,
+        IHomeWorkRepo homeWorkRepo, IStudentRepo studentRepo, ISubmitRepo submitRepo)
     {
         ComparisonResultRepo = comparisonResultRepo;
         FileEntityRepo = fileEntityRepo;

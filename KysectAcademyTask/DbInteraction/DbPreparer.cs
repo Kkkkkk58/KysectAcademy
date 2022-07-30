@@ -30,14 +30,13 @@ internal class DbPreparer
         PrepareSubmits(submits);
         PrepareFiles(submits);
     }
-    
+
     private void PrepareSubmits(IReadOnlyCollection<SubmitInfo> submits)
     {
         var submitsToAdd = new List<DataAccess.Models.Entities.Submit>();
 
         foreach (SubmitInfo submit in submits)
         {
-
             PrepareGroup(submit.GroupName);
             PrepareHomeWork(submit.HomeworkName);
             PrepareAuthor(submit.AuthorName, submit.GroupName);
@@ -50,7 +49,7 @@ internal class DbPreparer
     private void PrepareFiles(IReadOnlyCollection<SubmitInfo> submits)
     {
         var filesToAdd = new List<FileEntity>();
-        
+
         foreach (SubmitInfo submit in submits)
         {
             string dirName = _submitInfoProcessor.SubmitInfoToDirectoryPath(submit);
@@ -153,5 +152,4 @@ internal class DbPreparer
             StudentId = studentId
         });
     }
-
 }

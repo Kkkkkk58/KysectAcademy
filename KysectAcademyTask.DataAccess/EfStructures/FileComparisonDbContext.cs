@@ -1,6 +1,5 @@
 ﻿using KysectAcademyTask.DataAccess.EfStructures.EntityTypeConfigurations;
 using KysectAcademyTask.DataAccess.Models.Entities;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask.DataAccess.EfStructures;

@@ -12,6 +12,4 @@ public class ComparisonResult : BaseEntity
 
     public string Metrics { get; set; }
     public double SimilarityRate { get; set; }
-
-   
 }

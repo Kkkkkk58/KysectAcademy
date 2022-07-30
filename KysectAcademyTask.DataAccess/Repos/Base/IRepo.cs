@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.DataAccess.Repos.Base;
 
-public interface IRepo<T>: IDisposable
+public interface IRepo<T> : IDisposable
 {
     int Add(T item, bool persist = true);
     int AddRange(IEnumerable<T> items, bool persist = true);

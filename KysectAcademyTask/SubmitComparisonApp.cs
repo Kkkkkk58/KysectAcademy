@@ -29,7 +29,8 @@ internal class SubmitComparisonApp
         AllRepos allRepos = GetAllRepos(dbContext);
         SubmitInfoProcessor submitInfoProcessor = GetSubmitInfoProcessor(config.SubmitConfig);
         PrepareDatabase(allRepos, submits, submitInfoProcessor);
-        SubmitComparisonProcessor submitComparisonProcessor = GetSubmitComparisonProcessor(config.SubmitConfig, submits, submitInfoProcessor, dbContext);
+        SubmitComparisonProcessor submitComparisonProcessor =
+            GetSubmitComparisonProcessor(config.SubmitConfig, submits, submitInfoProcessor, dbContext);
         submitComparisonProcessor.SetProgressBar(new ConsoleComparisonProgressBar());
         ComparisonResultsTable results = submitComparisonProcessor.GetComparisonResults();
         UpdateDatabase(allRepos.ComparisonResultRepo, allRepos.FileEntityRepo, results);
@@ -65,13 +66,16 @@ internal class SubmitComparisonApp
         return new FileComparisonDbContext(optionsBuilder.Options);
     }
 
-    private void PrepareDatabase(AllRepos repos, IReadOnlyList<SubmitInfo> submits, SubmitInfoProcessor submitInfoProcessor)
+    private void PrepareDatabase(AllRepos repos, IReadOnlyList<SubmitInfo> submits,
+        SubmitInfoProcessor submitInfoProcessor)
     {
         Console.WriteLine(DbPreparingMessage);
-        new DbPreparer(repos.GroupRepo, repos.FileEntityRepo, repos.HomeWorkRepo, repos.StudentRepo, repos.SubmitRepo, submitInfoProcessor).Prepare(submits);
+        new DbPreparer(repos.GroupRepo, repos.FileEntityRepo, repos.HomeWorkRepo, repos.StudentRepo, repos.SubmitRepo,
+            submitInfoProcessor).Prepare(submits);
     }
 
-    private SubmitComparisonProcessor GetSubmitComparisonProcessor(SubmitConfig config, IReadOnlyList<SubmitInfo> submits, SubmitInfoProcessor submitInfoProcessor, FileComparisonDbContext context)
+    private SubmitComparisonProcessor GetSubmitComparisonProcessor(SubmitConfig config,
+        IReadOnlyList<SubmitInfo> submits, SubmitInfoProcessor submitInfoProcessor, FileComparisonDbContext context)
     {
         var submitSuitabilityChecker = new SubmitSuitabilityChecker(config.Filters);
         IComparisonResultRepo resultRepo = new ComparisonResultRepo(context);
@@ -90,7 +94,8 @@ internal class SubmitComparisonApp
         return new FileProcessor(fileRequirements, directoryRequirements, metrics, resultRepo);
     }
 
-    private void UpdateDatabase(IComparisonResultRepo resultRepo, IFileEntityRepo fileRepo, ComparisonResultsTable results)
+    private void UpdateDatabase(IComparisonResultRepo resultRepo, IFileEntityRepo fileRepo,
+        ComparisonResultsTable results)
     {
         Console.WriteLine(DbUpdatingMessage);
         new DbResultsUpdater(resultRepo, fileRepo).SaveNew(results);

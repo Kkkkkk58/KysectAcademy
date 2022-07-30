@@ -13,7 +13,8 @@ internal class FileProcessor
     private readonly IComparisonResultRepo _resultRepo;
 
     public FileProcessor(FileRequirements? fileRequirements,
-        DirectoryRequirements? directoryRequirements, IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics, IComparisonResultRepo resultRepo)
+        DirectoryRequirements? directoryRequirements, IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics,
+        IComparisonResultRepo resultRepo)
     {
         _fileRequirements = fileRequirements;
         _directoryRequirements = directoryRequirements;
@@ -73,8 +74,8 @@ internal class FileProcessor
         return comparisonResultsTable;
     }
 
-    private ComparisonResult GetResultIfNotExists(ComparisonAlgorithm.Metrics metrics, string fileName1, string fileName2,
-        FileComparer fileComparer)
+    private ComparisonResult GetResultIfNotExists(ComparisonAlgorithm.Metrics metrics, string fileName1,
+        string fileName2, FileComparer fileComparer)
     {
         ComparisonResult comparisonResult;
         IQueryable<DataAccess.Models.Entities.ComparisonResult> query =

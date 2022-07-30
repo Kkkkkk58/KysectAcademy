@@ -3,7 +3,7 @@
 internal readonly struct SubmitInfoRequirements : IRequirements<SubmitInfo>
 {
     public GroupFilter GroupFilter { get; init; }
-    public AuthorFilter AuthorFilter { get; init;  }
+    public AuthorFilter AuthorFilter { get; init; }
     public HomeworkFilter HomeworkFilter { get; init; }
     public SubmitDateFilter SubmitDateFilter { get; init; }
 

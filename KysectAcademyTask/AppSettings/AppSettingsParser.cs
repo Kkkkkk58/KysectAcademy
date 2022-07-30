@@ -153,7 +153,7 @@ internal class AppSettingsParser
             IConfigurationSection section =
                 _configRoot.GetSection(nameof(DbConfig));
             DbConfig dbConfig = section.Get<DbConfig?>()
-                                        ?? new DbConfig(null);
+                                ?? new DbConfig(null);
             return dbConfig;
         }
         catch (InvalidOperationException e)

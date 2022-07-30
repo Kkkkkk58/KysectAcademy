@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask.DataAccess.Repos;
 
-public class StudentRepo: BaseRepo<Student>, IStudentRepo
+public class StudentRepo : BaseRepo<Student>, IStudentRepo
 {
     public StudentRepo(FileComparisonDbContext context) : base(context)
     {

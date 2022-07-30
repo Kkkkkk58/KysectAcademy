@@ -7,5 +7,4 @@ public class Program
         var app = new SubmitComparisonApp();
         app.Run();
     }
-    
 }

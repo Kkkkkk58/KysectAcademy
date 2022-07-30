@@ -3,7 +3,8 @@ using KysectAcademyTask.DataAccess.Repos.Base;
 
 namespace KysectAcademyTask.DataAccess.Repos.Interfaces;
 
-public interface ISubmitRepo: IRepo<Submit>
+public interface ISubmitRepo : IRepo<Submit>
 {
-    public IQueryable<Submit> GetQueryWithProps(string authorFullName, string groupName, string homeWorkName, DateTime? submitDate);
+    public IQueryable<Submit> GetQueryWithProps(string authorFullName, string groupName, string homeWorkName,
+        DateTime? submitDate);
 }
