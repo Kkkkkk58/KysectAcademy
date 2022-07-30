@@ -20,8 +20,8 @@ internal readonly struct ComparisonResult
 
     public ComparisonResult(DataAccess.Models.Entities.ComparisonResult dataAccessModel)
     {
-        FileName1 = dataAccessModel.FileName1;
-        FileName2 = dataAccessModel.FileName2;
+        FileName1 = dataAccessModel.File1Navigation.Path;
+        FileName2 = dataAccessModel.File2Navigation.Path;
         Metrics = Enum.Parse<ComparisonAlgorithm.Metrics>(dataAccessModel.Metrics);
         SimilarityRate = dataAccessModel.SimilarityRate;
     }
@@ -29,16 +29,5 @@ internal readonly struct ComparisonResult
     public override string ToString()
     {
         return $"|{FileName1}\n|{FileName2}\n|{{using {Metrics} metrics}}\n=> {SimilarityRate:0.##}";
-    }
-
-    public DataAccess.Models.Entities.ComparisonResult ToDataAccessModel()
-    {
-        return new DataAccess.Models.Entities.ComparisonResult
-        {
-            FileName1 = FileName1,
-            FileName2 = FileName2,
-            Metrics = Metrics.ToString(),
-            SimilarityRate = SimilarityRate
-        };
     }
 }

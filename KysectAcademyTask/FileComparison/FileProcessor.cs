@@ -1,6 +1,4 @@
-﻿using KysectAcademyTask.DataAccess.EfStructures;
-using KysectAcademyTask.DataAccess.Models.Entities;
-using KysectAcademyTask.DataAccess.Repos.Interfaces;
+﻿using KysectAcademyTask.DataAccess.Repos.Interfaces;
 using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.Utils;
@@ -13,16 +11,14 @@ internal class FileProcessor
     private readonly DirectoryRequirements? _directoryRequirements;
     private readonly IReadOnlyCollection<ComparisonAlgorithm.Metrics> _metrics;
     private readonly IComparisonResultRepo _resultRepo;
-    private readonly FileComparisonDbContext _context;
 
     public FileProcessor(FileRequirements? fileRequirements,
-        DirectoryRequirements? directoryRequirements, IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics, IComparisonResultRepo resultRepo, FileComparisonDbContext context)
+        DirectoryRequirements? directoryRequirements, IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics, IComparisonResultRepo resultRepo)
     {
         _fileRequirements = fileRequirements;
         _directoryRequirements = directoryRequirements;
         _metrics = metrics;
         _resultRepo = resultRepo;
-        _context = context;
     }
 
     public ComparisonResultsTable CompareDirectories(string directory1, string directory2)
@@ -31,10 +27,6 @@ internal class FileProcessor
         string[] fileNames1 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory1);
         string[] fileNames2 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory2);
 
-        List<FileEntity> fileNamesToAdd = new();
-        fileNamesToAdd.AddRange(fileNames1.Where(s => !_context.Files.Any(f => f.Path == s)).Select(f => new FileEntity{ Path = f}));
-        fileNamesToAdd.AddRange(fileNames2.Where(s => !_context.Files.Any(f => f.Path == s)).Select(f => new FileEntity { Path = f }));
-        _context.Files.AddRange(fileNamesToAdd);
 
         FileLoader loader = GetCombinedLoader(fileNames1, fileNames2);
 
@@ -67,15 +59,13 @@ internal class FileProcessor
         ComparisonAlgorithm.Metrics metrics)
     {
         ComparisonResultsTable comparisonResultsTable = new();
-
         FileComparer fileComparer = new(loader, metrics);
 
-        List<DataAccess.Models.Entities.ComparisonResult> notStoredResults = new();
         foreach (string fileName1 in fileNames1)
         {
             foreach (string fileName2 in fileNames2)
             {
-                IQueryable<DataAccess.Models.Entities.ComparisonResult> query = _resultRepo.GetResultOfFilesWithMetricsQuery(fileName1, fileName2, metrics.ToString());
+                IQueryable<DataAccess.Models.Entities.ComparisonResult> query = _resultRepo.GetQueryWithProps(fileName1, fileName2, metrics.ToString());
 
                 ComparisonResult comparisonResult;
                 if (query.Any())
@@ -87,14 +77,12 @@ internal class FileProcessor
                 else
                 {
                     comparisonResult = fileComparer.Compare(fileName1, fileName2);
-                    notStoredResults.Add(comparisonResult.ToDataAccessModel());
                 }
 
                 comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
         }
 
-        _resultRepo.AddRange(notStoredResults);
         return comparisonResultsTable;
     }
 }
