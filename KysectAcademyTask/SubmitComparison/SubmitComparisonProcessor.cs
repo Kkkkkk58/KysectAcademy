@@ -1,6 +1,7 @@
 ﻿using KysectAcademyTask.FileComparison;
 using KysectAcademyTask.Submit;
-using KysectAcademyTask.Utils.ProgressTracking;
+using KysectAcademyTask.Utils.ProgressTracking.ProgressBar.Base;
+using KysectAcademyTask.Utils.ProgressTracking.ProgressTracker;
 
 namespace KysectAcademyTask.SubmitComparison;
 
