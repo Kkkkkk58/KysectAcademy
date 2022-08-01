@@ -9,9 +9,9 @@ public readonly struct DirectoryRequirements : IRequirements<string>
         DirectoryFilter = directoryFilter;
     }
 
-    public bool AreSatisfiedBy(string path)
+    public bool AreSatisfiedBy(string item)
     {
-        return IsFilterNullOrSatisfiedBy(DirectoryFilter, path);
+        return IsFilterNullOrSatisfiedBy(DirectoryFilter, item);
     }
 
     private bool IsFilterNullOrSatisfiedBy<T>(Filter<T> filter, T value)

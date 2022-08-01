@@ -11,9 +11,9 @@ public class DirectoryFilter : Filter<string>
 
     public DirectoryFilter() : base() { }
 
-    public override bool IsSatisfiedBy(string path)
+    public override bool IsSatisfiedBy(string value)
     {
-        IReadOnlyList<string> splitPath = new DirectoryPathSplitter(path).SplitDirectories;
+        IReadOnlyList<string> splitPath = new DirectoryPathSplitter(value).SplitDirectories;
         return (WhiteList.Count == 0 || splitPath.Any(x => WhiteList.Contains(x)))
                && !splitPath.Any(x => BlackList.Contains(x));
     }

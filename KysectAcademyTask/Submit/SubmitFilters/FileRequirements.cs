@@ -11,10 +11,10 @@ public readonly struct FileRequirements : IRequirements<string>
         FileExtensionFilter = fileExtensionFilter;
     }
 
-    public bool AreSatisfiedBy(string path)
+    public bool AreSatisfiedBy(string item)
     {
-        return IsFilterNullOrSatisfiedBy(FileNameFilter, path)
-               && IsFilterNullOrSatisfiedBy(FileExtensionFilter, path);
+        return IsFilterNullOrSatisfiedBy(FileNameFilter, item)
+               && IsFilterNullOrSatisfiedBy(FileExtensionFilter, item);
     }
 
     private bool IsFilterNullOrSatisfiedBy<T>(Filter<T> filter, T value)
