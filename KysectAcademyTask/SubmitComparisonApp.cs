@@ -18,18 +18,23 @@ namespace KysectAcademyTask;
 
 public class SubmitComparisonApp
 {
+    private readonly AppSettingsConfig _config;
     private const string DbPreparingMessage = "\t\t\tPreparing database...";
     private const string DbUpdatingMessage = "\n\n\t\t\tSaving new results to database...";
+
+    public SubmitComparisonApp(AppSettingsConfig config)
+    {
+        _config = config;
+    }
 
     public void Run()
     {
         try
         {
-            AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
-            IReadOnlyList<SubmitInfo> submits = new SubmitGetter(config.SubmitConfig).GetSubmits();
-            FileComparisonDbContext dbContext = GetDbContext(config.DbConfig);
+            IReadOnlyList<SubmitInfo> submits = new SubmitGetter(_config.SubmitConfig).GetSubmits();
+            FileComparisonDbContext dbContext = GetDbContext(_config.DbConfig);
             AllRepos allRepos = GetAllRepos(dbContext);
-            SubmitInfoProcessor submitInfoProcessor = GetSubmitInfoProcessor(config.SubmitConfig);
+            SubmitInfoProcessor submitInfoProcessor = GetSubmitInfoProcessor(_config.SubmitConfig);
 
             if (dbContext is not null)
             {
@@ -37,10 +42,10 @@ public class SubmitComparisonApp
             }
 
             SubmitComparisonProcessor submitComparisonProcessor =
-                GetSubmitComparisonProcessor(config.SubmitConfig, submits, submitInfoProcessor, dbContext);
+                GetSubmitComparisonProcessor(_config.SubmitConfig, submits, submitInfoProcessor, dbContext);
             submitComparisonProcessor.SetProgressBar(new ConsoleComparisonProgressBar());
             ComparisonResultsTable results = submitComparisonProcessor.GetComparisonResults();
-            IReporter reporter = new ReporterFactory().GetReporter(config.ReportConfig);
+            IReporter reporter = new ReporterFactory().GetReporter(_config.ReportConfig);
             reporter.MakeReport(results);
 
             if (dbContext is not null)

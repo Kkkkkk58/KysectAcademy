@@ -1,10 +1,13 @@
-﻿namespace KysectAcademyTask;
+﻿using KysectAcademyTask.AppSettings;
+
+namespace KysectAcademyTask;
 
 public class Program
 {
     public static void Main()
     {
-        var app = new SubmitComparisonApp();
+        AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
+        var app = new SubmitComparisonApp(config);
         app.Run();
     }
 }
