@@ -20,6 +20,7 @@ public class BaseTests
     {
         return Path.Combine(rootPath, "result.json");
     }
+
     protected void RunApplication(AppSettingsConfig config)
     {
         var app = new SubmitComparisonApp(config);

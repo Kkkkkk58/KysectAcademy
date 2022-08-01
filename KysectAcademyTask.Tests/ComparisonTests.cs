@@ -11,7 +11,6 @@ using Xunit;
 
 namespace KysectAcademyTask.Tests;
 
-
 public class ComparisonTests : BaseTests
 {
     [Fact]
@@ -26,7 +25,6 @@ public class ComparisonTests : BaseTests
 
         double result = GetResultFromJsonFile(resultPath);
         Assert.Equal(1, result);
-
     }
 
     [Fact]
@@ -56,7 +54,7 @@ public class ComparisonTests : BaseTests
         double result = GetResultFromJsonFile(resultPath);
         Assert.True(result is > 0 and < 1);
     }
-    
+
     private AppSettingsConfig GetConfig(string resultPath, string rootPath)
     {
         return new AppSettingsConfig
