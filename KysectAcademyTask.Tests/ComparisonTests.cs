@@ -5,20 +5,15 @@ using KysectAcademyTask.DbInteraction.Configuration;
 using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.SubmitComparison;
+using KysectAcademyTask.Tests.Base;
 using KysectAcademyTask.Utils.ProgressTracking.ProgressBar;
 using Xunit;
 
 namespace KysectAcademyTask.Tests;
 
 
-public class ComparisonTests
+public class ComparisonTests : BaseTests
 {
-    private static readonly IReadOnlyList<ComparisonAlgorithm.Metrics> DefaultMetrics =
-        new List<ComparisonAlgorithm.Metrics> { ComparisonAlgorithm.Metrics.Jaccard };
-
-    private const string DefaultDateTimeFormat = "yyyyMMddHHmmss";
-    private const int DefaultDirDepth = 5;
-
     [Fact]
     public void FileComparison_SimilarFiles_SimilarityRateIsOne()
     {
