@@ -56,17 +56,7 @@ public class ComparisonTests : BaseTests
         double result = GetResultFromJsonFile(resultPath);
         Assert.True(result is > 0 and < 1);
     }
-
-    private string GetRootPath(string relativeRootPath)
-    {
-        return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeRootPath);
-    }
-
-    private string GetResultPath(string rootPath)
-    {
-        return Path.Combine(rootPath, "result.json");
-    }
-
+    
     private AppSettingsConfig GetConfig(string resultPath, string rootPath)
     {
         return new AppSettingsConfig
@@ -76,12 +66,6 @@ public class ComparisonTests : BaseTests
             SubmitConfig = new SubmitConfig(rootPath, null, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
             ProgressBarConfig = new ProgressBarConfig(false)
         };
-    }
-
-    private void RunApplication(AppSettingsConfig config)
-    {
-        var app = new SubmitComparisonApp(config);
-        app.Run();
     }
 
     private double GetResultFromJsonFile(string path)
