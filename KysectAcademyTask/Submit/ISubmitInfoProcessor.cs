@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Submit;
 
-internal interface ISubmitInfoProcessor
+public interface ISubmitInfoProcessor
 {
     public SubmitInfo GetSubmitInfo(string submitPath);
 

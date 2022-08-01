@@ -7,7 +7,7 @@ using KysectAcademyTask.Utils;
 
 namespace KysectAcademyTask.Report.Reporters;
 
-internal class JsonReporter : IReporter
+public class JsonReporter : IReporter
 {
     private readonly string _fileName;
 

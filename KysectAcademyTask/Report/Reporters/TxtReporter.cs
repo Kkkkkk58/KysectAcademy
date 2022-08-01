@@ -3,7 +3,7 @@ using KysectAcademyTask.Utils;
 
 namespace KysectAcademyTask.Report.Reporters;
 
-internal class TxtReporter : IReporter
+public class TxtReporter : IReporter
 {
     private readonly string _fileName;
 

@@ -4,7 +4,7 @@ using KysectAcademyTask.SubmitComparison;
 
 namespace KysectAcademyTask.AppSettings;
 
-internal struct AppSettingsConfig
+public struct AppSettingsConfig
 {
     public SubmitConfig SubmitConfig { get; init; }
     public ReportConfig ReportConfig { get; init; }

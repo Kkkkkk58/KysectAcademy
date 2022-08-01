@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Report.Reporters;
 
-internal class ReporterFactory
+public class ReporterFactory
 {
     public IReporter GetReporter(ReportConfig config)
     {

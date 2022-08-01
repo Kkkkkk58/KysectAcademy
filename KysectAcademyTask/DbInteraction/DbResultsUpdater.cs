@@ -3,7 +3,7 @@ using KysectAcademyTask.FileComparison;
 
 namespace KysectAcademyTask.DbInteraction;
 
-internal class DbResultsUpdater
+public class DbResultsUpdater
 {
     private readonly IComparisonResultRepo _resultRepo;
     private readonly IFileEntityRepo _fileRepo;

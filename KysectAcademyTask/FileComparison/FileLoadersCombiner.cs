@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.FileComparison;
 
-internal class FileLoadersCombiner
+public class FileLoadersCombiner
 {
     public FileLoader Combine(params FileLoader[] loaders)
     {

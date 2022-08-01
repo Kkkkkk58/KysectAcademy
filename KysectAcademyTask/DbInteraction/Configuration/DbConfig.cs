@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.DbInteraction.Configuration;
 
-internal struct DbConfig
+public struct DbConfig
 {
     public IReadOnlyDictionary<string, string> ConnectionStrings { get; init; }
 

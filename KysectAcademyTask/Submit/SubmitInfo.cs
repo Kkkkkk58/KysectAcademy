@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Submit;
 
-internal readonly struct SubmitInfo
+public readonly struct SubmitInfo
 {
     public string GroupName { get; }
     public string AuthorName { get; }

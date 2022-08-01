@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask;
 
-internal class SubmitComparisonApp
+public class SubmitComparisonApp
 {
     private const string DbPreparingMessage = "\t\t\tPreparing database...";
     private const string DbUpdatingMessage = "\n\n\t\t\tSaving new results to database...";

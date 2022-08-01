@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.FileComparison;
 
-internal class ComparisonResultsTable : IReadOnlyCollection<ComparisonResult>
+public class ComparisonResultsTable : IReadOnlyCollection<ComparisonResult>
 {
     private readonly List<ComparisonResult> _comparisonResults;
     public int Count => _comparisonResults.Count;

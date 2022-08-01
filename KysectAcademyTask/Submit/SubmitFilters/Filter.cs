@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Submit.SubmitFilters;
 
-internal class Filter<T>
+public class Filter<T>
 {
     public IReadOnlyList<T> WhiteList { get; init; }
 

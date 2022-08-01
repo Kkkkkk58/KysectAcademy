@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.Report.Reporters;
 
-internal interface IReporter
+public interface IReporter
 {
     public void MakeReport(ComparisonResultsTable results);
 }

@@ -3,7 +3,7 @@ using KysectAcademyTask.Utils;
 
 namespace KysectAcademyTask.Submit;
 
-internal class SubmitInfoProcessor : ISubmitInfoProcessor
+public class SubmitInfoProcessor : ISubmitInfoProcessor
 {
     private readonly string _rootPath;
     private readonly string _dateTimeFormat;

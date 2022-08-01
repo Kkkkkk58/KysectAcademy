@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Utils;
 
-internal class ExtensionApplier
+public class ExtensionApplier
 {
     public string GetFileNameWithDesiredExtension(string fileName, string extensionWithDot)
     {

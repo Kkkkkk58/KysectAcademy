@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.Report.Reporters;
 
-internal class ConsoleReporter : IReporter
+public class ConsoleReporter : IReporter
 {
     public void MakeReport(ComparisonResultsTable results)
     {

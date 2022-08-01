@@ -5,7 +5,7 @@ using KysectAcademyTask.Utils.ProgressTracking.ProgressTracker;
 
 namespace KysectAcademyTask.SubmitComparison;
 
-internal class SubmitComparisonProcessor
+public class SubmitComparisonProcessor
 {
     private readonly IReadOnlyList<SubmitInfo> _submits;
     private readonly SubmitInfoProcessor _submitInfoProcessor;

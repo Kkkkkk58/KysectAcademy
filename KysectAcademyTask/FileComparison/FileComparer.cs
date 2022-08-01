@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.FileComparison;
 
-internal class FileComparer
+public class FileComparer
 {
     private readonly FileLoader _fileLoader;
     private readonly ComparisonAlgorithm.Metrics _metrics;

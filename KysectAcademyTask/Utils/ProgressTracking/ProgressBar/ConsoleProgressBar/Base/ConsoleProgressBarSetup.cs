@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Utils.ProgressTracking.ProgressBar.ConsoleProgressBar.Base;
 
-internal readonly struct ConsoleProgressBarSetup
+public readonly struct ConsoleProgressBarSetup
 {
     public char LeftBorderSymbol { get; }
     public char RightBorderSymbol { get; }

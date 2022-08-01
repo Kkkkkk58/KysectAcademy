@@ -5,7 +5,7 @@ using KysectAcademyTask.Submit;
 
 namespace KysectAcademyTask.DbInteraction;
 
-internal class DbPreparer
+public class DbPreparer
 {
     private readonly IGroupRepo _groupRepo;
     private readonly IFileEntityRepo _fileRepo;

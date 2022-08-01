@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace KysectAcademyTask.AppSettings;
 
-internal class AppSettingsParser
+public class AppSettingsParser
 {
     private static AppSettingsParser _instance;
     private static readonly object Lock = new();

@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 
-internal class CosineAlgorithm : IComparisonAlgorithmImpl
+public class CosineAlgorithm : IComparisonAlgorithmImpl
 {
     public double GetSimilarityRate(string fileContent1, string fileContent2)
     {

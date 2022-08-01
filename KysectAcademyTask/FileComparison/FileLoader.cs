@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.FileComparison;
 
-internal class FileLoader
+public class FileLoader
 {
     public IReadOnlyDictionary<string, string> Files
     {

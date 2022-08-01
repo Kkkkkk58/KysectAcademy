@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Submit.SubmitFilters;
 
-internal readonly struct FileRequirements : IRequirements<string>
+public readonly struct FileRequirements : IRequirements<string>
 {
     public FileNameFilter FileNameFilter { get; init; }
     public FileExtensionFilter FileExtensionFilter { get; init; }

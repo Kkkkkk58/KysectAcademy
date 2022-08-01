@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.Submit;
 
-internal class SubmitSuitabilityChecker
+public class SubmitSuitabilityChecker
 {
     private readonly Filters? _filters;
 

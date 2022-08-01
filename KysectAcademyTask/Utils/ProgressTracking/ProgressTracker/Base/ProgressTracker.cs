@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.Utils.ProgressTracking.ProgressTracker.Base;
 
-internal class ProgressTracker : IProgressTracker
+public class ProgressTracker : IProgressTracker
 {
     private readonly int _totalWorkUnits;
     public int CompletedWorkUnits { get; private set; }

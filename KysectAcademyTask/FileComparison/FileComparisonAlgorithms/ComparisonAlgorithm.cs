@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 
-internal class ComparisonAlgorithm
+public class ComparisonAlgorithm
 {
     public enum Metrics
     {

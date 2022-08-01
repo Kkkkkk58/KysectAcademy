@@ -5,7 +5,7 @@ using KysectAcademyTask.Utils;
 
 namespace KysectAcademyTask.FileComparison;
 
-internal class FileProcessor
+public class FileProcessor
 {
     private readonly FileRequirements? _fileRequirements;
     private readonly DirectoryRequirements? _directoryRequirements;
