@@ -19,7 +19,7 @@ public class SubmitRepo : BaseRepo<Submit>, ISubmitRepo
     public IQueryable<Submit> GetQueryWithProps(string authorFullName, string groupName, string homeWorkName,
         DateTime? submitDate)
     {
-        return Table
+        return Table?
             .Where(s => s.StudentNavigation.PersonalInformation.FullName == authorFullName
                         && s.StudentNavigation.GroupNavigation.Name == groupName
                         && s.HomeWorkNavigation.Name == homeWorkName

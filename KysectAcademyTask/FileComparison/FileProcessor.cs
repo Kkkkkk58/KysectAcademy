@@ -79,9 +79,9 @@ internal class FileProcessor
     {
         ComparisonResult comparisonResult;
         IQueryable<DataAccess.Models.Entities.ComparisonResult> query =
-            _resultRepo.GetQueryWithProps(fileName1, fileName2, metrics.ToString());
+            _resultRepo?.GetQueryWithProps(fileName1, fileName2, metrics.ToString());
 
-        if (query.Any())
+        if (query is not null && query.Any())
         {
             DataAccess.Models.Entities.ComparisonResult comparisonResultData = query.Single();
             comparisonResult = new ComparisonResult(comparisonResultData);

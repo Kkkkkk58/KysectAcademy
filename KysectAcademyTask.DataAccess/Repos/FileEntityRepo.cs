@@ -18,7 +18,7 @@ public class FileEntityRepo : BaseRepo<FileEntity>, IFileEntityRepo
 
     public IQueryable<FileEntity> GetQueryWithProps(string path)
     {
-        return Table
+        return Table?
             .Where(f => f.Path == path);
     }
 }

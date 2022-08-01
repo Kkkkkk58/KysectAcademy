@@ -23,19 +23,35 @@ internal class SubmitComparisonApp
 
     public void Run()
     {
-        AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
-        IReadOnlyList<SubmitInfo> submits = new SubmitGetter(config.SubmitConfig).GetSubmits();
-        FileComparisonDbContext dbContext = GetDbContext(config.DbConfig);
-        AllRepos allRepos = GetAllRepos(dbContext);
-        SubmitInfoProcessor submitInfoProcessor = GetSubmitInfoProcessor(config.SubmitConfig);
-        PrepareDatabase(allRepos, submits, submitInfoProcessor);
-        SubmitComparisonProcessor submitComparisonProcessor =
-            GetSubmitComparisonProcessor(config.SubmitConfig, submits, submitInfoProcessor, dbContext);
-        submitComparisonProcessor.SetProgressBar(new ConsoleComparisonProgressBar());
-        ComparisonResultsTable results = submitComparisonProcessor.GetComparisonResults();
-        UpdateDatabase(allRepos.ComparisonResultRepo, allRepos.FileEntityRepo, results);
-        IReporter reporter = new ReporterFactory().GetReporter(config.ReportConfig);
-        reporter.MakeReport(results);
+        try
+        {
+            AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
+            IReadOnlyList<SubmitInfo> submits = new SubmitGetter(config.SubmitConfig).GetSubmits();
+            FileComparisonDbContext dbContext = GetDbContext(config.DbConfig);
+            AllRepos allRepos = GetAllRepos(dbContext);
+            SubmitInfoProcessor submitInfoProcessor = GetSubmitInfoProcessor(config.SubmitConfig);
+
+            if (dbContext is not null)
+            {
+                PrepareDatabase(allRepos, submits, submitInfoProcessor);
+            }
+
+            SubmitComparisonProcessor submitComparisonProcessor =
+                GetSubmitComparisonProcessor(config.SubmitConfig, submits, submitInfoProcessor, dbContext);
+            submitComparisonProcessor.SetProgressBar(new ConsoleComparisonProgressBar());
+            ComparisonResultsTable results = submitComparisonProcessor.GetComparisonResults();
+            IReporter reporter = new ReporterFactory().GetReporter(config.ReportConfig);
+            reporter.MakeReport(results);
+
+            if (dbContext is not null)
+            {
+                UpdateDatabase(allRepos.ComparisonResultRepo, allRepos.FileEntityRepo, results);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new ApplicationException($"An error occurred during the app run: {e.Message}", e);
+        }
     }
 
     private AllRepos GetAllRepos(FileComparisonDbContext dbContext)
@@ -57,8 +73,13 @@ internal class SubmitComparisonApp
 
     private FileComparisonDbContext GetDbContext(DbConfig dbConfig)
     {
+        string connectionString = dbConfig.ConnectionStrings?["SubmitComparison"];
+        if (connectionString is null or "")
+        {
+            return null;
+        }
+
         var optionsBuilder = new DbContextOptionsBuilder<FileComparisonDbContext>();
-        string connectionString = dbConfig.ConnectionStrings["SubmitComparison"];
         optionsBuilder
             .UseSqlServer(connectionString, options => options.EnableRetryOnFailure())
             .EnableSensitiveDataLogging();

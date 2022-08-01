@@ -14,7 +14,7 @@ public class BaseRepo<T> : IRepo<T> where T : BaseEntity, new()
     protected BaseRepo(FileComparisonDbContext context)
     {
         Context = context;
-        Table = Context.Set<T>();
+        Table = Context?.Set<T>();
         _disposeContext = false;
         _isDisposed = false;
     }
