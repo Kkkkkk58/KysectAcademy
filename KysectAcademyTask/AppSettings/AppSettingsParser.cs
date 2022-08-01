@@ -3,6 +3,7 @@ using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.SubmitComparison;
+using KysectAcademyTask.Utils.ProgressTracking.ProgressBar;
 using Microsoft.Extensions.Configuration;
 
 namespace KysectAcademyTask.AppSettings;
@@ -52,7 +53,8 @@ public class AppSettingsParser
         SubmitConfig submitConfig = new(inputDirectory, filters, metrics, submitTimeFormat, submitDirDepth);
         ReportConfig reportConfig = GetReportConfig();
         DbConfig dbConfig = GetDbConfig();
-        return new AppSettingsConfig(submitConfig, reportConfig, dbConfig);
+        ProgressBarConfig progressBarConfig = GetProgressBarConfig();
+        return new AppSettingsConfig(submitConfig, reportConfig, dbConfig, progressBarConfig);
     }
 
     private string GetInputDirectory()
@@ -161,4 +163,21 @@ public class AppSettingsParser
             throw new ArgumentException($"Invalid DbConfig argument: {e.Message}", e);
         }
     }
+
+    private ProgressBarConfig GetProgressBarConfig()
+    {
+        try
+        {
+            IConfigurationSection section =
+                _configRoot.GetSection(nameof(ProgressBarConfig));
+            ProgressBarConfig progressBarConfig = section.Get<ProgressBarConfig?>()
+                                ?? new ProgressBarConfig(true);
+            return progressBarConfig;
+        }
+        catch (InvalidOperationException e)
+        {
+            throw new ArgumentException($"Invalid ProgressBarConfig argument: {e.Message}", e);
+        }
+    }
+
 }

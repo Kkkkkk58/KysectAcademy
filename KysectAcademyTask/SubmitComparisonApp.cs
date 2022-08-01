@@ -10,6 +10,7 @@ using KysectAcademyTask.Report.Reporters;
 using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.Submit;
 using KysectAcademyTask.SubmitComparison;
+using KysectAcademyTask.Utils.ProgressTracking.ProgressBar;
 using KysectAcademyTask.Utils.ProgressTracking.ProgressBar.ConsoleProgressBar;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,7 +44,7 @@ public class SubmitComparisonApp
 
             SubmitComparisonProcessor submitComparisonProcessor =
                 GetSubmitComparisonProcessor(_config.SubmitConfig, submits, submitInfoProcessor, dbContext);
-            submitComparisonProcessor.SetProgressBar(new ConsoleComparisonProgressBar());
+            SetProgressBar(submitComparisonProcessor, _config.ProgressBarConfig);
             ComparisonResultsTable results = submitComparisonProcessor.GetComparisonResults();
             IReporter reporter = new ReporterFactory().GetReporter(_config.ReportConfig);
             reporter.MakeReport(results);
@@ -58,6 +59,7 @@ public class SubmitComparisonApp
             throw new ApplicationException($"An error occurred during the app run: {e.Message}", e);
         }
     }
+
 
     private AllRepos GetAllRepos(FileComparisonDbContext dbContext)
     {
@@ -125,5 +127,13 @@ public class SubmitComparisonApp
     {
         Console.WriteLine(DbUpdatingMessage);
         new DbResultsUpdater(resultRepo, fileRepo).SaveNew(results);
+    }
+
+    private void SetProgressBar(SubmitComparisonProcessor submitComparisonProcessor, ProgressBarConfig config)
+    {
+        if (config.IsEnabled)
+        {
+            submitComparisonProcessor.SetProgressBar(new ConsoleComparisonProgressBar());
+        }
     }
 }
