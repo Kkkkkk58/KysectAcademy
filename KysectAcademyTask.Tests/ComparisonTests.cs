@@ -2,10 +2,10 @@
 using System.Text.Json.Serialization;
 using KysectAcademyTask.AppSettings;
 using KysectAcademyTask.DbInteraction.Configuration;
-using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.SubmitComparison;
 using KysectAcademyTask.Tests.Base;
+using KysectAcademyTask.Tests.TestModels;
 using KysectAcademyTask.Utils.ProgressTracking.ProgressBar;
 using Xunit;
 
@@ -81,13 +81,5 @@ public class ComparisonTests : BaseTests
         return results!
             .Single()
             .SimilarityRate;
-    }
-
-    private struct Result
-    {
-        public string FileName1 { get; set; }
-        public string FileName2 { get; set; }
-        public ComparisonAlgorithm.Metrics Metrics { get; set; }
-        public double SimilarityRate { get; set; }
     }
 }
