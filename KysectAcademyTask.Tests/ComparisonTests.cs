@@ -17,7 +17,7 @@ public class ComparisonTests : BaseTests
     public void FileComparison_SimilarFiles_SimilarityRateIsOne()
     {
         string rootPath = GetRootPath(@"FilesForTests\ComparisonTests\SimilarFiles");
-        string resultPath = GetResultPath(rootPath);
+        string resultPath = GetResultPath(rootPath, ReportType.Json);
 
         AppSettingsConfig config = GetConfig(resultPath, rootPath);
 
@@ -31,7 +31,7 @@ public class ComparisonTests : BaseTests
     public void FileComparison_TotallyDifferentFiles_SimilarityRateIsZero()
     {
         string rootPath = GetRootPath(@"FilesForTests\ComparisonTests\DifferentFiles");
-        string resultPath = GetResultPath(rootPath);
+        string resultPath = GetResultPath(rootPath, ReportType.Json);
 
         AppSettingsConfig config = GetConfig(resultPath, rootPath);
 
@@ -45,7 +45,7 @@ public class ComparisonTests : BaseTests
     public void FileComparison_FilesHaveSomeSimilarities_SimilarityRateIsBetweenZeroAndOne()
     {
         string rootPath = GetRootPath(@"FilesForTests\ComparisonTests\FilesWithSomeSimilarities");
-        string resultPath = GetResultPath(rootPath);
+        string resultPath = GetResultPath(rootPath, ReportType.Json);
 
         AppSettingsConfig config = GetConfig(resultPath, rootPath);
 
