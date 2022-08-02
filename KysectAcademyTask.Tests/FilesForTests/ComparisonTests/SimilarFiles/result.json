@@ -1,0 +1,8 @@
+[
+  {
+    "FileName1": "E:\\Dev\\Learning\\C#\\KysectAcademy\\Kkkkkk58\\KysectAcademyTask.Tests\\bin\\Debug\\net6.0\\FilesForTests\\ComparisonTests\\SimilarFiles\\M3102\\Danny Titkin\\RickRoll\\19870727000000\\Similar1.txt",
+    "FileName2": "E:\\Dev\\Learning\\C#\\KysectAcademy\\Kkkkkk58\\KysectAcademyTask.Tests\\bin\\Debug\\net6.0\\FilesForTests\\ComparisonTests\\SimilarFiles\\M3102\\Rick Astley\\RickRoll\\19870727000002\\Similar2.txt",
+    "Metrics": "Jaccard",
+    "SimilarityRate": 1
+  }
+]

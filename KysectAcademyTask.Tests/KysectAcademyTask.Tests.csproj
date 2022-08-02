@@ -28,4 +28,10 @@
     <ProjectReference Include="..\KysectAcademyTask\KysectAcademyTask.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Content Include="FilesForTests\**\*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
 </Project>
