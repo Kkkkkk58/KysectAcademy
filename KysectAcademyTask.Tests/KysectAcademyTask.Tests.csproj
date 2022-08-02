@@ -29,6 +29,10 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<Compile Remove="FilesForTests\**\*.*" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Include="FilesForTests\**\*.*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
