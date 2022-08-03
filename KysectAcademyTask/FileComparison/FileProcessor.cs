@@ -65,7 +65,7 @@ public class FileProcessor
         {
             foreach (string fileName2 in fileNames2)
             {
-                ComparisonResult comparisonResult = GetResultIfNotExists(metrics, fileName1, fileName2, fileComparer);
+                ComparisonResult comparisonResult = GetComparisonResult(metrics, fileName1, fileName2, fileComparer);
                 comparisonResultsTable.AddComparisonResult(comparisonResult);
             }
         }
@@ -73,7 +73,7 @@ public class FileProcessor
         return comparisonResultsTable;
     }
 
-    private ComparisonResult GetResultIfNotExists(ComparisonAlgorithm.Metrics metrics, string fileName1,
+    private ComparisonResult GetComparisonResult(ComparisonAlgorithm.Metrics metrics, string fileName1,
         string fileName2, FileComparer fileComparer)
     {
         ComparisonResult comparisonResult;
