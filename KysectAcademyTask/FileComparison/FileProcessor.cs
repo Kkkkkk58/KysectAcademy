@@ -12,9 +12,8 @@ public class FileProcessor
     private readonly IReadOnlyCollection<ComparisonAlgorithm.Metrics> _metrics;
     private readonly IComparisonResultRepo _resultRepo;
 
-    public FileProcessor(FileRequirements? fileRequirements,
-        DirectoryRequirements? directoryRequirements, IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics,
-        IComparisonResultRepo resultRepo)
+    public FileProcessor(FileRequirements? fileRequirements, DirectoryRequirements? directoryRequirements,
+        IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics, IComparisonResultRepo resultRepo)
     {
         _fileRequirements = fileRequirements;
         _directoryRequirements = directoryRequirements;
