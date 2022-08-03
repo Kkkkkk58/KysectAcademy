@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using KysectAcademyTask.AppSettings;
+﻿using KysectAcademyTask.AppSettings;
 using KysectAcademyTask.DbInteraction.Configuration;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.Submit.SubmitFilters;
@@ -30,8 +28,7 @@ public class FiltersTests : BaseTests
     [Fact]
     public void AuthorFilter_BlackList_ReportDoesNotContainAuthors()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var blackList = new List<string> { "Betty Padilla", "Andrew Gray", "Barbara Jones", "Alex Lane", "Stephen Brown" };
         var authorFilter = new AuthorFilter(null, blackList);
@@ -43,20 +40,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.False(DoesReportContain(results, blackList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void AuthorFilter_WhiteList_ReportContainsAuthors()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var whiteList = new List<string> { "Betty Padilla", "Andrew Gray" };
         var authorFilter = new AuthorFilter(whiteList, null);
@@ -68,20 +64,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.True(DoesReportConsistOf(results, whiteList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void DirectoryFilter_BlackList_ReportDoesNotContainFilesFromDirs()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var blackList = new List<string> { "M3236", "M3235", "20191118202349" };
         var directoryFilter = new DirectoryFilter(null, blackList);
@@ -93,20 +88,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.False(DoesReportContain(results, blackList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void DirectoryFilter_WhiteList_ReportContainsFilesFromDirs()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var whiteList = new List<string> { "20191118202349", "M3234", "M3237", "4. INI файл" };
         var directoryFilter = new DirectoryFilter(whiteList, null);
@@ -118,21 +112,20 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.True(DoesReportConsistOf(results, whiteList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
 
     [Fact]
     public void FileExtensionFilter_BlackList_ReportDoesNotContainFilesWithExtensions()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var blackList = new List<string> { ".java" };
         var fileExtensionFilter = new FileExtensionFilter(null, blackList);
@@ -144,20 +137,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.False(DoesReportContain(results, blackList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void FileExtensionFilter_WhiteList_ReportContainsFilesWithExtensions()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var whiteList = new List<string> { ".cs" };
         var fileExtensionFilter = new FileExtensionFilter(whiteList, null);
@@ -169,20 +161,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.True(DoesReportConsistOf(results, whiteList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void FileNameFilter_BlackList_ReportDoesNotContainFiles()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var blackList = new List<string> { "main.py", "Program.cs" };
         var fileNameFilter = new FileNameFilter(null, blackList);
@@ -194,20 +185,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.False(DoesReportContain(results, blackList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void FileNameFilter_WhiteList_ReportContainsFiles()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var whiteList = new List<string> { "main.py", "Program.cs" };
         var fileNameFilter = new FileNameFilter(whiteList, null);
@@ -219,20 +209,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.True(DoesReportConsistOf(results, whiteList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void GroupFilter_BlackList_ReportDoesNotContainSubmitsFromGroups()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var blackList = new List<string> { "M3235", "M3236" };
         var groupFilter = new GroupFilter(null, blackList);
@@ -244,20 +233,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.False(DoesReportContain(results, blackList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void GroupFilter_WhiteList_ReportContainsSubmitsFromGroups()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var whiteList = new List<string> { "M3235", "M3236" };
         var groupFilter = new GroupFilter(whiteList, null);
@@ -269,20 +257,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.True(DoesReportConsistOf(results, whiteList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void HomeWorkFilter_BlackList_ReportDoesNotContainSubmitsWithHomeWorks()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var blackList = new List<string> { "4. INI файл", "1. Ввод-вывод" };
         var homeWorkFilter = new HomeworkFilter(null, blackList);
@@ -294,20 +281,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.False(DoesReportContain(results, blackList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void HomeWorkFilter_WhiteList_ReportContainsSubmitsWithHomeWorks()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var whiteList = new List<string> { "6. Знакомство с паттернами" };
         var homeWorkFilter = new HomeworkFilter(whiteList, null);
@@ -319,20 +305,19 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         Assert.True(DoesReportConsistOf(results, whiteList));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void DateFilter_BlackList_ReportDoesNotContainSubmitsWithDates()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var blackList = new List<DateTime>
         {
@@ -348,23 +333,22 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         IReadOnlyCollection<string> datesToFormat = blackList
             .Select(d => d.ToString(DefaultDateTimeFormat))
             .ToList();
         Assert.False(DoesReportContain(results, datesToFormat));
 
-        DeleteResultFile(resultPath);
+        
     }
 
     [Fact]
     public void DateFilter_WhiteList_ReportContainsSubmitsWithDates()
     {
-        string rootPath = GetRootPath(RelativeRootPath);
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
 
         var whiteList = new List<DateTime>
         {
@@ -380,42 +364,27 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(rootPath, resultPath, filters);
+        AppSettingsConfig config = GetConfig(filters);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults(resultPath);
+        IReadOnlyCollection<Result> results = GetResults();
         IReadOnlyCollection<string> datesToFormat = whiteList
             .Select(d => d.ToString(DefaultDateTimeFormat))
             .ToList();
         Assert.True(DoesReportConsistOf(results, datesToFormat));
 
-        DeleteResultFile(resultPath);
+        
     }
 
-    private AppSettingsConfig GetConfig(string rootPath, string resultPath, Filters filters)
+    private AppSettingsConfig GetConfig(Filters filters)
     {
         return new AppSettingsConfig
         {
             DbConfig = new DbConfig(null),
-            ReportConfig = new ReportConfig(ReportType.Json, resultPath),
-            SubmitConfig = new SubmitConfig(rootPath, filters, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
+            ReportConfig = new ReportConfig(ReportType.Json, ResultPath),
+            SubmitConfig = new SubmitConfig(RootPath, filters, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
             ProgressBarConfig = new ProgressBarConfig(false)
         };
-    }
-
-    private IReadOnlyCollection<Result> GetResults(string resultPath)
-    {
-        var options = new JsonSerializerOptions
-        {
-            Converters =
-            {
-                new JsonStringEnumConverter()
-            }
-        };
-        string jsonString = File.ReadAllText(resultPath);
-        Result[] results = JsonSerializer.Deserialize<Result[]>(jsonString, options);
-
-        return results;
     }
 
     private bool DoesReportConsistOf(IEnumerable<Result> results, IReadOnlyCollection<string> whiteList)

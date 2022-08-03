@@ -1,10 +1,13 @@
-﻿using KysectAcademyTask.AppSettings;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using KysectAcademyTask.AppSettings;
 using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Report;
+using KysectAcademyTask.Tests.TestModels;
 
 namespace KysectAcademyTask.Tests.Base;
 
-public class BaseTests
+public class BaseTests : IDisposable
 {
     protected static readonly IReadOnlyList<ComparisonAlgorithm.Metrics> DefaultMetrics =
         new List<ComparisonAlgorithm.Metrics> { ComparisonAlgorithm.Metrics.Jaccard };
@@ -12,29 +15,67 @@ public class BaseTests
     protected const string DefaultDateTimeFormat = "yyyyMMddHHmmss";
     protected const int DefaultDirDepth = 5;
 
-    protected string GetRootPath(string relativeRootPath)
+    protected string RootPath, ResultPath;
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            DeleteResultFile();
+        }
+    }
+
+    private void DeleteResultFile()
+    {
+        if (File.Exists(ResultPath))
+        {
+            File.Delete(ResultPath);
+        }
+    }
+
+    protected void InitPaths(string relativeRootPath, ReportType reportType)
+    {
+        RootPath = GetRootPath(relativeRootPath);
+        ResultPath = GetResultPath(reportType);
+    }
+
+    private string GetRootPath(string relativeRootPath)
     {
         return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeRootPath);
     }
 
-    protected string GetResultPath(string rootPath, ReportType reportType)
+    private string GetResultPath(ReportType reportType)
     {
         return reportType switch
         {
-            ReportType.Json => Path.Combine(rootPath, $"{Guid.NewGuid()}.json"),
-            ReportType.Txt => Path.Combine(rootPath, $"{Guid.NewGuid()}.txt"),
+            ReportType.Json => Path.Combine(RootPath, $"{Guid.NewGuid()}.json"),
+            ReportType.Txt => Path.Combine(RootPath, $"{Guid.NewGuid()}.txt"),
             ReportType.Console => throw new ArgumentException("No available path for console reports"),
             _ => throw new NotImplementedException()
         };
     }
 
-    protected void DeleteResultFile(string resultPath)
+    protected IReadOnlyCollection<Result> GetResults()
     {
-        if (File.Exists(resultPath))
+        var options = new JsonSerializerOptions
         {
-            File.Delete(resultPath);
-        }
+            Converters =
+            {
+                new JsonStringEnumConverter()
+            }
+        };
+        string jsonString = File.ReadAllText(ResultPath);
+        Result[] results = JsonSerializer.Deserialize<Result[]>(jsonString, options);
+
+        return results;
     }
+
     protected void RunApplication(AppSettingsConfig config)
     {
         var app = new SubmitComparisonApp(config);

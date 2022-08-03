@@ -13,94 +13,58 @@ namespace KysectAcademyTask.Tests;
 
 public class ReportTests : BaseTests
 {
-    [Fact]
-    public void ReportTest_TxtFormat_SavedFile()
-    {
-        string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
-        string resultPath = GetResultPath(rootPath, ReportType.Txt);
-        DeleteResultFile(resultPath);
+    private const string RelativeRootPath = @"FilesForTests\ReportTests\RootDirectory";
 
-        AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Txt);
+    [Theory]
+    [InlineData(ReportType.Txt)]
+    [InlineData(ReportType.Json)]
+    public void ReportTest_OutputFormat_SavedFile(ReportType reportType)
+    {
+        InitPaths(RelativeRootPath, reportType);
+        AppSettingsConfig config = GetConfig(reportType);
 
         RunApplication(config);
 
-        Assert.True(File.Exists(resultPath));
-
-        DeleteResultFile(resultPath);
+        Assert.True(File.Exists(ResultPath));
     }
 
-    [Fact]
-    public void ReportTest_TxtFormat_SavedNonEmptyFile()
+    [Theory]
+    [InlineData(ReportType.Txt)]
+    [InlineData(ReportType.Json)]
+    public void ReportTest_OutputFormatAndFilesToCompare_SavedNonEmptyFile(ReportType reportType)
     {
-        string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
-        string resultPath = GetResultPath(rootPath, ReportType.Txt);
-        DeleteResultFile(resultPath);
-
-        AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Txt);
+        InitPaths(RelativeRootPath, reportType);
+        AppSettingsConfig config = GetConfig(reportType);
 
         RunApplication(config);
 
-        string resultString = File.ReadAllText(resultPath);
+        string resultString = File.ReadAllText(ResultPath);
         Assert.NotEmpty(resultString);
-
-        DeleteResultFile(resultPath);
     }
 
-    [Fact]
-    public void ReportTest_JsonFormat_SavedFile()
-    {
-        string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
-        DeleteResultFile(resultPath);
-        AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Json);
-
-        RunApplication(config);
-
-        Assert.True(File.Exists(resultPath));
-
-        DeleteResultFile(resultPath);
-    }
-
-    [Fact]
-    public void ReportTest_JsonFormat_SavedNonEmptyFile()
-    {
-        string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
-        DeleteResultFile(resultPath);
-        AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Json);
-
-        RunApplication(config);
-
-        string resultString = File.ReadAllText(resultPath);
-        Assert.NotEmpty(resultString);
-
-        DeleteResultFile(resultPath);
-    }
     
     [Fact]
     public void ReportTest_JsonFormat_ProducesValidJson()
     {
-        string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
-        DeleteResultFile(resultPath);
-        AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Json);
+        InitPaths(RelativeRootPath, ReportType.Json);
+        AppSettingsConfig config = GetConfig(ReportType.Json);
 
         RunApplication(config);
 
-        string jsonString = File.ReadAllText(resultPath);
+        string jsonString = File.ReadAllText(ResultPath);
         bool deserializationSucceeded = TryDeserialize(jsonString);
         Assert.True(deserializationSucceeded);
 
-        DeleteResultFile(resultPath);
+        
     }
 
-    private AppSettingsConfig GetConfig(string resultPath, string rootPath, ReportType reportType)
+    private AppSettingsConfig GetConfig(ReportType reportType)
     {
         return new AppSettingsConfig
         {
             DbConfig = new DbConfig(null),
-            ReportConfig = new ReportConfig(reportType, resultPath),
-            SubmitConfig = new SubmitConfig(rootPath, null, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
+            ReportConfig = new ReportConfig(reportType, ResultPath),
+            SubmitConfig = new SubmitConfig(RootPath, null, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
             ProgressBarConfig = new ProgressBarConfig(false)
         };
     }

@@ -16,63 +16,51 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_SimilarFiles_SimilarityRateIsOne()
     {
-        string rootPath = GetRootPath(@"FilesForTests\ComparisonTests\SimilarFiles");
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
-
-        AppSettingsConfig config = GetConfig(resultPath, rootPath);
+        InitPaths(@"FilesForTests\ComparisonTests\SimilarFiles", ReportType.Json);
+        AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
 
-        double result = GetResultFromJsonFile(resultPath);
+        double result = GetResultFromJsonFile();
         Assert.Equal(1, result);
-
-        DeleteResultFile(resultPath);
     }
 
     [Fact]
     public void FileComparison_TotallyDifferentFiles_SimilarityRateIsZero()
     {
-        string rootPath = GetRootPath(@"FilesForTests\ComparisonTests\DifferentFiles");
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
-
-        AppSettingsConfig config = GetConfig(resultPath, rootPath);
+        InitPaths(@"FilesForTests\ComparisonTests\DifferentFiles", ReportType.Json);
+        AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
 
-        double result = GetResultFromJsonFile(resultPath);
+        double result = GetResultFromJsonFile();
         Assert.Equal(0, result);
-
-        DeleteResultFile(resultPath);
     }
 
     [Fact]
     public void FileComparison_FilesHaveSomeSimilarities_SimilarityRateIsBetweenZeroAndOne()
     {
-        string rootPath = GetRootPath(@"FilesForTests\ComparisonTests\FilesWithSomeSimilarities");
-        string resultPath = GetResultPath(rootPath, ReportType.Json);
-
-        AppSettingsConfig config = GetConfig(resultPath, rootPath);
+        InitPaths(@"FilesForTests\ComparisonTests\FilesWithSomeSimilarities", ReportType.Json);
+        AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
 
-        double result = GetResultFromJsonFile(resultPath);
+        double result = GetResultFromJsonFile();
         Assert.True(result is > 0 and < 1);
-
-        DeleteResultFile(resultPath);
     }
 
-    private AppSettingsConfig GetConfig(string resultPath, string rootPath)
+    private AppSettingsConfig GetConfig()
     {
         return new AppSettingsConfig
         {
             DbConfig = new DbConfig(null),
-            ReportConfig = new ReportConfig(ReportType.Json, resultPath),
-            SubmitConfig = new SubmitConfig(rootPath, null, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
+            ReportConfig = new ReportConfig(ReportType.Json, ResultPath),
+            SubmitConfig = new SubmitConfig(RootPath, null, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
             ProgressBarConfig = new ProgressBarConfig(false)
         };
     }
 
-    private double GetResultFromJsonFile(string path)
+    private double GetResultFromJsonFile()
     {
         var options = new JsonSerializerOptions
         {
@@ -81,11 +69,12 @@ public class ComparisonTests : BaseTests
                 new JsonStringEnumConverter()
             }
         };
-        string jsonString = File.ReadAllText(path);
+        string jsonString = File.ReadAllText(ResultPath);
         Result[] results = JsonSerializer.Deserialize<Result[]>(jsonString, options);
 
         return results!
             .Single()
             .SimilarityRate;
     }
+
 }
