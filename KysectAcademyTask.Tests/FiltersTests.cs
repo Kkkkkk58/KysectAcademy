@@ -48,6 +48,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.False(DoesReportContain(results, blackList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -71,6 +73,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.True(DoesReportConsistOf(results, whiteList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -94,6 +98,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.False(DoesReportContain(results, blackList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -117,6 +123,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.True(DoesReportConsistOf(results, whiteList));
+
+        DeleteResultFile(resultPath);
     }
 
 
@@ -141,6 +149,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.False(DoesReportContain(results, blackList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -164,6 +174,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.True(DoesReportConsistOf(results, whiteList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -187,6 +199,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.False(DoesReportContain(results, blackList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -210,6 +224,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.True(DoesReportConsistOf(results, whiteList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -233,6 +249,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.False(DoesReportContain(results, blackList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -256,6 +274,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.True(DoesReportConsistOf(results, whiteList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -279,6 +299,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.False(DoesReportContain(results, blackList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -302,6 +324,8 @@ public class FiltersTests : BaseTests
 
         IReadOnlyCollection<Result> results = GetResults(resultPath);
         Assert.True(DoesReportConsistOf(results, whiteList));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -332,6 +356,8 @@ public class FiltersTests : BaseTests
             .Select(d => d.ToString(DefaultDateTimeFormat))
             .ToList();
         Assert.False(DoesReportContain(results, datesToFormat));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -362,6 +388,8 @@ public class FiltersTests : BaseTests
             .Select(d => d.ToString(DefaultDateTimeFormat))
             .ToList();
         Assert.True(DoesReportConsistOf(results, datesToFormat));
+
+        DeleteResultFile(resultPath);
     }
 
     private AppSettingsConfig GetConfig(string rootPath, string resultPath, Filters filters)

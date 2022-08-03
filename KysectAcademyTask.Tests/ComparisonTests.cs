@@ -25,6 +25,8 @@ public class ComparisonTests : BaseTests
 
         double result = GetResultFromJsonFile(resultPath);
         Assert.Equal(1, result);
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -39,6 +41,8 @@ public class ComparisonTests : BaseTests
 
         double result = GetResultFromJsonFile(resultPath);
         Assert.Equal(0, result);
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -53,6 +57,8 @@ public class ComparisonTests : BaseTests
 
         double result = GetResultFromJsonFile(resultPath);
         Assert.True(result is > 0 and < 1);
+
+        DeleteResultFile(resultPath);
     }
 
     private AppSettingsConfig GetConfig(string resultPath, string rootPath)

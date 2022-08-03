@@ -27,7 +27,14 @@ public class BaseTests
             _ => throw new NotImplementedException()
         };
     }
-    
+
+    protected void DeleteResultFile(string resultPath)
+    {
+        if (File.Exists(resultPath))
+        {
+            File.Delete(resultPath);
+        }
+    }
     protected void RunApplication(AppSettingsConfig config)
     {
         var app = new SubmitComparisonApp(config);

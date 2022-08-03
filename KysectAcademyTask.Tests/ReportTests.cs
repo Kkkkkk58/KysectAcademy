@@ -18,13 +18,15 @@ public class ReportTests : BaseTests
     {
         string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
         string resultPath = GetResultPath(rootPath, ReportType.Txt);
-        DeleteFileIfExists(resultPath);
+        DeleteResultFile(resultPath);
 
         AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Txt);
 
         RunApplication(config);
 
         Assert.True(File.Exists(resultPath));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -32,7 +34,7 @@ public class ReportTests : BaseTests
     {
         string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
         string resultPath = GetResultPath(rootPath, ReportType.Txt);
-        DeleteFileIfExists(resultPath);
+        DeleteResultFile(resultPath);
 
         AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Txt);
 
@@ -40,6 +42,8 @@ public class ReportTests : BaseTests
 
         string resultString = File.ReadAllText(resultPath);
         Assert.NotEmpty(resultString);
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -47,12 +51,14 @@ public class ReportTests : BaseTests
     {
         string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
         string resultPath = GetResultPath(rootPath, ReportType.Json);
-        DeleteFileIfExists(resultPath);
+        DeleteResultFile(resultPath);
         AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Json);
 
         RunApplication(config);
 
         Assert.True(File.Exists(resultPath));
+
+        DeleteResultFile(resultPath);
     }
 
     [Fact]
@@ -60,13 +66,15 @@ public class ReportTests : BaseTests
     {
         string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
         string resultPath = GetResultPath(rootPath, ReportType.Json);
-        DeleteFileIfExists(resultPath);
+        DeleteResultFile(resultPath);
         AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Json);
 
         RunApplication(config);
 
         string resultString = File.ReadAllText(resultPath);
         Assert.NotEmpty(resultString);
+
+        DeleteResultFile(resultPath);
     }
     
     [Fact]
@@ -74,7 +82,7 @@ public class ReportTests : BaseTests
     {
         string rootPath = GetRootPath(@"FilesForTests\ReportTests\RootDirectory");
         string resultPath = GetResultPath(rootPath, ReportType.Json);
-        DeleteFileIfExists(resultPath);
+        DeleteResultFile(resultPath);
         AppSettingsConfig config = GetConfig(resultPath, rootPath, ReportType.Json);
 
         RunApplication(config);
@@ -82,6 +90,8 @@ public class ReportTests : BaseTests
         string jsonString = File.ReadAllText(resultPath);
         bool deserializationSucceeded = TryDeserialize(jsonString);
         Assert.True(deserializationSucceeded);
+
+        DeleteResultFile(resultPath);
     }
 
     private AppSettingsConfig GetConfig(string resultPath, string rootPath, ReportType reportType)
@@ -93,19 +103,6 @@ public class ReportTests : BaseTests
             SubmitConfig = new SubmitConfig(rootPath, null, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
             ProgressBarConfig = new ProgressBarConfig(false)
         };
-    }
-
-    private static void DeleteFileIfExists(string resultPath)
-    {
-        if (resultPath is null)
-        {
-            throw new ArgumentNullException(nameof(resultPath));
-        }
-
-        if (File.Exists(resultPath))
-        {
-            File.Delete(resultPath);
-        }
     }
 
     private bool TryDeserialize(string jsonString)
