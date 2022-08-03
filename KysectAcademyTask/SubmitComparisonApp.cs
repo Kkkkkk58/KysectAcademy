@@ -86,12 +86,8 @@ public class SubmitComparisonApp
             return null;
         }
 
-        var optionsBuilder = new DbContextOptionsBuilder<FileComparisonDbContext>();
-        optionsBuilder
-            .UseSqlServer(connectionString, options => options.EnableRetryOnFailure())
-            .EnableSensitiveDataLogging();
-
-        return new FileComparisonDbContext(optionsBuilder.Options);
+        return new FileComparisonDbContextFactory()
+            .GetDbContext(dbConfig.DataProvider, connectionString);
     }
 
     private void PrepareDatabase(AllRepos repos, IReadOnlyList<SubmitInfo> submits,

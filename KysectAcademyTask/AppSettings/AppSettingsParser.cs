@@ -1,4 +1,5 @@
-﻿using KysectAcademyTask.DbInteraction.Configuration;
+﻿using KysectAcademyTask.DataAccess.EfStructures;
+using KysectAcademyTask.DbInteraction.Configuration;
 using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.Submit.SubmitFilters;
@@ -155,7 +156,7 @@ public class AppSettingsParser
             IConfigurationSection section =
                 _configRoot.GetSection(nameof(DbConfig));
             DbConfig dbConfig = section.Get<DbConfig?>()
-                                ?? new DbConfig(null);
+                                ?? new DbConfig(null, DataProvider.InMemory);
             return dbConfig;
         }
         catch (InvalidOperationException e)
