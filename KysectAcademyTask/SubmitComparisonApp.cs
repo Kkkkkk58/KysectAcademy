@@ -12,7 +12,6 @@ using KysectAcademyTask.Submit;
 using KysectAcademyTask.SubmitComparison;
 using KysectAcademyTask.Utils.ProgressTracking.ProgressBar;
 using KysectAcademyTask.Utils.ProgressTracking.ProgressBar.ConsoleProgressBar;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace KysectAcademyTask;
@@ -81,13 +80,13 @@ public class SubmitComparisonApp
     private FileComparisonDbContext GetDbContext(DbConfig dbConfig)
     {
         string connectionString = dbConfig.ConnectionStrings?["SubmitComparison"];
-        if (connectionString is null or "")
+        if (connectionString is null or "" || dbConfig.DataProvider is null)
         {
             return null;
         }
 
         return new FileComparisonDbContextFactory()
-            .GetDbContext(dbConfig.DataProvider, connectionString);
+            .GetDbContext((DataProvider)dbConfig.DataProvider, connectionString);
     }
 
     private void PrepareDatabase(AllRepos repos, IReadOnlyList<SubmitInfo> submits,

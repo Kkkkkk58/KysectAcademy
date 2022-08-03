@@ -62,7 +62,7 @@ public class ReportTests : BaseTests
     {
         return new AppSettingsConfig
         {
-            DbConfig = new DbConfig(null),
+            DbConfig = new DbConfig(null, null),
             ReportConfig = new ReportConfig(reportType, ResultPath),
             SubmitConfig = new SubmitConfig(RootPath, null, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
             ProgressBarConfig = new ProgressBarConfig(false)

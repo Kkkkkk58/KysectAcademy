@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using KysectAcademyTask.AppSettings;
+using KysectAcademyTask.DataAccess.EfStructures;
 using KysectAcademyTask.DbInteraction.Configuration;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.SubmitComparison;
@@ -53,7 +54,7 @@ public class ComparisonTests : BaseTests
     {
         return new AppSettingsConfig
         {
-            DbConfig = new DbConfig(null),
+            DbConfig = new DbConfig(null, null),
             ReportConfig = new ReportConfig(ReportType.Json, ResultPath),
             SubmitConfig = new SubmitConfig(RootPath, null, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
             ProgressBarConfig = new ProgressBarConfig(false)

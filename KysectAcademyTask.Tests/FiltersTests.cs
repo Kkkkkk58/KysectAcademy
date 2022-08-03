@@ -380,7 +380,7 @@ public class FiltersTests : BaseTests
     {
         return new AppSettingsConfig
         {
-            DbConfig = new DbConfig(null),
+            DbConfig = new DbConfig(null, null),
             ReportConfig = new ReportConfig(ReportType.Json, ResultPath),
             SubmitConfig = new SubmitConfig(RootPath, filters, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
             ProgressBarConfig = new ProgressBarConfig(false)
