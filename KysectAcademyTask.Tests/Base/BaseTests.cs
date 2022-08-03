@@ -21,8 +21,8 @@ public class BaseTests
     {
         return reportType switch
         {
-            ReportType.Json => Path.Combine(rootPath, "result.json"),
-            ReportType.Txt => Path.Combine(rootPath, "result.txt"),
+            ReportType.Json => Path.Combine(rootPath, $"{Guid.NewGuid()}.json"),
+            ReportType.Txt => Path.Combine(rootPath, $"{Guid.NewGuid()}.txt"),
             ReportType.Console => throw new ArgumentException("No available path for console reports"),
             _ => throw new NotImplementedException()
         };
