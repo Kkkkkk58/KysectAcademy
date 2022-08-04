@@ -5,12 +5,12 @@ VisualStudioVersion = 17.3.32505.426
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KysectAcademyTask", "KysectAcademyTask\KysectAcademyTask.csproj", "{41C4E666-FF9E-4753-B7EC-4EB800C3B822}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KysectAcademyTask.Tests", "KysectAcademyTask.Tests\KysectAcademyTask.Tests.csproj", "{7847823F-C01A-4D34-8548-08ECA886C915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KysectAcademyTask.Tests", "KysectAcademyTask.Tests\KysectAcademyTask.Tests.csproj", "{7847823F-C01A-4D34-8548-08ECA886C915}"
 	ProjectSection(ProjectDependencies) = postProject
 		{41C4E666-FF9E-4753-B7EC-4EB800C3B822} = {41C4E666-FF9E-4753-B7EC-4EB800C3B822}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KysectAcademyTask.DataAccess", "KysectAcademyTask.DataAccess\KysectAcademyTask.DataAccess.csproj", "{E83B5314-801F-4EF9-9E70-531571310536}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KysectAcademyTask.DataAccess", "KysectAcademyTask.DataAccess\KysectAcademyTask.DataAccess.csproj", "{E83B5314-801F-4EF9-9E70-531571310536}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
