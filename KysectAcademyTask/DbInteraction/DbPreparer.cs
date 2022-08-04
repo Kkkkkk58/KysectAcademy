@@ -123,7 +123,8 @@ public class DbPreparer
             PersonalInformation = new Person
             {
                 FirstName = splitName[0],
-                LastName = splitName[1]
+                LastName = splitName[1],
+                FullName = authorName
             }
         });
     }

@@ -9,7 +9,7 @@ public sealed partial class FileComparisonDbContext : DbContext
     public FileComparisonDbContext(DbContextOptions<FileComparisonDbContext> options)
         : base(options)
     {
-        Database.Migrate();
+        Database.EnsureCreated();
 
         SaveChangesFailed += (sender, args) =>
         {

@@ -22,8 +22,7 @@ internal class StudentTypeConfiguration : IEntityTypeConfiguration<Student>
                     .HasMaxLength(50)
                     .HasColumnName(nameof(Person.LastName));
                 pd.Property(p => p.FullName)
-                    .HasColumnName(nameof(Person.FullName))
-                    .HasComputedColumnSql("[FirstName] + ' ' + [LastName]");
+                    .HasColumnName(nameof(Person.FullName));
             });
 
         builder.HasOne(s => s.GroupNavigation)
