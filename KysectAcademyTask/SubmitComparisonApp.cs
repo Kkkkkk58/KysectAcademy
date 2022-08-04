@@ -19,8 +19,6 @@ namespace KysectAcademyTask;
 public class SubmitComparisonApp
 {
     private readonly AppSettingsConfig _config;
-    private const string DbPreparingMessage = "\t\t\tPreparing database...";
-    private const string DbUpdatingMessage = "\n\n\t\t\tSaving new results to database...";
 
     public SubmitComparisonApp(AppSettingsConfig config)
     {
@@ -92,7 +90,6 @@ public class SubmitComparisonApp
     private void PrepareDatabase(AllRepos repos, IReadOnlyList<SubmitInfo> submits,
         SubmitInfoProcessor submitInfoProcessor)
     {
-        Console.WriteLine(DbPreparingMessage);
         new DbPreparer(repos.GroupRepo, repos.FileEntityRepo, repos.HomeWorkRepo, repos.StudentRepo, repos.SubmitRepo,
             submitInfoProcessor).Prepare(submits);
     }
@@ -120,7 +117,6 @@ public class SubmitComparisonApp
     private void UpdateDatabase(IComparisonResultRepo resultRepo, IFileEntityRepo fileRepo,
         ComparisonResultsTable results)
     {
-        Console.WriteLine(DbUpdatingMessage);
         new DbResultsUpdater(resultRepo, fileRepo).SaveNew(results);
     }
 
