@@ -61,7 +61,7 @@ public class BaseTests : IDisposable
         };
     }
 
-    protected IReadOnlyCollection<Result> GetResults()
+    protected IReadOnlyCollection<TestSubmitComparisonResult> GetResults()
     {
         var options = new JsonSerializerOptions
         {
@@ -71,7 +71,7 @@ public class BaseTests : IDisposable
             }
         };
         string jsonString = File.ReadAllText(ResultPath);
-        Result[] results = JsonSerializer.Deserialize<Result[]>(jsonString, options);
+        TestSubmitComparisonResult[] results = JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
 
         return results;
     }

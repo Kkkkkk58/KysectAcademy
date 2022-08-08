@@ -13,14 +13,14 @@ namespace KysectAcademyTask.Tests;
 
 public class ReportTests : BaseTests
 {
-    private const string RelativeRootPath = @"FilesForTests\ReportTests\RootDirectory";
+    private readonly string _relativeRootPath = @$"FilesForTests{Path.DirectorySeparatorChar}ReportTests{Path.DirectorySeparatorChar}RootDirectory";
 
     [Theory]
     [InlineData(ReportType.Txt)]
     [InlineData(ReportType.Json)]
     public void ReportTest_OutputFormat_SavedFile(ReportType reportType)
     {
-        InitPaths(RelativeRootPath, reportType);
+        InitPaths(_relativeRootPath, reportType);
         AppSettingsConfig config = GetConfig(reportType);
 
         RunApplication(config);
@@ -33,7 +33,7 @@ public class ReportTests : BaseTests
     [InlineData(ReportType.Json)]
     public void ReportTest_OutputFormatAndFilesToCompare_SavedNonEmptyFile(ReportType reportType)
     {
-        InitPaths(RelativeRootPath, reportType);
+        InitPaths(_relativeRootPath, reportType);
         AppSettingsConfig config = GetConfig(reportType);
 
         RunApplication(config);
@@ -46,7 +46,7 @@ public class ReportTests : BaseTests
     [Fact]
     public void ReportTest_JsonFormat_ProducesValidJson()
     {
-        InitPaths(RelativeRootPath, ReportType.Json);
+        InitPaths(_relativeRootPath, ReportType.Json);
         AppSettingsConfig config = GetConfig(ReportType.Json);
 
         RunApplication(config);
@@ -81,7 +81,7 @@ public class ReportTests : BaseTests
 
         try
         {
-            Result[] results = JsonSerializer.Deserialize<Result[]>(jsonString, options);
+            TestSubmitComparisonResult[] results = JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
         }
         catch (JsonException)
         {

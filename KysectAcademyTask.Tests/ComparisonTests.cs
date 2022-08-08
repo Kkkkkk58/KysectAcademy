@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 using KysectAcademyTask.AppSettings;
-using KysectAcademyTask.DataAccess.EfStructures;
 using KysectAcademyTask.DbInteraction.Configuration;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.SubmitComparison;
@@ -17,7 +16,7 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_SimilarFiles_SimilarityRateIsOne()
     {
-        InitPaths(@"FilesForTests\ComparisonTests\SimilarFiles", ReportType.Json);
+        InitPaths(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}SimilarFiles", ReportType.Json);
         AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
@@ -29,7 +28,7 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_TotallyDifferentFiles_SimilarityRateIsZero()
     {
-        InitPaths(@"FilesForTests\ComparisonTests\DifferentFiles", ReportType.Json);
+        InitPaths(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}DifferentFiles", ReportType.Json);
         AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
@@ -41,7 +40,7 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_FilesHaveSomeSimilarities_SimilarityRateIsBetweenZeroAndOne()
     {
-        InitPaths(@"FilesForTests\ComparisonTests\FilesWithSomeSimilarities", ReportType.Json);
+        InitPaths(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}FilesWithSomeSimilarities", ReportType.Json);
         AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
@@ -71,7 +70,7 @@ public class ComparisonTests : BaseTests
             }
         };
         string jsonString = File.ReadAllText(ResultPath);
-        Result[] results = JsonSerializer.Deserialize<Result[]>(jsonString, options);
+        TestSubmitComparisonResult[] results = JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
 
         return results!
             .Single()

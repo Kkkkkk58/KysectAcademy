@@ -13,29 +13,29 @@ namespace KysectAcademyTask.Tests;
 
 public class DbTests : BaseTests
 {
-    private const string RelativeRootPath = @"FilesForTests\DbTests\RootDirectory";
+    private readonly string _relativeRootPath = @$"FilesForTests{Path.DirectorySeparatorChar}DbTests{Path.DirectorySeparatorChar}RootDirectory";
 
     [Fact]
     public void DbTest_NoDbConfigProvided_SourceIsFileComparison()
     {
-        InitPaths(RelativeRootPath, ReportType.Json);
+        InitPaths(_relativeRootPath, ReportType.Json);
 
         AppSettingsConfig config = GetConfig(null);
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults();
+        IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
         Assert.True(AllResultsAreFromSource(results, ResultSource.NewFileComparison));
     }
 
     [Fact]
     public void DbTest_EnableDbCompareTwice_FinalSourceIsDb()
     {
-        InitPaths(RelativeRootPath, ReportType.Json);
+        InitPaths(_relativeRootPath, ReportType.Json);
 
         AppSettingsConfig config = GetConfig("DataSource=file:memdb1?mode=memory&cache=shared");
         RunApplication(config);
 
-        IReadOnlyCollection<Result> results = GetResults();
+        IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
         Assert.True(AllResultsAreFromSource(results, ResultSource.NewFileComparison));
 
         RunApplication(config);
@@ -60,7 +60,7 @@ public class DbTests : BaseTests
         };
     }
 
-    private bool AllResultsAreFromSource(IReadOnlyCollection<Result> results, ResultSource source)
+    private bool AllResultsAreFromSource(IReadOnlyCollection<TestSubmitComparisonResult> results, ResultSource source)
     {
         return results.All(r => r.Source == source);
     }
