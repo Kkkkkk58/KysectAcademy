@@ -95,7 +95,7 @@ public class AppSettingsParser
         try
         {
             IReadOnlyList<ComparisonAlgorithm.Metrics> metrics =
-                _configRoot.GetValue<IReadOnlyList<ComparisonAlgorithm.Metrics>>("Metrics")
+                _configRoot.GetSection("Metrics").Get<IReadOnlyList<ComparisonAlgorithm.Metrics>>()
                 ?? new List<ComparisonAlgorithm.Metrics> { ComparisonAlgorithm.Metrics.Jaccard };
             return metrics;
         }
