@@ -14,4 +14,33 @@ public readonly struct SubmitInfo
         HomeworkName = homeworkName;
         SubmitDate = submitDate;
     }
+
+    public override string ToString()
+    {
+        return $"Submit by {AuthorName} from {GroupName} on {HomeworkName}. Submit Date: {(SubmitDate.HasValue ? SubmitDate :  "undefined")}";
+    }
+
+    public override bool Equals(object obj)
+    {
+        return obj is SubmitInfo submitInfo
+            && GroupName.Equals(submitInfo.GroupName, StringComparison.OrdinalIgnoreCase)
+            && AuthorName.Equals(submitInfo.AuthorName, StringComparison.OrdinalIgnoreCase)
+            && HomeworkName.Equals(submitInfo.HomeworkName, StringComparison.OrdinalIgnoreCase)
+            && SubmitDate.Equals(submitInfo.SubmitDate);
+    }
+    
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(GroupName, AuthorName, HomeworkName, SubmitDate);
+    }
+
+    public static bool operator ==(SubmitInfo lhs, SubmitInfo rhs)
+    {
+        return rhs.Equals(lhs);
+    }
+
+    public static bool operator !=(SubmitInfo lhs, SubmitInfo rhs)
+    {
+        return !(lhs == rhs);
+    }
 }

@@ -1,9 +1,9 @@
-﻿using KysectAcademyTask.FileComparison;
+﻿using KysectAcademyTask.ComparisonResult;
 using KysectAcademyTask.Utils;
 
 namespace KysectAcademyTask.Report.Reporters;
 
-public class TxtReporter : IReporter
+public class TxtReporter<T> : IReporter<T> where T : IComparisonResult
 {
     private readonly string _fileName;
 
@@ -17,10 +17,10 @@ public class TxtReporter : IReporter
         _fileName = new ExtensionApplier().GetFileNameWithDesiredExtension(fileName, ".txt");
     }
 
-    public void MakeReport(ComparisonResultsTable results)
+    public void MakeReport(ComparisonResultsTable<T> results)
     {
         using StreamWriter writer = new(_fileName);
-        foreach (ComparisonResult result in results)
+        foreach (T result in results)
         {
             writer.WriteLine(result.ToString());
             writer.WriteLine();

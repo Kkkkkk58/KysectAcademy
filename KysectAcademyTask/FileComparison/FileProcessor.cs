@@ -1,4 +1,4 @@
-﻿using KysectAcademyTask.DataAccess.Repos.Interfaces;
+﻿using KysectAcademyTask.ComparisonResult;
 using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.Utils;
@@ -10,18 +10,16 @@ public class FileProcessor
     private readonly FileRequirements? _fileRequirements;
     private readonly DirectoryRequirements? _directoryRequirements;
     private readonly IReadOnlyCollection<ComparisonAlgorithm.Metrics> _metrics;
-    private readonly IComparisonResultRepo _resultRepo;
 
     public FileProcessor(FileRequirements? fileRequirements, DirectoryRequirements? directoryRequirements,
-        IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics, IComparisonResultRepo resultRepo)
+        IReadOnlyCollection<ComparisonAlgorithm.Metrics> metrics)
     {
         _fileRequirements = fileRequirements;
         _directoryRequirements = directoryRequirements;
         _metrics = metrics;
-        _resultRepo = resultRepo;
     }
 
-    public ComparisonResultsTable CompareDirectories(string directory1, string directory2)
+    public ComparisonResultsTable<FileComparisonResult> CompareDirectories(string directory1, string directory2)
     {
         FileNamesGetter fileNamesGetter = new(_fileRequirements, _directoryRequirements);
         string[] fileNames1 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory1);
@@ -43,53 +41,41 @@ public class FileProcessor
         return commonLoader;
     }
 
-    private ComparisonResultsTable GetComparisonResults(string[] fileNames1, string[] fileNames2, FileLoader loader)
+    private ComparisonResultsTable<FileComparisonResult> GetComparisonResults(string[] fileNames1, string[] fileNames2, FileLoader loader)
     {
-        ComparisonResultsTable comparisonResultsTable = new();
+        ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new();
         foreach (ComparisonAlgorithm.Metrics metric in _metrics)
         {
-            ComparisonResultsTable resultsUsingMetrics = PerformFilesComparison(fileNames1, fileNames2, loader, metric);
+            ComparisonResultsTable<FileComparisonResult> resultsUsingMetrics = PerformFilesComparison(fileNames1, fileNames2, loader, metric);
             comparisonResultsTable.AddTable(resultsUsingMetrics);
         }
 
         return comparisonResultsTable;
     }
 
-    private ComparisonResultsTable PerformFilesComparison(string[] fileNames1, string[] fileNames2, FileLoader loader,
+    private ComparisonResultsTable<FileComparisonResult> PerformFilesComparison(string[] fileNames1, string[] fileNames2, FileLoader loader,
         ComparisonAlgorithm.Metrics metrics)
     {
-        ComparisonResultsTable comparisonResultsTable = new();
+        ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new();
         FileComparer fileComparer = new(loader, metrics);
 
         foreach (string fileName1 in fileNames1)
         {
             foreach (string fileName2 in fileNames2)
             {
-                ComparisonResult comparisonResult = GetComparisonResult(metrics, fileName1, fileName2, fileComparer);
-                comparisonResultsTable.AddComparisonResult(comparisonResult);
+                FileComparisonResult fileComparisonResult = GetComparisonResult(fileName1, fileName2, fileComparer);
+                comparisonResultsTable.AddComparisonResult(fileComparisonResult);
             }
         }
 
         return comparisonResultsTable;
     }
 
-    private ComparisonResult GetComparisonResult(ComparisonAlgorithm.Metrics metrics, string fileName1,
+    private FileComparisonResult GetComparisonResult(string fileName1,
         string fileName2, FileComparer fileComparer)
     {
-        ComparisonResult comparisonResult;
-        IQueryable<DataAccess.Models.Entities.ComparisonResult> query =
-            _resultRepo?.GetQueryWithProps(fileName1, fileName2, metrics.ToString());
+        FileComparisonResult fileComparisonResult = fileComparer.Compare(fileName1, fileName2);
 
-        if (query is not null && query.Any())
-        {
-            DataAccess.Models.Entities.ComparisonResult comparisonResultData = query.Single();
-            comparisonResult = new ComparisonResult(comparisonResultData);
-        }
-        else
-        {
-            comparisonResult = fileComparer.Compare(fileName1, fileName2);
-        }
-
-        return comparisonResult;
+        return fileComparisonResult;
     }
 }

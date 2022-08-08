@@ -8,27 +8,22 @@ namespace KysectAcademyTask.DbInteraction;
 public class DbPreparer
 {
     private readonly IGroupRepo _groupRepo;
-    private readonly IFileEntityRepo _fileRepo;
     private readonly IHomeWorkRepo _homeWorkRepo;
     private readonly IStudentRepo _studentRepo;
     private readonly ISubmitRepo _submitRepo;
-    private readonly SubmitInfoProcessor _submitInfoProcessor;
 
-    public DbPreparer(IGroupRepo groupRepo, IFileEntityRepo fileRepo, IHomeWorkRepo homeWorkRepo,
-        IStudentRepo studentRepo, ISubmitRepo submitRepo, SubmitInfoProcessor submitInfoProcessor)
+    public DbPreparer(IGroupRepo groupRepo, IHomeWorkRepo homeWorkRepo,
+        IStudentRepo studentRepo, ISubmitRepo submitRepo)
     {
         _groupRepo = groupRepo;
-        _fileRepo = fileRepo;
         _homeWorkRepo = homeWorkRepo;
         _studentRepo = studentRepo;
         _submitRepo = submitRepo;
-        _submitInfoProcessor = submitInfoProcessor;
     }
 
     public void Prepare(IReadOnlyCollection<SubmitInfo> submits)
     {
         PrepareSubmits(submits);
-        PrepareFiles(submits);
     }
 
     private void PrepareSubmits(IReadOnlyCollection<SubmitInfo> submits)
@@ -44,39 +39,6 @@ public class DbPreparer
         }
 
         _submitRepo.AddRange(submitsToAdd);
-    }
-
-    private void PrepareFiles(IReadOnlyCollection<SubmitInfo> submits)
-    {
-        var filesToAdd = new List<FileEntity>();
-
-        foreach (SubmitInfo submit in submits)
-        {
-            string dirName = _submitInfoProcessor.SubmitInfoToDirectoryPath(submit);
-            AddPreparedFilePaths(dirName, submit, filesToAdd);
-        }
-
-        _fileRepo.AddRange(filesToAdd);
-    }
-
-    private void AddPreparedFilePaths(string dirName, SubmitInfo submit, ICollection<FileEntity> filesToAdd)
-    {
-        foreach (string path in Directory.GetFiles(dirName, "*", SearchOption.AllDirectories))
-        {
-            if (_fileRepo.GetQueryWithProps(path).Any())
-                continue;
-
-            IQueryable<DataAccess.Models.Entities.Submit> submitQuery =
-                _submitRepo.GetQueryWithProps(submit.AuthorName, submit.GroupName, submit.HomeworkName,
-                    submit.SubmitDate);
-            int submitId = submitQuery.Single().Id;
-
-            filesToAdd.Add(new FileEntity
-            {
-                Path = path,
-                SubmitId = submitId
-            });
-        }
     }
 
     private void PrepareGroup(string groupName)

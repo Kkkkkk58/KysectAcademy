@@ -1,8 +1,8 @@
-﻿using KysectAcademyTask.FileComparison;
+﻿using KysectAcademyTask.ComparisonResult;
 
 namespace KysectAcademyTask.Report.Reporters;
 
-public interface IReporter
+public interface IReporter<T> where T : IComparisonResult
 {
-    public void MakeReport(ComparisonResultsTable results);
+    public void MakeReport(ComparisonResultsTable<T> results);
 }
