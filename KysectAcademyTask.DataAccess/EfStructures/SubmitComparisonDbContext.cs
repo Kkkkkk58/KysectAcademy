@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KysectAcademyTask.DataAccess.EfStructures;
 
-public sealed partial class FileComparisonDbContext : DbContext
+public sealed partial class SubmitComparisonDbContext : DbContext
 {
-    public FileComparisonDbContext(DbContextOptions<FileComparisonDbContext> options)
+    public SubmitComparisonDbContext(DbContextOptions<SubmitComparisonDbContext> options)
         : base(options)
     {
         Database.EnsureCreated();
@@ -19,7 +19,6 @@ public sealed partial class FileComparisonDbContext : DbContext
     }
 
     public DbSet<ComparisonResult> ComparisonResults { get; set; } = null!;
-    public DbSet<FileEntity> Files { get; set; } = null!;
     public DbSet<Group> Groups { get; set; } = null!;
     public DbSet<Student> Students { get; set; } = null!;
     public DbSet<Models.Entities.Submit> Submits { get; set; } = null!;
@@ -36,7 +35,6 @@ public sealed partial class FileComparisonDbContext : DbContext
     private void ConfigureEntities(ModelBuilder modelBuilder)
     {
         new ComparisonResultTypeConfiguration().Configure(modelBuilder.Entity<ComparisonResult>());
-        new FileEntityTypeConfiguration().Configure(modelBuilder.Entity<FileEntity>());
         new GroupTypeConfiguration().Configure(modelBuilder.Entity<Group>());
         new HomeWorkTypeConfiguration().Configure(modelBuilder.Entity<HomeWork>());
         new StudentTypeConfiguration().Configure(modelBuilder.Entity<Student>());

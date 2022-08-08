@@ -6,7 +6,7 @@ namespace KysectAcademyTask.DataAccess.Models.Entities;
 public class Student : BaseEntity
 {
     public Person PersonalInformation { get; set; }
-    public Group GroupNavigation { get; set; }
+    public virtual Group GroupNavigation { get; set; }
     public int GroupId { get; set; }
-    public ICollection<Submit> Submits { get; set; } = null!;
+    public virtual ICollection<Submit> Submits { get; set; } = null!;
 }

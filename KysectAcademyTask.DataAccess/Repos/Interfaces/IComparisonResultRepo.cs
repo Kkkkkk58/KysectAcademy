@@ -5,6 +5,5 @@ namespace KysectAcademyTask.DataAccess.Repos.Interfaces;
 
 public interface IComparisonResultRepo : IRepo<ComparisonResult>
 {
-    public IQueryable<ComparisonResult> GetQueryWithProps(string fileName1, string fileName2,
-        string metrics);
+    public IQueryable<ComparisonResult> GetQueryWithProps(Submit submit1, Submit submit2);
 }

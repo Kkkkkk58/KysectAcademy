@@ -8,17 +8,17 @@ namespace KysectAcademyTask.DataAccess.Repos;
 
 public class GroupRepo : BaseRepo<Group>, IGroupRepo
 {
-    public GroupRepo(FileComparisonDbContext context) : base(context)
+    public GroupRepo(SubmitComparisonDbContext context) : base(context)
     {
     }
 
-    public GroupRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
+    public GroupRepo(DbContextOptions<SubmitComparisonDbContext> options) : base(options)
     {
     }
 
     public IQueryable<Group> GetQueryWithProps(string name)
     {
-        return Table?
+        return Table
             .Where(g => g.Name == name);
     }
 }

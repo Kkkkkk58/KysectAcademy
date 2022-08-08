@@ -8,17 +8,17 @@ namespace KysectAcademyTask.DataAccess.Repos;
 
 public class HomeWorkRepo : BaseRepo<HomeWork>, IHomeWorkRepo
 {
-    public HomeWorkRepo(FileComparisonDbContext context) : base(context)
+    public HomeWorkRepo(SubmitComparisonDbContext context) : base(context)
     {
     }
 
-    public HomeWorkRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
+    public HomeWorkRepo(DbContextOptions<SubmitComparisonDbContext> options) : base(options)
     {
     }
 
     public IQueryable<HomeWork> GetQueryWithProps(string name)
     {
-        return Table?
+        return Table
             .Where(h => h.Name == name);
     }
 }

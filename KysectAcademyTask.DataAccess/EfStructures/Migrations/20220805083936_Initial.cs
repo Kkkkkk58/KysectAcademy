@@ -45,7 +45,7 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true, computedColumnSql: "[FirstName] + ' ' + [LastName]"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GroupId = table.Column<int>(type: "int", nullable: false),
                     TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
@@ -89,35 +89,13 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Files",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Path = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    SubmitId = table.Column<int>(type: "int", nullable: false),
-                    TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Files", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Files_Submits_SubmitId",
-                        column: x => x.SubmitId,
-                        principalTable: "Submits",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ComparisonResults",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    File1Id = table.Column<int>(type: "int", nullable: false),
-                    File2Id = table.Column<int>(type: "int", nullable: false),
-                    Metrics = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Submit1Id = table.Column<int>(type: "int", nullable: false),
+                    Submit2Id = table.Column<int>(type: "int", nullable: false),
                     SimilarityRate = table.Column<double>(type: "float", nullable: false),
                     TimeStamp = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
@@ -125,38 +103,26 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
                 {
                     table.PrimaryKey("PK_ComparisonResults", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ComparisonResults_Files_File1Id",
-                        column: x => x.File1Id,
-                        principalTable: "Files",
+                        name: "FK_ComparisonResults_Submits_Submit1Id",
+                        column: x => x.Submit1Id,
+                        principalTable: "Submits",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_ComparisonResults_Files_File2Id",
-                        column: x => x.File2Id,
-                        principalTable: "Files",
+                        name: "FK_ComparisonResults_Submits_Submit2Id",
+                        column: x => x.Submit2Id,
+                        principalTable: "Submits",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComparisonResults_File1Id",
+                name: "IX_ComparisonResults_Submit1Id",
                 table: "ComparisonResults",
-                column: "File1Id");
+                column: "Submit1Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComparisonResults_File2Id",
+                name: "IX_ComparisonResults_Submit2Id",
                 table: "ComparisonResults",
-                column: "File2Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Files_Path",
-                table: "Files",
-                column: "Path",
-                unique: true,
-                filter: "[Path] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Files_SubmitId",
-                table: "Files",
-                column: "SubmitId");
+                column: "Submit2Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Groups_Name",
@@ -192,9 +158,6 @@ namespace KysectAcademyTask.DataAccess.EfStructures.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ComparisonResults");
-
-            migrationBuilder.DropTable(
-                name: "Files");
 
             migrationBuilder.DropTable(
                 name: "Submits");

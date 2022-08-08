@@ -3,18 +3,17 @@ using MySqlConnector;
 
 namespace KysectAcademyTask.DataAccess.EfStructures;
 
-public class FileComparisonDbContextFactory
+public class SubmitComparisonDbContextFactory
 {
-    public FileComparisonDbContext GetDbContext(DataProvider dataProvider, string connectionString)
+    public SubmitComparisonDbContext GetDbContext(DataProvider dataProvider, string connectionString)
     {
-        DbContextOptionsBuilder<FileComparisonDbContext> optionsBuilder = GetOptionsBuilder(dataProvider, connectionString);
-        return new FileComparisonDbContext(optionsBuilder.Options);
+        DbContextOptionsBuilder<SubmitComparisonDbContext> optionsBuilder = GetOptionsBuilder(dataProvider, connectionString);
+        return new SubmitComparisonDbContext(optionsBuilder.Options);
     }
 
-    private DbContextOptionsBuilder<FileComparisonDbContext> GetOptionsBuilder(DataProvider dataProvider, string connectionString)
+    private DbContextOptionsBuilder<SubmitComparisonDbContext> GetOptionsBuilder(DataProvider dataProvider, string connectionString)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<FileComparisonDbContext>();
-        optionsBuilder.EnableSensitiveDataLogging();
+        var optionsBuilder = new DbContextOptionsBuilder<SubmitComparisonDbContext>();
 
         switch (dataProvider)
         {
@@ -40,6 +39,9 @@ public class FileComparisonDbContextFactory
             default:
                 throw new NotImplementedException("Not implemented factory method for this provider");
         }
+
+        optionsBuilder.EnableSensitiveDataLogging()
+            .UseLazyLoadingProxies();
 
         return optionsBuilder;
     }

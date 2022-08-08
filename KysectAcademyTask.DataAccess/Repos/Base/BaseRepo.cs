@@ -6,12 +6,12 @@ namespace KysectAcademyTask.DataAccess.Repos.Base;
 
 public class BaseRepo<T> : IRepo<T> where T : BaseEntity, new()
 {
-    public FileComparisonDbContext Context { get; }
+    public SubmitComparisonDbContext Context { get; }
     public DbSet<T> Table { get; }
     private readonly bool _disposeContext;
     private bool _isDisposed;
 
-    protected BaseRepo(FileComparisonDbContext context)
+    protected BaseRepo(SubmitComparisonDbContext context)
     {
         Context = context;
         Table = Context?.Set<T>();
@@ -19,8 +19,8 @@ public class BaseRepo<T> : IRepo<T> where T : BaseEntity, new()
         _isDisposed = false;
     }
 
-    protected BaseRepo(DbContextOptions<FileComparisonDbContext> options)
-        : this(new FileComparisonDbContext(options))
+    protected BaseRepo(DbContextOptions<SubmitComparisonDbContext> options)
+        : this(new SubmitComparisonDbContext(options))
     {
         _disposeContext = true;
     }

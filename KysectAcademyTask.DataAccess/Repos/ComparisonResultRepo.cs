@@ -8,21 +8,18 @@ namespace KysectAcademyTask.DataAccess.Repos;
 
 public class ComparisonResultRepo : BaseRepo<ComparisonResult>, IComparisonResultRepo
 {
-    public ComparisonResultRepo(FileComparisonDbContext context) : base(context)
+    public ComparisonResultRepo(SubmitComparisonDbContext context) : base(context)
     {
     }
 
-    public ComparisonResultRepo(DbContextOptions<FileComparisonDbContext> options) : base(options)
+    public ComparisonResultRepo(DbContextOptions<SubmitComparisonDbContext> options) : base(options)
     {
     }
 
-    public IQueryable<ComparisonResult> GetQueryWithProps(string fileName1, string fileName2, string metrics)
+    public IQueryable<ComparisonResult> GetQueryWithProps(Submit submit1, Submit submit2)
     {
-        return Table?
-            .Include(c => c.File1Navigation)
-            .Include(c => c.File2Navigation)
-            .Where(c => (c.File1Navigation.Path == fileName1 && c.File2Navigation.Path == fileName2
-                         || c.File1Navigation.Path == fileName2 && c.File2Navigation.Path == fileName1)
-                        && c.Metrics == metrics);
+        return Table
+            .Where(c => c.Submit1Navigation == submit1 && c.Submit2Navigation == submit2
+                                   || c.Submit1Navigation == submit2 && c.Submit2Navigation == submit1);
     }
 }
