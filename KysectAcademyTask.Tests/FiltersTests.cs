@@ -79,6 +79,7 @@ public class FiltersTests : BaseTests
         Assert.True(condition);
     }
 
+    // TODO
     //[Fact]
     //public void DirectoryFilter_BlackList_ReportDoesNotContainFilesFromDirs()
     //{
