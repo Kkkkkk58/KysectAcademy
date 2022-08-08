@@ -30,7 +30,7 @@ public class FiltersTests : BaseTests
     {
         InitPaths(_relativeRootPath, ReportType.Json);
 
-        var blackList = new List<string> { "Betty Padilla", "Andrew Gray", "Barbara Jones", "Alex Lane", "Stephen Brown" };
+        var blackList = new List<string> { "Betty Padilla", "Andrew Gray", "Barbara Jones" };
         var authorFilter = new AuthorFilter(null, blackList);
         var filters = new Filters
         {
@@ -224,7 +224,7 @@ public class FiltersTests : BaseTests
     {
         InitPaths(_relativeRootPath, ReportType.Json);
 
-        var blackList = new List<string> { "M3235", "M3236" };
+        var blackList = new List<string> { "M3234", "M3236" };
         var groupFilter = new GroupFilter(null, blackList);
         var filters = new Filters
         {
@@ -252,7 +252,7 @@ public class FiltersTests : BaseTests
     {
         InitPaths(_relativeRootPath, ReportType.Json);
 
-        var whiteList = new List<string> { "M3235", "M3236" };
+        var whiteList = new List<string> { "M3237", "M3236" };
         var groupFilter = new GroupFilter(whiteList, null);
         var filters = new Filters
         {
@@ -280,7 +280,7 @@ public class FiltersTests : BaseTests
     {
         InitPaths(_relativeRootPath, ReportType.Json);
 
-        var blackList = new List<string> { "4. INI файл", "1. Ввод-вывод" };
+        var blackList = new List<string> { "4. INI файл" };
         var homeWorkFilter = new HomeworkFilter(null, blackList);
         var filters = new Filters
         {
@@ -308,7 +308,7 @@ public class FiltersTests : BaseTests
     {
         InitPaths(_relativeRootPath, ReportType.Json);
 
-        var whiteList = new List<string> { "6. Знакомство с паттернами" };
+        var whiteList = new List<string> { "7. Банки" };
         var homeWorkFilter = new HomeworkFilter(whiteList, null);
         var filters = new Filters
         {
