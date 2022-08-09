@@ -7,12 +7,10 @@ using KysectAcademyTask.DbInteraction;
 using KysectAcademyTask.DbInteraction.Configuration;
 using KysectAcademyTask.FileComparison;
 using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
-using KysectAcademyTask.Report;
 using KysectAcademyTask.Report.Reporters;
 using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.Submit;
 using KysectAcademyTask.SubmitComparison;
-using KysectAcademyTask.Utils.ProgressTracking.ProgressBar;
 using KysectAcademyTask.Utils.ProgressTracking.ProgressBar.ConsoleProgressBar;
 
 namespace KysectAcademyTask;
@@ -30,8 +28,8 @@ public class SubmitComparisonApp
     {
         try
         {
-            IReadOnlyList<SubmitInfo> submits = new SubmitGetter(_config.SubmitConfig).GetSubmits();
-            SubmitComparisonDbContext dbContext = GetDbContext(_config.DbConfig);
+            IReadOnlyList<SubmitInfo> submits = GetListOfSubmits();
+            SubmitComparisonDbContext dbContext = GetDbContext();
             AllRepos allRepos = GetAllRepos(dbContext);
 
             if (dbContext is not null)
@@ -39,13 +37,11 @@ public class SubmitComparisonApp
                 PrepareDatabase(allRepos, submits);
             }
 
-            DbResultsCacheManager cacheManager =
-                GetCacheManager(allRepos.ComparisonResultRepo, _config.DbConfig.Recheck);
-            SubmitComparisonProcessor submitComparisonProcessor =
-                GetSubmitComparisonProcessor(_config.SubmitConfig, submits, cacheManager);
-            SetProgressBar(submitComparisonProcessor, _config.ProgressBarConfig);
+            DbResultsCacheManager cacheManager = GetCacheManager(allRepos.ComparisonResultRepo);
+            SubmitComparisonProcessor submitComparisonProcessor = GetSubmitComparisonProcessor(submits, cacheManager);
+            SetProgressBar(submitComparisonProcessor);
             ComparisonResultsTable<SubmitComparisonResult> results = submitComparisonProcessor.GetComparisonResults();
-            IReporter<SubmitComparisonResult> reporter = GetReporter(_config.ReportConfig);
+            IReporter<SubmitComparisonResult> reporter = GetReporter();
             reporter.MakeReport(results);
 
             if (dbContext is not null)
@@ -59,35 +55,15 @@ public class SubmitComparisonApp
         }
     }
 
-    private IReporter<SubmitComparisonResult> GetReporter(ReportConfig reportConfig)
+    private IReadOnlyList<SubmitInfo> GetListOfSubmits()
     {
-        return new ReporterFactory().GetReporter<SubmitComparisonResult>(reportConfig);
+        return new SubmitGetter(_config.SubmitConfig).GetSubmits();
     }
 
-    private DbResultsCacheManager GetCacheManager(IComparisonResultRepo comparisonResultRepo, bool dbConfigRecheck)
+    private SubmitComparisonDbContext GetDbContext()
     {
-        return new DbResultsCacheManager(comparisonResultRepo, dbConfigRecheck);
-    }
+        DbConfig dbConfig = _config.DbConfig;
 
-
-    private AllRepos GetAllRepos(SubmitComparisonDbContext dbContext)
-    {
-        IComparisonResultRepo comparisonResultRepo = new ComparisonResultRepo(dbContext);
-        IGroupRepo groupRepo = new GroupRepo(dbContext);
-        IHomeWorkRepo homeWorkRepo = new HomeWorkRepo(dbContext);
-        IStudentRepo studentRepo = new StudentRepo(dbContext);
-        ISubmitRepo submitRepo = new SubmitRepo(dbContext);
-
-        return new AllRepos(comparisonResultRepo, groupRepo, homeWorkRepo, studentRepo, submitRepo);
-    }
-
-    private static SubmitInfoProcessor GetSubmitInfoProcessor(SubmitConfig config)
-    {
-        return new SubmitInfoProcessor(config.RootDir, config.SubmitTimeFormat);
-    }
-
-    private SubmitComparisonDbContext GetDbContext(DbConfig dbConfig)
-    {
         string connectionString = dbConfig.ConnectionStrings?["SubmitComparison"];
         if (connectionString is null or "" || dbConfig.DataProvider is null)
         {
@@ -98,43 +74,71 @@ public class SubmitComparisonApp
             .GetDbContext((DataProvider)dbConfig.DataProvider, connectionString);
     }
 
-    private void PrepareDatabase(AllRepos repos, IReadOnlyList<SubmitInfo> submits)
+    private static AllRepos GetAllRepos(SubmitComparisonDbContext dbContext)
+    {
+        IComparisonResultRepo comparisonResultRepo = new ComparisonResultRepo(dbContext);
+        IGroupRepo groupRepo = new GroupRepo(dbContext);
+        IHomeWorkRepo homeWorkRepo = new HomeWorkRepo(dbContext);
+        IStudentRepo studentRepo = new StudentRepo(dbContext);
+        ISubmitRepo submitRepo = new SubmitRepo(dbContext);
+
+        return new AllRepos(comparisonResultRepo, groupRepo, homeWorkRepo, studentRepo, submitRepo);
+    }
+
+    private static void PrepareDatabase(AllRepos repos, IReadOnlyCollection<SubmitInfo> submits)
     {
         new DbPreparer(repos.GroupRepo, repos.HomeWorkRepo, repos.StudentRepo, repos.SubmitRepo)
             .Prepare(submits);
     }
 
-    private SubmitComparisonProcessor GetSubmitComparisonProcessor(SubmitConfig config,
-        IReadOnlyList<SubmitInfo> submits, DbResultsCacheManager dbResultsCacheManager)
+    private DbResultsCacheManager GetCacheManager(IComparisonResultRepo comparisonResultRepo)
     {
-        SubmitInfoProcessor submitInfoProcessor = GetSubmitInfoProcessor(config);
+        return new DbResultsCacheManager(comparisonResultRepo, _config.DbConfig.Recheck);
+    }
+    
+    private SubmitComparisonProcessor GetSubmitComparisonProcessor(IReadOnlyList<SubmitInfo> submits, DbResultsCacheManager dbResultsCacheManager)
+    {
+        SubmitInfoProcessor submitInfoProcessor = GetSubmitInfoProcessor();
         var submitSuitabilityChecker =
-            new SubmitSuitabilityChecker(config.Filters, submitInfoProcessor, dbResultsCacheManager);
-        FileProcessor fileProcessor = GetFileProcessor(config);
+            new SubmitSuitabilityChecker(_config.SubmitConfig.Filters, submitInfoProcessor, dbResultsCacheManager);
+        FileProcessor fileProcessor = GetFileProcessor();
 
         return new SubmitComparisonProcessor(submits, submitInfoProcessor, submitSuitabilityChecker,
             fileProcessor, dbResultsCacheManager.Cache);
     }
 
-    private FileProcessor GetFileProcessor(SubmitConfig config)
+    private SubmitInfoProcessor GetSubmitInfoProcessor()
     {
-        FileRequirements? fileRequirements = config.Filters?.FileRequirements;
-        DirectoryRequirements? directoryRequirements = config.Filters?.DirectoryRequirements;
-        IReadOnlyList<ComparisonAlgorithm.Metrics> metrics = config.Metrics;
+        SubmitConfig config = _config.SubmitConfig;
+        return new SubmitInfoProcessor(config.RootDir, config.SubmitTimeFormat);
+    }
+
+    private FileProcessor GetFileProcessor()
+    {
+        SubmitConfig submitConfig = _config.SubmitConfig;
+
+        FileRequirements? fileRequirements = submitConfig.Filters?.FileRequirements;
+        DirectoryRequirements? directoryRequirements = submitConfig.Filters?.DirectoryRequirements;
+        IReadOnlyList<ComparisonAlgorithm.Metrics> metrics = submitConfig.Metrics;
 
         return new FileProcessor(fileRequirements, directoryRequirements, metrics);
     }
 
-    private void SaveResultsToDatabase(IComparisonResultRepo resultRepo, ISubmitRepo fileRepo,
+    private IReporter<SubmitComparisonResult> GetReporter()
+    {
+        return new ReporterFactory().GetReporter<SubmitComparisonResult>(_config.ReportConfig);
+    }
+
+    private static void SaveResultsToDatabase(IComparisonResultRepo resultRepo, ISubmitRepo fileRepo,
         ComparisonResultsTable<SubmitComparisonResult> results)
     {
         var updater = new DbResultsUpdater(resultRepo, fileRepo);
         updater.UpdateResults(results);
     }
 
-    private void SetProgressBar(SubmitComparisonProcessor submitComparisonProcessor, ProgressBarConfig config)
+    private void SetProgressBar(SubmitComparisonProcessor submitComparisonProcessor)
     {
-        if (config.IsEnabled)
+        if (_config.ProgressBarConfig.IsEnabled)
         {
             submitComparisonProcessor.SetProgressBar(new ConsoleComparisonProgressBar());
         }
