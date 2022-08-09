@@ -28,7 +28,7 @@ public class DbTests : BaseTests
     }
 
     [Fact]
-    public void DbTest_EnableDbCompareTwice_FinalSourceIsDb()
+    public void DbTest_EnableDbNoRecheckCompareTwice_FinalSourceIsDb()
     {
         InitPaths(_relativeRootPath, ReportType.Json);
 
@@ -44,7 +44,24 @@ public class DbTests : BaseTests
         Assert.True(AllResultsAreFromSource(results, ResultSource.Database));
     }
 
-    private AppSettingsConfig GetConfig(string connectionString)
+    [Fact]
+    public void DbTest_EnableDbWithRecheckCompareTwice_RecheckedResults()
+    {
+        InitPaths(_relativeRootPath, ReportType.Json);
+
+        AppSettingsConfig config = GetConfig("DataSource=file:memdb1?mode=memory&cache=shared", true);
+        RunApplication(config);
+
+        IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
+        Assert.True(AllResultsAreFromSource(results, ResultSource.NewFileComparison));
+
+        RunApplication(config);
+
+        results = GetResults();
+        Assert.True(DbResultsWereRechecked(results));
+    }
+
+    private AppSettingsConfig GetConfig(string connectionString, bool recheck = false)
     {
         var connectionStrings = new Dictionary<string, string>
         {
@@ -53,7 +70,7 @@ public class DbTests : BaseTests
 
         return new AppSettingsConfig
         {
-            DbConfig = new DbConfig(connectionStrings, DataProvider.SqLite),
+            DbConfig = new DbConfig(connectionStrings, DataProvider.SqLite, recheck),
             ReportConfig = new ReportConfig(ReportType.Json, ResultPath),
             SubmitConfig = new SubmitConfig(RootPath, null, DefaultMetrics, DefaultDateTimeFormat, DefaultDirDepth),
             ProgressBarConfig = new ProgressBarConfig(false)
@@ -63,5 +80,15 @@ public class DbTests : BaseTests
     private bool AllResultsAreFromSource(IReadOnlyCollection<TestSubmitComparisonResult> results, ResultSource source)
     {
         return results.All(r => r.Source == source);
+    }
+
+    private bool DbResultsWereRechecked(IReadOnlyCollection<TestSubmitComparisonResult> results)
+    {
+        return results
+            .All(result => result.Source != ResultSource.Database
+                           || results
+                               .Any(resultFromNewComparison => resultFromNewComparison.Source == ResultSource.NewFileComparison 
+                                           && resultFromNewComparison.SubmitInfo1 == result.SubmitInfo1
+                                           && resultFromNewComparison.SubmitInfo2 == result.SubmitInfo2));
     }
 }
