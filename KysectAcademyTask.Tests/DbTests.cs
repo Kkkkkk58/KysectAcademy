@@ -32,12 +32,15 @@ public class DbTests : BaseTests
     {
         InitPaths(_relativeRootPath, ReportType.Json);
 
-        AppSettingsConfig config = GetConfig("DataSource=file:memdb1?mode=memory&cache=shared", false);
+        AppSettingsConfig config = GetConfig("DataSource=file:memdb1?mode=memory&cache=shared");
         RunApplication(config);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
         Assert.True(AllResultsAreFromSource(results, ResultSource.NewFileComparison));
 
+        InitPaths(_relativeRootPath, ReportType.Json);
+
+        config = GetConfig("DataSource=file:memdb1?mode=memory&cache=shared");
         RunApplication(config);
 
         results = GetResults();
