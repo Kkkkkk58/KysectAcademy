@@ -14,22 +14,22 @@ public class SubmitFromDbToAppTransformer
         return new SubmitInfo(groupName, authorName, homeWorkName, submitDate);
     }
 
-    private string GetGroupName(DataAccess.Models.Entities.Submit submit)
+    private static string GetGroupName(DataAccess.Models.Entities.Submit submit)
     {
         return submit.StudentNavigation.GroupNavigation.Name;
     }
 
-    private string GetAuthorName(DataAccess.Models.Entities.Submit submit)
+    private static string GetAuthorName(DataAccess.Models.Entities.Submit submit)
     {
         return submit.StudentNavigation.PersonalInformation.FullName;
     }
 
-    private string GetHomeWorkName(DataAccess.Models.Entities.Submit submit)
+    private static string GetHomeWorkName(DataAccess.Models.Entities.Submit submit)
     {
         return submit.HomeWorkNavigation.Name;
     }
 
-    private DateTime? GetSubmitDate(DataAccess.Models.Entities.Submit submit)
+    private static DateTime? GetSubmitDate(DataAccess.Models.Entities.Submit submit)
     {
         return submit.Date;
     }

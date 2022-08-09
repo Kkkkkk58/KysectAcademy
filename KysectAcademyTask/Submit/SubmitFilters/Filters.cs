@@ -19,11 +19,6 @@ public readonly struct Filters
         return DirectoryRequirements is null || ((DirectoryRequirements)DirectoryRequirements).AreSatisfiedBy(path);
     }
 
-    public bool AreFileRequirementsNullOrSatisfied(string path)
-    {
-        return FileRequirements is null || ((FileRequirements)FileRequirements).AreSatisfiedBy(path);
-    }
-
     public bool AreSubmitRequirementsNullOrSatisfied(SubmitInfo submitInfo)
     {
         return SubmitInfoRequirements is null ||

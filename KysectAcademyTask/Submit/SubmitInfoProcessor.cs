@@ -38,17 +38,17 @@ public class SubmitInfoProcessor : ISubmitInfoProcessor
         }
     }
 
-    private string GetGroupName(IReadOnlyList<string> subDirectories)
+    private static string GetGroupName(IReadOnlyList<string> subDirectories)
     {
         return subDirectories[0];
     }
 
-    private string GetAuthorName(IReadOnlyList<string> subDirectories)
+    private static string GetAuthorName(IReadOnlyList<string> subDirectories)
     {
         return subDirectories[1];
     }
 
-    private string GetHomeWorkName(IReadOnlyList<string> subDirectories)
+    private static string GetHomeWorkName(IReadOnlyList<string> subDirectories)
     {
         return subDirectories[2];
     }
@@ -72,11 +72,11 @@ public class SubmitInfoProcessor : ISubmitInfoProcessor
     public string SubmitInfoToDirectoryPath(SubmitInfo submitInfo)
     {
         string path = Path.Combine(_rootPath, submitInfo.GroupName, submitInfo.AuthorName, submitInfo.HomeworkName);
-        if (submitInfo.SubmitDate.HasValue)
-        {
-            string submitDate = submitInfo.SubmitDate.Value.ToString(_dateTimeFormat);
-            path = Path.Combine(path, submitDate);
-        }
+        if (!submitInfo.SubmitDate.HasValue)
+            return path;
+
+        string submitDate = submitInfo.SubmitDate.Value.ToString(_dateTimeFormat);
+        path = Path.Combine(path, submitDate);
 
         return path;
     }

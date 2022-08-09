@@ -1,4 +1,4 @@
-﻿namespace KysectAcademyTask.FileComparison;
+﻿namespace KysectAcademyTask.ComparisonResult;
 
 public enum ResultSource
 {

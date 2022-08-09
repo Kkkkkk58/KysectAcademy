@@ -18,7 +18,7 @@ public class ConsoleProgressBar : IProgressBar
         Draw(percentage);
     }
 
-    private void Draw(int percentage)
+    private static void Draw(int percentage)
     {
         var pbSetup = new ConsoleProgressBarSetup('[', ']', '#', 0, 101, 1);
         Console.CursorLeft = pbSetup.LeftCursorPos;

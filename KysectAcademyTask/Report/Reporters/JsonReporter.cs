@@ -24,8 +24,14 @@ public class JsonReporter<T> : IReporter<T> where T : IComparisonResult
     public void MakeReport(ComparisonResultsTable<T> results)
     {
         using var writer = new StreamWriter(_fileName);
+        JsonSerializerOptions options = GetSerializerOptions();
+        string jsonOutput = JsonSerializer.Serialize(results, options);
+        writer.WriteLine(jsonOutput);
+    }
 
-        var options = new JsonSerializerOptions
+    private static JsonSerializerOptions GetSerializerOptions()
+    {
+        return new JsonSerializerOptions
         {
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
             WriteIndented = true,
@@ -34,7 +40,5 @@ public class JsonReporter<T> : IReporter<T> where T : IComparisonResult
                 new JsonStringEnumConverter()
             }
         };
-        string jsonOutput = JsonSerializer.Serialize(results, options);
-        writer.WriteLine(jsonOutput);
     }
 }

@@ -10,33 +10,17 @@ namespace KysectAcademyTask.AppSettings;
 
 public class AppSettingsParser
 {
-    private static AppSettingsParser _instance;
-    private static readonly object Lock = new();
-
     private readonly IConfigurationRoot _configRoot;
 
     public AppSettingsConfig Config { get; }
-
-    public static AppSettingsParser GetInstance()
-    {
-        if (_instance is null)
-        {
-            lock (Lock)
-            {
-                _instance ??= new AppSettingsParser();
-            }
-        }
-
-        return _instance;
-    }
-
-    private AppSettingsParser()
+    
+    public AppSettingsParser()
     {
         _configRoot = GetConfigurationRoot("appsettings.json");
         Config = GetConfig();
     }
 
-    private IConfigurationRoot GetConfigurationRoot(string jsonFileName)
+    private static IConfigurationRoot GetConfigurationRoot(string jsonFileName)
     {
         return new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -45,16 +29,22 @@ public class AppSettingsParser
 
     private AppSettingsConfig GetConfig()
     {
+        SubmitConfig submitConfig = GetSubmitConfig();
+        ReportConfig reportConfig = GetReportConfig();
+        DbConfig dbConfig = GetDbConfig();
+        ProgressBarConfig progressBarConfig = GetProgressBarConfig();
+        return new AppSettingsConfig(submitConfig, reportConfig, dbConfig, progressBarConfig);
+    }
+
+    private SubmitConfig GetSubmitConfig()
+    {
         string inputDirectory = GetInputDirectory();
         Filters? filters = GetFilters();
         IReadOnlyList<ComparisonAlgorithm.Metrics> metrics = GetComparisonMetrics();
         string submitTimeFormat = GetSubmitTimeFormat();
         int submitDirDepth = GetSubmitDirDepth();
-        SubmitConfig submitConfig = new(inputDirectory, filters, metrics, submitTimeFormat, submitDirDepth);
-        ReportConfig reportConfig = GetReportConfig();
-        DbConfig dbConfig = GetDbConfig();
-        ProgressBarConfig progressBarConfig = GetProgressBarConfig();
-        return new AppSettingsConfig(submitConfig, reportConfig, dbConfig, progressBarConfig);
+
+        return new SubmitConfig(inputDirectory, filters, metrics, submitTimeFormat, submitDirDepth);
     }
 
     private string GetInputDirectory()

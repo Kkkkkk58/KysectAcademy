@@ -24,10 +24,15 @@ public readonly struct SubmitInfo
     public override bool Equals(object obj)
     {
         return obj is SubmitInfo submitInfo
-               && GroupName.Equals(submitInfo.GroupName, StringComparison.OrdinalIgnoreCase)
-               && AuthorName.Equals(submitInfo.AuthorName, StringComparison.OrdinalIgnoreCase)
-               && HomeworkName.Equals(submitInfo.HomeworkName, StringComparison.OrdinalIgnoreCase)
-               && SubmitDate.Equals(submitInfo.SubmitDate);
+            && Equals(submitInfo);
+    }
+
+    public bool Equals(SubmitInfo other)
+    {
+        return GroupName.Equals(other.GroupName, StringComparison.OrdinalIgnoreCase)
+               && AuthorName.Equals(other.AuthorName, StringComparison.OrdinalIgnoreCase)
+               && HomeworkName.Equals(other.HomeworkName, StringComparison.OrdinalIgnoreCase)
+               && SubmitDate.Equals(other.SubmitDate);
     }
 
     public override int GetHashCode()

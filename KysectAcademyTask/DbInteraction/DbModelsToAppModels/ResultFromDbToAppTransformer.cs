@@ -1,5 +1,4 @@
 ﻿using KysectAcademyTask.ComparisonResult;
-using KysectAcademyTask.FileComparison;
 using KysectAcademyTask.Submit;
 
 namespace KysectAcademyTask.DbInteraction.DbModelsToAppModels;
@@ -14,7 +13,7 @@ public class ResultFromDbToAppTransformer
         return new SubmitComparisonResult(submitInfo1, submitInfo2, result.SimilarityRate, ResultSource.Database);
     }
 
-    private SubmitInfo GetSubmitInfo(DataAccess.Models.Entities.Submit submit)
+    private static SubmitInfo GetSubmitInfo(DataAccess.Models.Entities.Submit submit)
     {
         return new SubmitFromDbToAppTransformer().Transform(submit);
     }

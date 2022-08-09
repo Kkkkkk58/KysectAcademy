@@ -7,10 +7,10 @@ public class ComparisonResultsTable<T> : IReadOnlyCollection<T>
 {
     private readonly List<T> _comparisonResults;
     public int Count => _comparisonResults.Count;
-
-    public ComparisonResultsTable()
+    
+    public ComparisonResultsTable(int capacity = default)
     {
-        _comparisonResults = new List<T>();
+        _comparisonResults = new List<T>(capacity);
     }
 
     public void AddComparisonResult(T result)

@@ -1,5 +1,4 @@
-﻿using KysectAcademyTask.FileComparison;
-using KysectAcademyTask.Submit;
+﻿using KysectAcademyTask.Submit;
 
 namespace KysectAcademyTask.ComparisonResult;
 

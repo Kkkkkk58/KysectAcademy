@@ -1,6 +1,4 @@
-﻿using KysectAcademyTask.FileComparison;
-
-namespace KysectAcademyTask.ComparisonResult;
+﻿namespace KysectAcademyTask.ComparisonResult;
 
 public interface IComparisonResult
 {

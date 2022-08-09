@@ -29,7 +29,7 @@ public class FileLoader
         return fileContent;
     }
 
-    private Dictionary<string, string> GetAllContents(IEnumerable<string> fileNames)
+    private static Dictionary<string, string> GetAllContents(IEnumerable<string> fileNames)
     {
         return fileNames
             .ToDictionary(fileName => fileName, File.ReadAllText);

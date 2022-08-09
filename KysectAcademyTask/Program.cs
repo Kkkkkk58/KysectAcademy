@@ -6,7 +6,7 @@ public class Program
 {
     public static void Main()
     {
-        AppSettingsConfig config = AppSettingsParser.GetInstance().Config;
+        AppSettingsConfig config = new AppSettingsParser().Config;
         var app = new SubmitComparisonApp(config);
         app.Run();
     }

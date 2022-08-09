@@ -24,7 +24,7 @@ public class SubmitSuitabilityChecker
                && AreSubmitsFromDifferentAuthors(submit1, submit2)
                && IsSameHomework(submit1, submit2)
                && AreNotEmptyAfterApplyingFilters(submit1, submit2)
-               && SatisfyCacheManager(submit1, submit2);
+               && AreSatisfyingCacheManager(submit1, submit2);
     }
 
     private bool IsAnyAuthorFromWhiteList(SubmitInfo submit1, SubmitInfo submit2)
@@ -34,12 +34,13 @@ public class SubmitSuitabilityChecker
                || ((Filters)_filters).IsAuthorNameNullOrIsContainedInWhiteList(submit2.AuthorName);
     }
 
-    private bool AreSubmitsFromDifferentAuthors(SubmitInfo submit1, SubmitInfo submit2)
+    private static bool AreSubmitsFromDifferentAuthors(SubmitInfo submit1, SubmitInfo submit2)
     {
-        return submit1.AuthorName != submit2.AuthorName;
+        return !string.Equals(submit1.AuthorName, 
+            submit2.AuthorName, StringComparison.OrdinalIgnoreCase);
     }
 
-    private bool IsSameHomework(SubmitInfo submit1, SubmitInfo submit2)
+    private static bool IsSameHomework(SubmitInfo submit1, SubmitInfo submit2)
     {
         return string.Equals(submit1.HomeworkName,
             submit2.HomeworkName, StringComparison.CurrentCultureIgnoreCase);
@@ -54,7 +55,7 @@ public class SubmitSuitabilityChecker
                && fileNames2.Any();
     }
 
-    private bool SatisfyCacheManager(SubmitInfo submit1, SubmitInfo submit2)
+    private bool AreSatisfyingCacheManager(SubmitInfo submit1, SubmitInfo submit2)
     {
         return _cacheManager.RecheckEnabled
                || !_cacheManager.CacheContainsComparisonResult(submit1, submit2);

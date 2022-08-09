@@ -1,5 +1,4 @@
-﻿using KysectAcademyTask.FileComparison;
-using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
+﻿using KysectAcademyTask.FileComparison.FileComparisonAlgorithms;
 
 namespace KysectAcademyTask.ComparisonResult;
 

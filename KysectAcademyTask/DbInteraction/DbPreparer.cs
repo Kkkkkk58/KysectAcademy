@@ -26,7 +26,7 @@ public class DbPreparer
         PrepareSubmits(submits);
     }
 
-    private void PrepareSubmits(IReadOnlyCollection<SubmitInfo> submits)
+    private void PrepareSubmits(IEnumerable<SubmitInfo> submits)
     {
         var submitsToAdd = new List<DataAccess.Models.Entities.Submit>();
 
@@ -65,32 +65,17 @@ public class DbPreparer
 
     private void PrepareAuthor(string authorName, string groupName)
     {
-        string[] splitName = authorName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        if (splitName.Length != 2)
-        {
-            throw new ArgumentException($"Unable to work with author's name: {authorName}");
-        }
+        IReadOnlyList<string> splitName = GetSplitName(authorName);
 
         if (_studentRepo.GetQueryWithProps(splitName[0], splitName[1], groupName).Any())
-        {
             return;
-        }
 
         IQueryable<Group> groupQuery = _groupRepo.GetQueryWithProps(groupName);
         int groupId = groupQuery.Single().Id;
 
-        _studentRepo.Add(new Student
-        {
-            GroupId = groupId,
-            PersonalInformation = new Person
-            {
-                FirstName = splitName[0],
-                LastName = splitName[1],
-                FullName = authorName
-            }
-        });
+        Student student = CreateStudent(authorName, groupId, splitName);
+        _studentRepo.Add(student);
     }
-
     private void PrepareSubmitAddToList(SubmitInfo submit, ICollection<DataAccess.Models.Entities.Submit> submitsToAdd)
     {
         if (_submitRepo
@@ -103,16 +88,52 @@ public class DbPreparer
         IQueryable<HomeWork> homeWorkQuery = _homeWorkRepo.GetQueryWithProps(submit.HomeworkName);
         int homeWorkId = homeWorkQuery.Single().Id;
 
-        string[] splitName = submit.AuthorName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        IReadOnlyList<string> splitName = GetSplitName(submit.AuthorName);
         IQueryable<Student> studentQuery =
             _studentRepo.GetQueryWithProps(splitName[0], splitName[1], submit.GroupName);
         int studentId = studentQuery.Single().Id;
 
-        submitsToAdd.Add(new DataAccess.Models.Entities.Submit
+        DataAccess.Models.Entities.Submit submitData = CreateSubmit(submit.SubmitDate, homeWorkId, studentId);
+        submitsToAdd.Add(submitData);
+    }
+
+    private Student CreateStudent(string authorName, int groupId, IReadOnlyList<string> splitName)
+    {
+        return new Student
         {
-            Date = submit.SubmitDate,
+            GroupId = groupId,
+            PersonalInformation = CreatePerson(authorName, splitName)
+        };
+    }
+
+    private static Person CreatePerson(string authorName, IReadOnlyList<string> splitName)
+    {
+        return new Person
+        {
+            FirstName = splitName[0],
+            LastName = splitName[1],
+            FullName = authorName
+        };
+    }
+
+    private static DataAccess.Models.Entities.Submit CreateSubmit(DateTime? submitDate, int homeWorkId, int studentId)
+    {
+        return new DataAccess.Models.Entities.Submit
+        {
+            Date = submitDate,
             HomeWorkId = homeWorkId,
             StudentId = studentId
-        });
+        };
+    }
+
+    private static IReadOnlyList<string> GetSplitName(string authorName)
+    {
+        IReadOnlyList<string> splitName = authorName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (splitName.Count != 2)
+        {
+            throw new ArgumentException($"Unable to work with author's name: {authorName}");
+        }
+
+        return splitName;
     }
 }

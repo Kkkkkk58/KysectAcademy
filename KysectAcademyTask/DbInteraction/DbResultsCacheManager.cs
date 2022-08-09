@@ -22,16 +22,17 @@ public class DbResultsCacheManager
                                    || result.SubmitInfo1 == submit2 && result.SubmitInfo2 == submit1);
     }
 
-    private ComparisonResultsTable<SubmitComparisonResult> GetCache(IComparisonResultRepo resultRepo)
+    private static ComparisonResultsTable<SubmitComparisonResult> GetCache(IComparisonResultRepo resultRepo)
     {
         IEnumerable<DataAccess.Models.Entities.ComparisonResult> results = resultRepo?.GetAll();
         var cache = new ComparisonResultsTable<SubmitComparisonResult>();
         if (results is null)
             return cache;
 
+        var resultTransformer = new ResultFromDbToAppTransformer();
         foreach (DataAccess.Models.Entities.ComparisonResult resultData in results)
         {
-            SubmitComparisonResult result = new ResultFromDbToAppTransformer().Transform(resultData);
+            SubmitComparisonResult result = resultTransformer.Transform(resultData);
             cache.AddComparisonResult(result);
         }
 
