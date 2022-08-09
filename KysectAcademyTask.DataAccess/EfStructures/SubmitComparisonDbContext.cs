@@ -11,7 +11,7 @@ public sealed partial class SubmitComparisonDbContext : DbContext
     {
         Database.EnsureCreated();
 
-        SaveChangesFailed += (sender, args) => throw new DbUpdateException(args.Exception.Message);
+        SaveChangesFailed += (sender, args) => throw new DbUpdateException($"Failed to save changes: {args.Exception.Message}", args.Exception);
     }
 
     public DbSet<ComparisonResult> ComparisonResults { get; set; } = null!;
@@ -28,7 +28,7 @@ public sealed partial class SubmitComparisonDbContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
-    private void ConfigureEntities(ModelBuilder modelBuilder)
+    private static void ConfigureEntities(ModelBuilder modelBuilder)
     {
         new ComparisonResultTypeConfiguration().Configure(modelBuilder.Entity<ComparisonResult>());
         new GroupTypeConfiguration().Configure(modelBuilder.Entity<Group>());
