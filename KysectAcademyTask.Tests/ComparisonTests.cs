@@ -1,11 +1,8 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-using KysectAcademyTask.AppSettings;
+﻿using KysectAcademyTask.AppSettings;
 using KysectAcademyTask.DbInteraction.Configuration;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.SubmitComparison;
 using KysectAcademyTask.Tests.Base;
-using KysectAcademyTask.Tests.TestModels;
 using KysectAcademyTask.Utils.ProgressTracking.ProgressBar;
 using Xunit;
 
@@ -16,43 +13,36 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_SimilarFiles_SimilarityRateIsOne()
     {
-        InitPaths(
-            @$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}SimilarFiles",
-            ReportType.Json);
-        AppSettingsConfig config = GetConfig();
+        LaunchTestCase(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}SimilarFiles");
 
-        RunApplication(config);
-
-        double result = GetResultFromJsonFile();
+        double result = GetSimilarityRateFromReport();
         Assert.Equal(1, result);
     }
 
     [Fact]
     public void FileComparison_TotallyDifferentFiles_SimilarityRateIsZero()
     {
-        InitPaths(
-            @$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}DifferentFiles",
-            ReportType.Json);
-        AppSettingsConfig config = GetConfig();
+        LaunchTestCase(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}DifferentFiles");
 
-        RunApplication(config);
-
-        double result = GetResultFromJsonFile();
+        double result = GetSimilarityRateFromReport();
         Assert.Equal(0, result);
     }
 
     [Fact]
     public void FileComparison_FilesHaveSomeSimilarities_SimilarityRateIsBetweenZeroAndOne()
     {
-        InitPaths(
-            @$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}FilesWithSomeSimilarities",
-            ReportType.Json);
+        LaunchTestCase(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}FilesWithSomeSimilarities");
+
+        double result = GetSimilarityRateFromReport();
+        Assert.True(result is > 0 and < 1);
+    }
+
+    private void LaunchTestCase(string relativeRootPath)
+    {
+        InitPaths(relativeRootPath, ReportType.Json);
         AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
-
-        double result = GetResultFromJsonFile();
-        Assert.True(result is > 0 and < 1);
     }
 
     private AppSettingsConfig GetConfig()
@@ -66,20 +56,9 @@ public class ComparisonTests : BaseTests
         };
     }
 
-    private double GetResultFromJsonFile()
+    private double GetSimilarityRateFromReport()
     {
-        var options = new JsonSerializerOptions
-        {
-            Converters =
-            {
-                new JsonStringEnumConverter()
-            }
-        };
-        string jsonString = File.ReadAllText(ResultPath);
-        TestSubmitComparisonResult[] results =
-            JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
-
-        return results!
+        return GetResults()
             .Single()
             .SimilarityRate;
     }

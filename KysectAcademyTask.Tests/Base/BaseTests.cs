@@ -63,18 +63,23 @@ public class BaseTests : IDisposable
 
     protected IReadOnlyCollection<TestSubmitComparisonResult> GetResults()
     {
-        var options = new JsonSerializerOptions
+        JsonSerializerOptions options = GetDeserializationOptions();
+        string jsonString = File.ReadAllText(ResultPath);
+        TestSubmitComparisonResult[] results =
+            JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
+
+        return results;
+    }
+
+    private JsonSerializerOptions GetDeserializationOptions()
+    {
+        return new JsonSerializerOptions
         {
             Converters =
             {
                 new JsonStringEnumConverter()
             }
         };
-        string jsonString = File.ReadAllText(ResultPath);
-        TestSubmitComparisonResult[] results =
-            JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
-
-        return results;
     }
 
     protected void RunApplication(AppSettingsConfig config)

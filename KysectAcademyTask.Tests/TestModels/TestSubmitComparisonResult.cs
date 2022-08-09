@@ -1,4 +1,4 @@
-﻿using KysectAcademyTask.FileComparison;
+﻿using KysectAcademyTask.ComparisonResult;
 
 namespace KysectAcademyTask.Tests.TestModels;
 

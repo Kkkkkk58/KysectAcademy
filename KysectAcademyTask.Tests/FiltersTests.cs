@@ -42,8 +42,7 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(filters);
-        RunApplication(config);
+        LaunchTestCase(filters);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
 
@@ -69,8 +68,7 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(filters);
-        RunApplication(config);
+        LaunchTestCase(filters);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
 
@@ -175,8 +173,7 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(filters);
-        RunApplication(config);
+        LaunchTestCase(filters);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
 
@@ -202,8 +199,7 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(filters);
-        RunApplication(config);
+        LaunchTestCase(filters);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
 
@@ -229,8 +225,7 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(filters);
-        RunApplication(config);
+        LaunchTestCase(filters);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
 
@@ -256,8 +251,7 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(filters);
-        RunApplication(config);
+        LaunchTestCase(filters);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
 
@@ -287,8 +281,7 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(filters);
-        RunApplication(config);
+        LaunchTestCase(filters);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
 
@@ -318,8 +311,7 @@ public class FiltersTests : BaseTests
             }
         };
 
-        AppSettingsConfig config = GetConfig(filters);
-        RunApplication(config);
+        LaunchTestCase(filters);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
 
@@ -328,6 +320,12 @@ public class FiltersTests : BaseTests
             || result.SubmitInfo2.SubmitDate.Equals(date)));
 
         Assert.True(condition);
+    }
+
+    private void LaunchTestCase(Filters filters)
+    {
+        AppSettingsConfig config = GetConfig(filters);
+        RunApplication(config);
     }
 
     private AppSettingsConfig GetConfig(Filters filters)

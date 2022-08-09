@@ -1,7 +1,7 @@
 ﻿using KysectAcademyTask.AppSettings;
+using KysectAcademyTask.ComparisonResult;
 using KysectAcademyTask.DataAccess.EfStructures;
 using KysectAcademyTask.DbInteraction.Configuration;
-using KysectAcademyTask.FileComparison;
 using KysectAcademyTask.Report;
 using KysectAcademyTask.SubmitComparison;
 using KysectAcademyTask.Tests.Base;

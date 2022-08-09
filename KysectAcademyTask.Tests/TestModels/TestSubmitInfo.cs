@@ -18,10 +18,15 @@ public struct TestSubmitInfo
     public override bool Equals(object obj)
     {
         return obj is TestSubmitInfo submit
-               && GroupName.Equals(submit.GroupName, StringComparison.OrdinalIgnoreCase)
-               && AuthorName.Equals(submit.AuthorName, StringComparison.OrdinalIgnoreCase)
-               && HomeworkName.Equals(submit.HomeworkName, StringComparison.OrdinalIgnoreCase)
-               && SubmitDate.Equals(submit.SubmitDate);
+               && Equals(submit);
+    }
+
+    public bool Equals(TestSubmitInfo other)
+    {
+        return GroupName.Equals(other.GroupName, StringComparison.OrdinalIgnoreCase)
+               && AuthorName.Equals(other.AuthorName, StringComparison.OrdinalIgnoreCase)
+               && HomeworkName.Equals(other.HomeworkName, StringComparison.OrdinalIgnoreCase)
+               && SubmitDate.Equals(other.SubmitDate);
     }
 
     public override int GetHashCode()
