@@ -20,9 +20,9 @@ public class SubmitRepo : BaseRepo<Submit>, ISubmitRepo
         DateTime? submitDate)
     {
         return Table
-            .Where(s => s.StudentNavigation.PersonalInformation.FullName == authorFullName
-                        && s.StudentNavigation.GroupNavigation.Name == groupName
-                        && s.HomeWorkNavigation.Name == homeWorkName
-                        && s.Date == submitDate);
+            .Where(submit => submit.StudentNavigation.PersonalInformation.FullName == authorFullName
+                        && submit.StudentNavigation.GroupNavigation.Name == groupName
+                        && submit.HomeWorkNavigation.Name == homeWorkName
+                        && submit.Date == submitDate);
     }
 }

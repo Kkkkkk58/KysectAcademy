@@ -79,7 +79,7 @@ public class DbTests : BaseTests
 
     private bool AllResultsAreFromSource(IReadOnlyCollection<TestSubmitComparisonResult> results, ResultSource source)
     {
-        return results.All(r => r.Source == source);
+        return results.All(result => result.Source == source);
     }
 
     private bool DbResultsWereRechecked(IReadOnlyCollection<TestSubmitComparisonResult> results)

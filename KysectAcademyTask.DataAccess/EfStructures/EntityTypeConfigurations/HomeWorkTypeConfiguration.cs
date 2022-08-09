@@ -8,7 +8,7 @@ public class HomeWorkTypeConfiguration : IEntityTypeConfiguration<HomeWork>
 {
     public void Configure(EntityTypeBuilder<HomeWork> builder)
     {
-        builder.HasIndex(h => h.Name)
+        builder.HasIndex(homeWork => homeWork.Name)
             .IsUnique();
     }
 }

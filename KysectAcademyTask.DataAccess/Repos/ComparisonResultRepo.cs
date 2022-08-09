@@ -19,7 +19,7 @@ public class ComparisonResultRepo : BaseRepo<ComparisonResult>, IComparisonResul
     public IQueryable<ComparisonResult> GetQueryWithProps(Submit submit1, Submit submit2)
     {
         return Table
-            .Where(c => c.Submit1Navigation == submit1 && c.Submit2Navigation == submit2
-                                   || c.Submit1Navigation == submit2 && c.Submit2Navigation == submit1);
+            .Where(result => result.Submit1Navigation == submit1 && result.Submit2Navigation == submit2
+                                   || result.Submit1Navigation == submit2 && result.Submit2Navigation == submit1);
     }
 }

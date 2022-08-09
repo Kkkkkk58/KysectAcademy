@@ -19,6 +19,6 @@ public class HomeWorkRepo : BaseRepo<HomeWork>, IHomeWorkRepo
     public IQueryable<HomeWork> GetQueryWithProps(string name)
     {
         return Table
-            .Where(h => h.Name == name);
+            .Where(homeWork => homeWork.Name == name);
     }
 }

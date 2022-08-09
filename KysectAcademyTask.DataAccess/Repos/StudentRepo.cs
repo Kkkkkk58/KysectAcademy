@@ -19,8 +19,8 @@ public class StudentRepo : BaseRepo<Student>, IStudentRepo
     public IQueryable<Student> GetQueryWithProps(string firstName, string lastName, string groupName)
     {
         return Table
-            .Where(s => s.PersonalInformation.FirstName == firstName
-                        && s.PersonalInformation.LastName == lastName
-                        && s.GroupNavigation.Name == groupName);
+            .Where(student => student.PersonalInformation.FirstName == firstName
+                        && student.PersonalInformation.LastName == lastName
+                        && student.GroupNavigation.Name == groupName);
     }
 }

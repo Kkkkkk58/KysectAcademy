@@ -8,17 +8,17 @@ internal class ComparisonResultTypeConfiguration : IEntityTypeConfiguration<Comp
 {
     public void Configure(EntityTypeBuilder<ComparisonResult> builder)
     {
-        builder.Property(c => c.SimilarityRate).IsRequired();
+        builder.Property(result => result.SimilarityRate).IsRequired();
 
-        builder.HasOne(c => c.Submit1Navigation)
-            .WithMany(f => f.AsSubmit1ComparisonResults)
-            .HasForeignKey(c => c.Submit1Id)
+        builder.HasOne(result => result.Submit1Navigation)
+            .WithMany(submit1 => submit1.AsSubmit1ComparisonResults)
+            .HasForeignKey(result => result.Submit1Id)
             .OnDelete(DeleteBehavior.NoAction)
             .IsRequired();
 
-        builder.HasOne(c => c.Submit2Navigation)
-            .WithMany(f => f.AsSubmit2ComparisonResults)
-            .HasForeignKey(c => c.Submit2Id)
+        builder.HasOne(result => result.Submit2Navigation)
+            .WithMany(submit2 => submit2.AsSubmit2ComparisonResults)
+            .HasForeignKey(result => result.Submit2Id)
             .OnDelete(DeleteBehavior.NoAction)
             .IsRequired();
     }

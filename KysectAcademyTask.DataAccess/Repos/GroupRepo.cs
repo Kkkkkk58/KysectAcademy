@@ -19,6 +19,6 @@ public class GroupRepo : BaseRepo<Group>, IGroupRepo
     public IQueryable<Group> GetQueryWithProps(string name)
     {
         return Table
-            .Where(g => g.Name == name);
+            .Where(group => group.Name == name);
     }
 }

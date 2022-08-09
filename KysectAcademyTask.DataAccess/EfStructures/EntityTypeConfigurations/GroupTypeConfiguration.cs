@@ -8,7 +8,7 @@ internal class GroupTypeConfiguration : IEntityTypeConfiguration<Group>
 {
     public void Configure(EntityTypeBuilder<Group> builder)
     {
-        builder.HasIndex(g => g.Name)
+        builder.HasIndex(group => group.Name)
             .IsUnique();
     }
 }

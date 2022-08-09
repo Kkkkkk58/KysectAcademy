@@ -23,7 +23,7 @@ public class FilesToSubmitComparisonTransformer
 
     private SubmitComparisonResult GetCompositionResult(ComparisonResultsTable<FileComparisonResult> maxSimilaritiesTable)
     {
-        double compositionSimilarityRate = maxSimilaritiesTable.Average(r => r.SimilarityRate);
+        double compositionSimilarityRate = maxSimilaritiesTable.Average(result => result.SimilarityRate);
 
         return new SubmitComparisonResult(_submit1, _submit2, compositionSimilarityRate);
     }
@@ -34,7 +34,7 @@ public class FilesToSubmitComparisonTransformer
         var unitedMetricsTable = new ComparisonResultsTable<FileComparisonResult>();
         foreach (FileComparisonResult result in fileComparisonResults)
         {
-            if (unitedMetricsTable.Any(r => r.FileName1 == result.FileName1 && r.FileName2 == result.FileName2))
+            if (unitedMetricsTable.Any(listedResults => listedResults.FileName1 == result.FileName1 && listedResults.FileName2 == result.FileName2))
                 continue;
 
             double combinedSimilarityRate = fileComparisonResults
@@ -55,11 +55,12 @@ public class FilesToSubmitComparisonTransformer
 
         foreach (FileComparisonResult result in unitedMetricsTable)
         {
-            if (maxSimilaritiesTable.Any(r => r.FileName1 == result.FileName1))
+            if (maxSimilaritiesTable.Any(listedResults => listedResults.FileName1 == result.FileName1))
                 continue;
 
             FileComparisonResult resultWithMaxSimilarity = unitedMetricsTable
-                .Where(r => r.FileName1 == result.FileName1).MaxBy(r => r.SimilarityRate);
+                .Where(r => r.FileName1 == result.FileName1)
+                .MaxBy(r => r.SimilarityRate);
 
             maxSimilaritiesTable.AddComparisonResult(resultWithMaxSimilarity);
         }

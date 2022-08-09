@@ -9,24 +9,24 @@ internal class StudentTypeConfiguration : IEntityTypeConfiguration<Student>
 {
     public void Configure(EntityTypeBuilder<Student> builder)
     {
-        builder.Navigation(s => s.PersonalInformation).IsRequired();
-        builder.OwnsOne(s => s.PersonalInformation,
-            pd =>
+        builder.Navigation(student => student.PersonalInformation).IsRequired();
+        builder.OwnsOne(student => student.PersonalInformation,
+            navigationBuilder =>
             {
-                pd.Property(p => p.FirstName)
+                navigationBuilder.Property(person => person.FirstName)
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName(nameof(Person.FirstName));
-                pd.Property(p => p.LastName)
+                navigationBuilder.Property(person => person.LastName)
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName(nameof(Person.LastName));
-                pd.Property(p => p.FullName)
+                navigationBuilder.Property(person => person.FullName)
                     .HasColumnName(nameof(Person.FullName));
             });
 
-        builder.HasOne(s => s.GroupNavigation)
-            .WithMany(g => g.Students)
-            .HasForeignKey(s => s.GroupId);
+        builder.HasOne(student => student.GroupNavigation)
+            .WithMany(group => group.Students)
+            .HasForeignKey(student => student.GroupId);
     }
 }
