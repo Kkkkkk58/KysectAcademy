@@ -19,7 +19,7 @@ public class TxtReporter<T> : IReporter<T> where T : IComparisonResult
 
     public void MakeReport(ComparisonResultsTable<T> results)
     {
-        using StreamWriter writer = new(_fileName);
+        using var writer = new StreamWriter(_fileName);
         foreach (T result in results)
         {
             writer.WriteLine(result.ToString());

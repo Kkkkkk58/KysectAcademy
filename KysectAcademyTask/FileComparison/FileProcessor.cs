@@ -21,7 +21,7 @@ public class FileProcessor
 
     public ComparisonResultsTable<FileComparisonResult> CompareDirectories(string directory1, string directory2)
     {
-        FileNamesGetter fileNamesGetter = new(_fileRequirements, _directoryRequirements);
+        var fileNamesGetter = new FileNamesGetter(_fileRequirements, _directoryRequirements);
         string[] fileNames1 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory1);
         string[] fileNames2 = fileNamesGetter.GetFileNamesSatisfyingRequirements(directory2);
 
@@ -34,8 +34,8 @@ public class FileProcessor
 
     private static FileLoader GetCombinedLoader(IEnumerable<string> fileNames1, IEnumerable<string> fileNames2)
     {
-        FileLoader fileLoader1 = new(fileNames1);
-        FileLoader fileLoader2 = new(fileNames2);
+        var fileLoader1 = new FileLoader(fileNames1);
+        var fileLoader2 = new FileLoader(fileNames2);
         FileLoader commonLoader = new FileLoadersCombiner().Combine(fileLoader1, fileLoader2);
 
         return commonLoader;
@@ -61,8 +61,8 @@ public class FileProcessor
         FileLoader loader, ComparisonAlgorithm.Metrics metrics)
     {
         int numberOfComparisons = GetNumberOfPairToPairComparisons(fileNames1, fileNames2);
-        ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new(numberOfComparisons);
-        FileComparer fileComparer = new(loader, metrics);
+        var comparisonResultsTable = new ComparisonResultsTable<FileComparisonResult>(numberOfComparisons);
+        var fileComparer = new FileComparer(loader, metrics);
 
         foreach (string fileName1 in fileNames1)
         {

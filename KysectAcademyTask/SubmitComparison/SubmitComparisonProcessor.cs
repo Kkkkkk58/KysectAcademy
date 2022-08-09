@@ -103,7 +103,7 @@ public class SubmitComparisonProcessor
         if (_progressBar is null)
             return;
 
-        ComparisonProgressTracker progressTracker = new(_progressBar, workToDo);
+        var progressTracker = new ComparisonProgressTracker(_progressBar, workToDo);
         ProgressBarUpdate = progressTracker.IncreaseProgress;
     }
 
