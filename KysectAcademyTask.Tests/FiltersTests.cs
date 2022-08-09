@@ -5,6 +5,7 @@ using KysectAcademyTask.Submit.SubmitFilters;
 using KysectAcademyTask.SubmitComparison;
 using KysectAcademyTask.Tests.Base;
 using KysectAcademyTask.Tests.TestModels;
+using KysectAcademyTask.Utils;
 using KysectAcademyTask.Utils.ProgressTracking.ProgressBar;
 using Xunit;
 
@@ -79,145 +80,90 @@ public class FiltersTests : BaseTests
         Assert.True(condition);
     }
 
-    // TODO
-    //[Fact]
-    //public void DirectoryFilter_BlackList_ReportDoesNotContainFilesFromDirs()
-    //{
-    //    InitPaths(_relativeRootPath, ReportType.Json);
+    [Fact]
+    public void DirectoryFilter_BlackList_ReportDoesNotContainFilesFromDirs()
+    {
+        InitPaths(_relativeRootPath, ReportType.Json);
 
-    //    var blackList = new List<string> { "M3236", "M3235", "20191118202349" };
-    //    var directoryFilter = new DirectoryFilter(null, blackList);
-    //    var filters = new Filters
-    //    {
-    //        DirectoryRequirements = new DirectoryRequirements
-    //        {
-    //            DirectoryFilter = directoryFilter
-    //        }
-    //    };
+        var blackList = new List<string> { "M3236", "M3235", "20191118202349" };
+        var directoryFilter = new DirectoryFilter(null, blackList);
+        var directoryRequirements = new DirectoryRequirements(directoryFilter);
+        IEnumerable<string> fileNames = GetFileNames(null, directoryRequirements);
 
-    //    AppSettingsConfig config = GetConfig(filters);
-    //    RunApplication(config);
+        Assert.False(DoesAnyPathContainBlackListed(fileNames, blackList));
 
-    //    IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
-    //    Assert.False(DoesReportContain(results, blackList));
-        
-    //}
+    }
 
-    //[Fact]
-    //public void DirectoryFilter_WhiteList_ReportContainsFilesFromDirs()
-    //{
-    //    InitPaths(_relativeRootPath, ReportType.Json);
+    [Fact]
+    public void DirectoryFilter_WhiteList_ReportContainsFilesFromDirs()
+    {
+        InitPaths(_relativeRootPath, ReportType.Json);
 
-    //    var whiteList = new List<string> { "20191118202349", "M3234", "M3237", "4. INI файл" };
-    //    var directoryFilter = new DirectoryFilter(whiteList, null);
-    //    var filters = new Filters
-    //    {
-    //        DirectoryRequirements = new DirectoryRequirements
-    //        {
-    //            DirectoryFilter = directoryFilter
-    //        }
-    //    };
+        var whiteList = new List<string> { "20191118202349", "M3234", "M3237", "4. INI файл" };
+        var directoryFilter = new DirectoryFilter(whiteList, null);
+        var directoryRequirements = new DirectoryRequirements(directoryFilter);
+        IEnumerable<string> fileNames = GetFileNames(null, directoryRequirements);
 
-    //    AppSettingsConfig config = GetConfig(filters);
-    //    RunApplication(config);
+        Assert.True(DoAllPathsContainWhiteListed(fileNames, whiteList));
 
-    //    IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
-    //    Assert.True(DoesReportConsistOf(results, whiteList));
-
-    //}
+    }
 
 
-    //[Fact]
-    //public void FileExtensionFilter_BlackList_ReportDoesNotContainFilesWithExtensions()
-    //{
-    //    InitPaths(_relativeRootPath, ReportType.Json);
+    [Fact]
+    public void FileExtensionFilter_BlackList_ReportDoesNotContainFilesWithExtensions()
+    {
+        InitPaths(_relativeRootPath, ReportType.Json);
 
-    //    var blackList = new List<string> { ".java" };
-    //    var fileExtensionFilter = new FileExtensionFilter(null, blackList);
-    //    var filters = new Filters
-    //    {
-    //        FileRequirements = new FileRequirements
-    //        {
-    //            FileExtensionFilter = fileExtensionFilter
-    //        }
-    //    };
+        var blackList = new List<string> { ".java" };
+        var fileExtensionFilter = new FileExtensionFilter(null, blackList);
+        var fileRequirements = new FileRequirements(fileExtensionFilter: fileExtensionFilter);
+        IEnumerable<string> fileNames = GetFileNames(fileRequirements, null);
 
-    //    AppSettingsConfig config = GetConfig(filters);
-    //    RunApplication(config);
+        Assert.False(DoesAnyPathContainBlackListed(fileNames, blackList));
 
-    //    IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
-    //    Assert.False(DoesReportContain(results, blackList));
+    }
 
-    //}
+    [Fact]
+    public void FileExtensionFilter_WhiteList_ReportContainsFilesWithExtensions()
+    {
+        InitPaths(_relativeRootPath, ReportType.Json);
 
-    //[Fact]
-    //public void FileExtensionFilter_WhiteList_ReportContainsFilesWithExtensions()
-    //{
-    //    InitPaths(_relativeRootPath, ReportType.Json);
+        var whiteList = new List<string> { ".cs" };
+        var fileExtensionFilter = new FileExtensionFilter(whiteList, null);
+        var fileRequirements = new FileRequirements(fileExtensionFilter: fileExtensionFilter);
+        IEnumerable<string> fileNames = GetFileNames(fileRequirements, null);
 
-    //    var whiteList = new List<string> { ".cs" };
-    //    var fileExtensionFilter = new FileExtensionFilter(whiteList, null);
-    //    var filters = new Filters
-    //    {
-    //        FileRequirements = new FileRequirements
-    //        {
-    //            FileExtensionFilter = fileExtensionFilter
-    //        }
-    //    };
+        Assert.True(DoAllPathsContainWhiteListed(fileNames, whiteList));
 
-    //    AppSettingsConfig config = GetConfig(filters);
-    //    RunApplication(config);
+    }
 
-    //    IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
-    //    Assert.True(DoesReportConsistOf(results, whiteList));
+    [Fact]
+    public void FileNameFilter_BlackList_ReportDoesNotContainFiles()
+    {
+        InitPaths(_relativeRootPath, ReportType.Json);
 
-    //}
+        var blackList = new List<string> { "main.py", "Program.cs" };
+        var fileNameFilter = new FileNameFilter(null, blackList);
+        var fileRequirements = new FileRequirements(fileNameFilter: fileNameFilter);
+        IEnumerable<string> fileNames = GetFileNames(fileRequirements, null);
 
-    //[Fact]
-    //public void FileNameFilter_BlackList_ReportDoesNotContainFiles()
-    //{
-    //    InitPaths(_relativeRootPath, ReportType.Json);
+        Assert.False(DoesAnyPathContainBlackListed(fileNames, blackList));
 
-    //    var blackList = new List<string> { "main.py", "Program.cs" };
-    //    var fileNameFilter = new FileNameFilter(null, blackList);
-    //    var filters = new Filters
-    //    {
-    //        FileRequirements = new FileRequirements
-    //        {
-    //            FileNameFilter = fileNameFilter
-    //        }
-    //    };
+    }
 
-    //    AppSettingsConfig config = GetConfig(filters);
-    //    RunApplication(config);
+    [Fact]
+    public void FileNameFilter_WhiteList_ReportContainsFiles()
+    {
+        InitPaths(_relativeRootPath, ReportType.Json);
 
-    //    IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
-    //    Assert.False(DoesReportContain(results, blackList));
+        var whiteList = new List<string> { "main.py", "Program.cs" };
+        var fileNameFilter = new FileNameFilter(whiteList, null);
+        var fileRequirements = new FileRequirements(fileNameFilter: fileNameFilter);
+        IEnumerable<string> fileNames = GetFileNames(fileRequirements, null);
 
-    //}
+        Assert.True(DoAllPathsContainWhiteListed(fileNames, whiteList));
 
-    //[Fact]
-    //public void FileNameFilter_WhiteList_ReportContainsFiles()
-    //{
-    //    InitPaths(_relativeRootPath, ReportType.Json);
-
-    //    var whiteList = new List<string> { "main.py", "Program.cs" };
-    //    var fileNameFilter = new FileNameFilter(whiteList, null);
-    //    var filters = new Filters
-    //    {
-    //        FileRequirements = new FileRequirements
-    //        {
-    //            FileNameFilter = fileNameFilter
-    //        }
-    //    };
-
-    //    AppSettingsConfig config = GetConfig(filters);
-    //    RunApplication(config);
-
-    //    IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
-    //    Assert.True(DoesReportConsistOf(results, whiteList));
-
-    //}
+    }
 
     [Fact]
     public void GroupFilter_BlackList_ReportDoesNotContainSubmitsFromGroups()
@@ -406,17 +352,23 @@ public class FiltersTests : BaseTests
         };
     }
 
-    //private bool DoesReportConsistOf(IEnumerable<TestSubmitComparisonResult> results, IReadOnlyCollection<string> whiteList)
-    //{
-    //    return results
-    //        .All(r =>
-    //            whiteList.Any(el => r.FileName1.Contains(el) || r.FileName2.Contains(el)));
-    //}
+    private IEnumerable<string> GetFileNames(FileRequirements? fileRequirements, DirectoryRequirements? directoryRequirements)
+    {
+        return new FileNamesGetter(fileRequirements, directoryRequirements)
+            .GetFileNamesSatisfyingRequirements(RootPath);
+    }
 
-    //private bool DoesReportContain(IEnumerable<TestSubmitComparisonResult> results, IReadOnlyCollection<string> blackList)
-    //{
-    //    return results
-    //        .Any(r =>
-    //            blackList.Any(el => r.FileName1.Contains(el) || r.FileName2.Contains(el)));
-    //}
+    private bool DoAllPathsContainWhiteListed(IEnumerable<string> fileNames, IReadOnlyCollection<string> whiteList)
+    {
+        return fileNames
+            .All(fileName =>
+                whiteList.Any(fileName.Contains));
+    }
+
+    private bool DoesAnyPathContainBlackListed(IEnumerable<string> fileNames, IReadOnlyCollection<string> blackList)
+    {
+        return fileNames
+            .Any(fileName =>
+                blackList.Any(fileName.Contains));
+    }
 }
