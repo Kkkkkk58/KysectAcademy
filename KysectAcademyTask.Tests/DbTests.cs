@@ -32,7 +32,7 @@ public class DbTests : BaseTests
     {
         InitPaths(_relativeRootPath, ReportType.Json);
 
-        AppSettingsConfig config = GetConfig("DataSource=file:memdb1?mode=memory&cache=shared");
+        AppSettingsConfig config = GetConfig("DataSource=file:memdb1?mode=memory&cache=shared", false);
         RunApplication(config);
 
         IReadOnlyCollection<TestSubmitComparisonResult> results = GetResults();
@@ -80,6 +80,7 @@ public class DbTests : BaseTests
     private bool AllResultsAreFromSource(IReadOnlyCollection<TestSubmitComparisonResult> results, ResultSource source)
     {
         return results.All(result => result.Source == source);
+
     }
 
     private bool DbResultsWereRechecked(IReadOnlyCollection<TestSubmitComparisonResult> results)
