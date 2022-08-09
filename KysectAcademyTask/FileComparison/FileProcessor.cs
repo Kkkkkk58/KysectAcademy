@@ -41,8 +41,8 @@ public class FileProcessor
         return commonLoader;
     }
 
-    private ComparisonResultsTable<FileComparisonResult> GetComparisonResults(IReadOnlyCollection<string> fileNames1, IReadOnlyCollection<string> fileNames2,
-        FileLoader loader)
+    private ComparisonResultsTable<FileComparisonResult> GetComparisonResults(IReadOnlyCollection<string> fileNames1,
+        IReadOnlyCollection<string> fileNames2, FileLoader loader)
     {
         int numberOfComparisons = GetNumberOfComparisonsWithMetrics(fileNames1, fileNames2);
         var comparisonResultsTable = new ComparisonResultsTable<FileComparisonResult>(numberOfComparisons);
@@ -56,8 +56,9 @@ public class FileProcessor
         return comparisonResultsTable;
     }
 
-    private static ComparisonResultsTable<FileComparisonResult> PerformFilesComparison(IReadOnlyCollection<string> fileNames1,
-        IReadOnlyCollection<string> fileNames2, FileLoader loader, ComparisonAlgorithm.Metrics metrics)
+    private static ComparisonResultsTable<FileComparisonResult> PerformFilesComparison(
+        IReadOnlyCollection<string> fileNames1, IReadOnlyCollection<string> fileNames2,
+        FileLoader loader, ComparisonAlgorithm.Metrics metrics)
     {
         int numberOfComparisons = GetNumberOfPairToPairComparisons(fileNames1, fileNames2);
         ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new(numberOfComparisons);
@@ -83,7 +84,8 @@ public class FileProcessor
         return fileComparisonResult;
     }
 
-    private static int GetNumberOfPairToPairComparisons(IReadOnlyCollection<string> fileNames1, IReadOnlyCollection<string> fileNames2)
+    private static int GetNumberOfPairToPairComparisons(IReadOnlyCollection<string> fileNames1,
+        IReadOnlyCollection<string> fileNames2)
     {
         return fileNames1.Count * fileNames2.Count;
     }
