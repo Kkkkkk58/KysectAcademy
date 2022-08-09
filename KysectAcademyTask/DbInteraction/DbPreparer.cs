@@ -76,6 +76,7 @@ public class DbPreparer
         Student student = CreateStudent(authorName, groupId, splitName);
         _studentRepo.Add(student);
     }
+
     private void PrepareSubmitAddToList(SubmitInfo submit, ICollection<DataAccess.Models.Entities.Submit> submitsToAdd)
     {
         if (_submitRepo

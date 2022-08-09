@@ -78,7 +78,8 @@ public class DbTests : BaseTests
         };
     }
 
-    private static bool AllResultsAreFromSource(IReadOnlyCollection<TestSubmitComparisonResult> results, ResultSource source)
+    private static bool AllResultsAreFromSource(IReadOnlyCollection<TestSubmitComparisonResult> results,
+        ResultSource source)
     {
         return results.All(result => result.Source == source);
     }

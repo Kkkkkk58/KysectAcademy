@@ -7,7 +7,7 @@ public class ComparisonResultsTable<T> : IReadOnlyCollection<T>
 {
     private readonly List<T> _comparisonResults;
     public int Count => _comparisonResults.Count;
-    
+
     public ComparisonResultsTable(int capacity = default)
     {
         _comparisonResults = new List<T>(capacity);

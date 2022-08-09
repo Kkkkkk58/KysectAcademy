@@ -24,7 +24,7 @@ public class ReportTests : BaseTests
 
         Assert.True(File.Exists(ResultPath));
     }
-    
+
     [Theory]
     [InlineData(ReportType.Txt)]
     [InlineData(ReportType.Json)]

@@ -37,7 +37,8 @@ public class DbResultsUpdater
         _resultRepo.AddRange(resultsToAdd);
     }
 
-    private void AddDataToUpdate(IQueryable<DataAccess.Models.Entities.ComparisonResult> dbQuery, SubmitComparisonResult result, ICollection<DataAccess.Models.Entities.ComparisonResult> resultsToUpdate)
+    private void AddDataToUpdate(IQueryable<DataAccess.Models.Entities.ComparisonResult> dbQuery,
+        SubmitComparisonResult result, ICollection<DataAccess.Models.Entities.ComparisonResult> resultsToUpdate)
     {
         DataAccess.Models.Entities.ComparisonResult resultData = dbQuery.Single();
         if (AreResultsSame(resultData, result))
@@ -47,7 +48,8 @@ public class DbResultsUpdater
         resultsToUpdate.Add(resultData);
     }
 
-    private void AddDataToAppend(SubmitComparisonResult result, ICollection<DataAccess.Models.Entities.ComparisonResult> resultsToAdd)
+    private void AddDataToAppend(SubmitComparisonResult result,
+        ICollection<DataAccess.Models.Entities.ComparisonResult> resultsToAdd)
     {
         DataAccess.Models.Entities.ComparisonResult resultData = GetDataModelFromNewComparison(result);
         resultsToAdd.Add(resultData);
@@ -65,7 +67,8 @@ public class DbResultsUpdater
     private DataAccess.Models.Entities.Submit ToDataAccessModel(SubmitInfo submitInfo)
     {
         return _submitRepo
-            .GetQueryWithProps(submitInfo.AuthorName, submitInfo.GroupName, submitInfo.HomeworkName, submitInfo.SubmitDate)
+            .GetQueryWithProps(submitInfo.AuthorName, submitInfo.GroupName, submitInfo.HomeworkName,
+                submitInfo.SubmitDate)
             .Single();
     }
 

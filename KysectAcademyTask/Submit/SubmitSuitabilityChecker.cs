@@ -36,7 +36,7 @@ public class SubmitSuitabilityChecker
 
     private static bool AreSubmitsFromDifferentAuthors(SubmitInfo submit1, SubmitInfo submit2)
     {
-        return !string.Equals(submit1.AuthorName, 
+        return !string.Equals(submit1.AuthorName,
             submit2.AuthorName, StringComparison.OrdinalIgnoreCase);
     }
 

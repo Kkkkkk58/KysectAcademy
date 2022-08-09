@@ -24,7 +24,7 @@ public readonly struct SubmitInfo
     public override bool Equals(object obj)
     {
         return obj is SubmitInfo submitInfo
-            && Equals(submitInfo);
+               && Equals(submitInfo);
     }
 
     public bool Equals(SubmitInfo other)

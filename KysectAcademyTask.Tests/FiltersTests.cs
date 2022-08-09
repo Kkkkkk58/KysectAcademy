@@ -346,14 +346,16 @@ public class FiltersTests : BaseTests
             .GetFileNamesSatisfyingRequirements(RootPath);
     }
 
-    private static bool DoAllPathsContainWhiteListed(IEnumerable<string> fileNames, IReadOnlyCollection<string> whiteList)
+    private static bool DoAllPathsContainWhiteListed(IEnumerable<string> fileNames,
+        IReadOnlyCollection<string> whiteList)
     {
         return fileNames
             .All(fileName =>
                 whiteList.Any(fileName.Contains));
     }
 
-    private static bool DoesAnyPathContainBlackListed(IEnumerable<string> fileNames, IReadOnlyCollection<string> blackList)
+    private static bool DoesAnyPathContainBlackListed(IEnumerable<string> fileNames,
+        IReadOnlyCollection<string> blackList)
     {
         return fileNames
             .Any(fileName =>

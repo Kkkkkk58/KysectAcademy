@@ -14,7 +14,7 @@ public class FilesToSubmitComparisonTransformer
 
     public SubmitComparisonResult Transform(ComparisonResultsTable<FileComparisonResult> fileComparisonResults)
     {
-        ComparisonResultsTable<FileComparisonResult> unitedMetricsTable = 
+        ComparisonResultsTable<FileComparisonResult> unitedMetricsTable =
             GetResultsWithUnitedMetrics(fileComparisonResults);
 
         ComparisonResultsTable<FileComparisonResult> maxSimilaritiesTable =
@@ -71,7 +71,8 @@ public class FilesToSubmitComparisonTransformer
             .Count();
     }
 
-    private static double GetCombinedMetricsRate(ComparisonResultsTable<FileComparisonResult> fileComparisonResults, FileComparisonResult result)
+    private static double GetCombinedMetricsRate(ComparisonResultsTable<FileComparisonResult> fileComparisonResults,
+        FileComparisonResult result)
     {
         return fileComparisonResults
             .Where(r => r.FileName1 == result.FileName1 && r.FileName2 == result.FileName2)
@@ -97,7 +98,8 @@ public class FilesToSubmitComparisonTransformer
         return maxSimilaritiesTable;
     }
 
-    private static int GetNumberOfFieldsWithMaxSimilarities(ComparisonResultsTable<FileComparisonResult> unitedMetricsTable)
+    private static int GetNumberOfFieldsWithMaxSimilarities(
+        ComparisonResultsTable<FileComparisonResult> unitedMetricsTable)
     {
         return unitedMetricsTable
             .Select(result => result.FileName1)
@@ -105,7 +107,8 @@ public class FilesToSubmitComparisonTransformer
             .Count();
     }
 
-    private static FileComparisonResult GetResultWithMaxSimilarity(ComparisonResultsTable<FileComparisonResult> unitedMetricsTable, FileComparisonResult result)
+    private static FileComparisonResult GetResultWithMaxSimilarity(
+        ComparisonResultsTable<FileComparisonResult> unitedMetricsTable, FileComparisonResult result)
     {
         return unitedMetricsTable
             .Where(r => r.FileName1 == result.FileName1)

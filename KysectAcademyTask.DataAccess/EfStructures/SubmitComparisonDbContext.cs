@@ -11,7 +11,8 @@ public sealed partial class SubmitComparisonDbContext : DbContext
     {
         Database.EnsureCreated();
 
-        SaveChangesFailed += (sender, args) => throw new DbUpdateException($"Failed to save changes: {args.Exception.Message}", args.Exception);
+        SaveChangesFailed += (sender, args) =>
+            throw new DbUpdateException($"Failed to save changes: {args.Exception.Message}", args.Exception);
     }
 
     public DbSet<ComparisonResult> ComparisonResults { get; set; } = null!;

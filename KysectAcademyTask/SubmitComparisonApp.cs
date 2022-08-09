@@ -95,8 +95,9 @@ public class SubmitComparisonApp
     {
         return new DbResultsCacheManager(comparisonResultRepo, _config.DbConfig.Recheck);
     }
-    
-    private SubmitComparisonProcessor GetSubmitComparisonProcessor(IReadOnlyList<SubmitInfo> submits, DbResultsCacheManager dbResultsCacheManager)
+
+    private SubmitComparisonProcessor GetSubmitComparisonProcessor(IReadOnlyList<SubmitInfo> submits,
+        DbResultsCacheManager dbResultsCacheManager)
     {
         SubmitInfoProcessor submitInfoProcessor = GetSubmitInfoProcessor();
         var submitSuitabilityChecker =

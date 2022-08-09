@@ -41,7 +41,8 @@ public class FileProcessor
         return commonLoader;
     }
 
-    private ComparisonResultsTable<FileComparisonResult> GetComparisonResults(string[] fileNames1, string[] fileNames2, FileLoader loader)
+    private ComparisonResultsTable<FileComparisonResult> GetComparisonResults(string[] fileNames1, string[] fileNames2,
+        FileLoader loader)
     {
         ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new();
         foreach (ComparisonAlgorithm.Metrics metric in _metrics)
@@ -54,7 +55,8 @@ public class FileProcessor
         return comparisonResultsTable;
     }
 
-    private ComparisonResultsTable<FileComparisonResult> PerformFilesComparison(string[] fileNames1, string[] fileNames2, FileLoader loader, ComparisonAlgorithm.Metrics metrics)
+    private ComparisonResultsTable<FileComparisonResult> PerformFilesComparison(string[] fileNames1,
+        string[] fileNames2, FileLoader loader, ComparisonAlgorithm.Metrics metrics)
     {
         ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new();
         FileComparer fileComparer = new(loader, metrics);
@@ -71,7 +73,8 @@ public class FileProcessor
         return comparisonResultsTable;
     }
 
-    private static FileComparisonResult GetComparisonResult(string fileName1, string fileName2, FileComparer fileComparer)
+    private static FileComparisonResult GetComparisonResult(string fileName1, string fileName2,
+        FileComparer fileComparer)
     {
         FileComparisonResult fileComparisonResult = fileComparer.Compare(fileName1, fileName2);
 

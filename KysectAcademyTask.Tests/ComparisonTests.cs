@@ -13,7 +13,8 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_SimilarFiles_SimilarityRateIsOne()
     {
-        LaunchTestCase(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}SimilarFiles");
+        LaunchTestCase(
+            @$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}SimilarFiles");
 
         double result = GetSimilarityRateFromReport();
         Assert.Equal(1, result);
@@ -22,7 +23,8 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_TotallyDifferentFiles_SimilarityRateIsZero()
     {
-        LaunchTestCase(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}DifferentFiles");
+        LaunchTestCase(
+            @$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}DifferentFiles");
 
         double result = GetSimilarityRateFromReport();
         Assert.Equal(0, result);
@@ -31,7 +33,8 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_FilesHaveSomeSimilarities_SimilarityRateIsBetweenZeroAndOne()
     {
-        LaunchTestCase(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}FilesWithSomeSimilarities");
+        LaunchTestCase(
+            @$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}FilesWithSomeSimilarities");
 
         double result = GetSimilarityRateFromReport();
         Assert.True(result is > 0 and < 1);

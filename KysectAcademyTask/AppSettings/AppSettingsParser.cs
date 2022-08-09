@@ -13,7 +13,7 @@ public class AppSettingsParser
     private readonly IConfigurationRoot _configRoot;
 
     public AppSettingsConfig Config { get; }
-    
+
     public AppSettingsParser()
     {
         _configRoot = GetConfigurationRoot("appsettings.json");
