@@ -33,5 +33,4 @@ public class SubmitFromDbToAppTransformer
     {
         return submit.Date;
     }
-
 }

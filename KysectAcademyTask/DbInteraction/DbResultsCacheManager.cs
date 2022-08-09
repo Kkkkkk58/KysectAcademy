@@ -24,7 +24,7 @@ public class DbResultsCacheManager
 
     private ComparisonResultsTable<SubmitComparisonResult> GetCache(IComparisonResultRepo resultRepo)
     {
-        IEnumerable<DataAccess.Models.Entities.ComparisonResult> results =  resultRepo?.GetAll();
+        IEnumerable<DataAccess.Models.Entities.ComparisonResult> results = resultRepo?.GetAll();
         var cache = new ComparisonResultsTable<SubmitComparisonResult>();
         if (results is null)
             return cache;

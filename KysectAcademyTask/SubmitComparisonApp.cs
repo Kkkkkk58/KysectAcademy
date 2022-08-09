@@ -33,7 +33,7 @@ public class SubmitComparisonApp
             IReadOnlyList<SubmitInfo> submits = new SubmitGetter(_config.SubmitConfig).GetSubmits();
             SubmitComparisonDbContext dbContext = GetDbContext(_config.DbConfig);
             AllRepos allRepos = GetAllRepos(dbContext);
-            
+
             if (dbContext is not null)
             {
                 PrepareDatabase(allRepos, submits);
@@ -108,7 +108,8 @@ public class SubmitComparisonApp
         IReadOnlyList<SubmitInfo> submits, DbResultsCacheManager dbResultsCacheManager)
     {
         SubmitInfoProcessor submitInfoProcessor = GetSubmitInfoProcessor(config);
-        var submitSuitabilityChecker = new SubmitSuitabilityChecker(config.Filters, submitInfoProcessor, dbResultsCacheManager);
+        var submitSuitabilityChecker =
+            new SubmitSuitabilityChecker(config.Filters, submitInfoProcessor, dbResultsCacheManager);
         FileProcessor fileProcessor = GetFileProcessor(config);
 
         return new SubmitComparisonProcessor(submits, submitInfoProcessor, submitSuitabilityChecker,

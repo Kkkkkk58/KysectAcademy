@@ -20,6 +20,6 @@ public class ComparisonResultRepo : BaseRepo<ComparisonResult>, IComparisonResul
     {
         return Table
             .Where(result => result.Submit1Navigation == submit1 && result.Submit2Navigation == submit2
-                                   || result.Submit1Navigation == submit2 && result.Submit2Navigation == submit1);
+                             || result.Submit1Navigation == submit2 && result.Submit2Navigation == submit1);
     }
 }

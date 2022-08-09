@@ -52,7 +52,8 @@ public class DbResultsUpdater
         _resultRepo.AddRange(resultsToAdd);
     }
 
-    private IQueryable<DataAccess.Models.Entities.ComparisonResult> GetSubmitComparisonResultQuery(SubmitComparisonResult result)
+    private IQueryable<DataAccess.Models.Entities.ComparisonResult> GetSubmitComparisonResultQuery(
+        SubmitComparisonResult result)
     {
         DataAccess.Models.Entities.Submit submit1 = ToDataAccessModel(result.SubmitInfo1);
         DataAccess.Models.Entities.Submit submit2 = ToDataAccessModel(result.SubmitInfo2);

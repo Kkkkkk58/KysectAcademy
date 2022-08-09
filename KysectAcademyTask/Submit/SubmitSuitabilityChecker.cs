@@ -10,7 +10,8 @@ public class SubmitSuitabilityChecker
     private readonly SubmitInfoProcessor _submitInfoProcessor;
     private readonly DbResultsCacheManager _cacheManager;
 
-    public SubmitSuitabilityChecker(Filters? filters, SubmitInfoProcessor submitInfoProcessor, DbResultsCacheManager cacheManager)
+    public SubmitSuitabilityChecker(Filters? filters, SubmitInfoProcessor submitInfoProcessor,
+        DbResultsCacheManager cacheManager)
     {
         _filters = filters;
         _submitInfoProcessor = submitInfoProcessor;
@@ -25,7 +26,7 @@ public class SubmitSuitabilityChecker
                && AreNotEmptyAfterApplyingFilters(submit1, submit2)
                && SatisfyCacheManager(submit1, submit2);
     }
-    
+
     private bool IsAnyAuthorFromWhiteList(SubmitInfo submit1, SubmitInfo submit2)
     {
         return _filters is null
@@ -50,7 +51,7 @@ public class SubmitSuitabilityChecker
         IEnumerable<string> fileNames2 = GetSubmitFileNames(submit2);
         return _filters is null
                || fileNames1.Any()
-                && fileNames2.Any();
+               && fileNames2.Any();
     }
 
     private bool SatisfyCacheManager(SubmitInfo submit1, SubmitInfo submit2)

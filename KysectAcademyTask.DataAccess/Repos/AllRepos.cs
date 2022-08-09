@@ -4,7 +4,7 @@ namespace KysectAcademyTask.DataAccess.Repos;
 
 public class AllRepos
 {
-    public IComparisonResultRepo ComparisonResultRepo { get; } 
+    public IComparisonResultRepo ComparisonResultRepo { get; }
     public IGroupRepo GroupRepo { get; }
     public IHomeWorkRepo HomeWorkRepo { get; }
     public IStudentRepo StudentRepo { get; }

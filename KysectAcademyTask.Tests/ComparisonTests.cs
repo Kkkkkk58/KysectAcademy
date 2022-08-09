@@ -16,7 +16,9 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_SimilarFiles_SimilarityRateIsOne()
     {
-        InitPaths(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}SimilarFiles", ReportType.Json);
+        InitPaths(
+            @$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}SimilarFiles",
+            ReportType.Json);
         AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
@@ -28,7 +30,9 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_TotallyDifferentFiles_SimilarityRateIsZero()
     {
-        InitPaths(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}DifferentFiles", ReportType.Json);
+        InitPaths(
+            @$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}DifferentFiles",
+            ReportType.Json);
         AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
@@ -40,7 +44,9 @@ public class ComparisonTests : BaseTests
     [Fact]
     public void FileComparison_FilesHaveSomeSimilarities_SimilarityRateIsBetweenZeroAndOne()
     {
-        InitPaths(@$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}FilesWithSomeSimilarities", ReportType.Json);
+        InitPaths(
+            @$"FilesForTests{Path.DirectorySeparatorChar}ComparisonTests{Path.DirectorySeparatorChar}FilesWithSomeSimilarities",
+            ReportType.Json);
         AppSettingsConfig config = GetConfig();
 
         RunApplication(config);
@@ -70,11 +76,11 @@ public class ComparisonTests : BaseTests
             }
         };
         string jsonString = File.ReadAllText(ResultPath);
-        TestSubmitComparisonResult[] results = JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
+        TestSubmitComparisonResult[] results =
+            JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
 
         return results!
             .Single()
             .SimilarityRate;
     }
-
 }

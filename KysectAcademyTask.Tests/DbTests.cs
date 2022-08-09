@@ -13,7 +13,8 @@ namespace KysectAcademyTask.Tests;
 
 public class DbTests : BaseTests
 {
-    private readonly string _relativeRootPath = @$"FilesForTests{Path.DirectorySeparatorChar}DbTests{Path.DirectorySeparatorChar}RootDirectory";
+    private readonly string _relativeRootPath =
+        @$"FilesForTests{Path.DirectorySeparatorChar}DbTests{Path.DirectorySeparatorChar}RootDirectory";
 
     [Fact]
     public void DbTest_NoDbConfigProvided_SourceIsFileComparison()
@@ -80,7 +81,6 @@ public class DbTests : BaseTests
     private bool AllResultsAreFromSource(IReadOnlyCollection<TestSubmitComparisonResult> results, ResultSource source)
     {
         return results.All(result => result.Source == source);
-
     }
 
     private bool DbResultsWereRechecked(IReadOnlyCollection<TestSubmitComparisonResult> results)
@@ -88,8 +88,9 @@ public class DbTests : BaseTests
         return results
             .All(result => result.Source != ResultSource.Database
                            || results
-                               .Any(resultFromNewComparison => resultFromNewComparison.Source == ResultSource.NewFileComparison 
-                                           && resultFromNewComparison.SubmitInfo1 == result.SubmitInfo1
-                                           && resultFromNewComparison.SubmitInfo2 == result.SubmitInfo2));
+                               .Any(resultFromNewComparison =>
+                                   resultFromNewComparison.Source == ResultSource.NewFileComparison
+                                   && resultFromNewComparison.SubmitInfo1 == result.SubmitInfo1
+                                   && resultFromNewComparison.SubmitInfo2 == result.SubmitInfo2));
     }
 }

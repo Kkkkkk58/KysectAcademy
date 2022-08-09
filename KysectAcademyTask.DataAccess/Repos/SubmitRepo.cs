@@ -21,8 +21,8 @@ public class SubmitRepo : BaseRepo<Submit>, ISubmitRepo
     {
         return Table
             .Where(submit => submit.StudentNavigation.PersonalInformation.FullName == authorFullName
-                        && submit.StudentNavigation.GroupNavigation.Name == groupName
-                        && submit.HomeWorkNavigation.Name == homeWorkName
-                        && submit.Date == submitDate);
+                             && submit.StudentNavigation.GroupNavigation.Name == groupName
+                             && submit.HomeWorkNavigation.Name == homeWorkName
+                             && submit.Date == submitDate);
     }
 }

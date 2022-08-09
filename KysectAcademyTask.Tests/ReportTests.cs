@@ -13,7 +13,8 @@ namespace KysectAcademyTask.Tests;
 
 public class ReportTests : BaseTests
 {
-    private readonly string _relativeRootPath = @$"FilesForTests{Path.DirectorySeparatorChar}ReportTests{Path.DirectorySeparatorChar}RootDirectory";
+    private readonly string _relativeRootPath =
+        @$"FilesForTests{Path.DirectorySeparatorChar}ReportTests{Path.DirectorySeparatorChar}RootDirectory";
 
     [Theory]
     [InlineData(ReportType.Txt)]
@@ -42,7 +43,7 @@ public class ReportTests : BaseTests
         Assert.NotEmpty(resultString);
     }
 
-    
+
     [Fact]
     public void ReportTest_JsonFormat_ProducesValidJson()
     {
@@ -54,8 +55,6 @@ public class ReportTests : BaseTests
         string jsonString = File.ReadAllText(ResultPath);
         bool deserializationSucceeded = TryDeserialize(jsonString);
         Assert.True(deserializationSucceeded);
-
-        
     }
 
     private AppSettingsConfig GetConfig(ReportType reportType)
@@ -81,7 +80,8 @@ public class ReportTests : BaseTests
 
         try
         {
-            TestSubmitComparisonResult[] results = JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
+            TestSubmitComparisonResult[] results =
+                JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
         }
         catch (JsonException)
         {

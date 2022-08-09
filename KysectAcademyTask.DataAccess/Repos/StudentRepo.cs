@@ -20,7 +20,7 @@ public class StudentRepo : BaseRepo<Student>, IStudentRepo
     {
         return Table
             .Where(student => student.PersonalInformation.FirstName == firstName
-                        && student.PersonalInformation.LastName == lastName
-                        && student.GroupNavigation.Name == groupName);
+                              && student.PersonalInformation.LastName == lastName
+                              && student.GroupNavigation.Name == groupName);
     }
 }

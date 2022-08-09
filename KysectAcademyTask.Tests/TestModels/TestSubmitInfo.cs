@@ -12,16 +12,16 @@ public struct TestSubmitInfo
         GroupName = groupName;
         AuthorName = authorName;
         HomeworkName = homeworkName;
-        SubmitDate = submitDate;    
+        SubmitDate = submitDate;
     }
 
     public override bool Equals(object obj)
     {
         return obj is TestSubmitInfo submit
-            && GroupName.Equals(submit.GroupName, StringComparison.OrdinalIgnoreCase)
-            && AuthorName.Equals(submit.AuthorName, StringComparison.OrdinalIgnoreCase)
-            && HomeworkName.Equals(submit.HomeworkName, StringComparison.OrdinalIgnoreCase)
-            && SubmitDate.Equals(submit.SubmitDate);
+               && GroupName.Equals(submit.GroupName, StringComparison.OrdinalIgnoreCase)
+               && AuthorName.Equals(submit.AuthorName, StringComparison.OrdinalIgnoreCase)
+               && HomeworkName.Equals(submit.HomeworkName, StringComparison.OrdinalIgnoreCase)
+               && SubmitDate.Equals(submit.SubmitDate);
     }
 
     public override int GetHashCode()

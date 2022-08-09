@@ -12,7 +12,8 @@ public struct AppSettingsConfig
     public DbConfig DbConfig { get; init; }
     public ProgressBarConfig ProgressBarConfig { get; init; }
 
-    public AppSettingsConfig(SubmitConfig submitConfig, ReportConfig reportConfig, DbConfig dbConfig, ProgressBarConfig progressBarConfig)
+    public AppSettingsConfig(SubmitConfig submitConfig, ReportConfig reportConfig, DbConfig dbConfig,
+        ProgressBarConfig progressBarConfig)
     {
         SubmitConfig = submitConfig;
         ReportConfig = reportConfig;

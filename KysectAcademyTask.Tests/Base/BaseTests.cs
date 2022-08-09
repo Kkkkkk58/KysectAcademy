@@ -71,7 +71,8 @@ public class BaseTests : IDisposable
             }
         };
         string jsonString = File.ReadAllText(ResultPath);
-        TestSubmitComparisonResult[] results = JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
+        TestSubmitComparisonResult[] results =
+            JsonSerializer.Deserialize<TestSubmitComparisonResult[]>(jsonString, options);
 
         return results;
     }

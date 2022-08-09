@@ -41,19 +41,22 @@ public class FileProcessor
         return commonLoader;
     }
 
-    private ComparisonResultsTable<FileComparisonResult> GetComparisonResults(string[] fileNames1, string[] fileNames2, FileLoader loader)
+    private ComparisonResultsTable<FileComparisonResult> GetComparisonResults(string[] fileNames1, string[] fileNames2,
+        FileLoader loader)
     {
         ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new();
         foreach (ComparisonAlgorithm.Metrics metric in _metrics)
         {
-            ComparisonResultsTable<FileComparisonResult> resultsUsingMetrics = PerformFilesComparison(fileNames1, fileNames2, loader, metric);
+            ComparisonResultsTable<FileComparisonResult> resultsUsingMetrics =
+                PerformFilesComparison(fileNames1, fileNames2, loader, metric);
             comparisonResultsTable.AddTable(resultsUsingMetrics);
         }
 
         return comparisonResultsTable;
     }
 
-    private ComparisonResultsTable<FileComparisonResult> PerformFilesComparison(string[] fileNames1, string[] fileNames2, FileLoader loader,
+    private ComparisonResultsTable<FileComparisonResult> PerformFilesComparison(string[] fileNames1,
+        string[] fileNames2, FileLoader loader,
         ComparisonAlgorithm.Metrics metrics)
     {
         ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new();

@@ -20,7 +20,8 @@ public class SubmitComparisonProcessor
     private event Action ProgressBarUpdate;
 
     public SubmitComparisonProcessor(IReadOnlyList<SubmitInfo> submits, SubmitInfoProcessor submitInfoProcessor,
-        SubmitSuitabilityChecker submitSuitabilityChecker, FileProcessor fileProcessor, ComparisonResultsTable<SubmitComparisonResult> cache)
+        SubmitSuitabilityChecker submitSuitabilityChecker, FileProcessor fileProcessor,
+        ComparisonResultsTable<SubmitComparisonResult> cache)
     {
         _submits = submits;
         _submitInfoProcessor = submitInfoProcessor;
@@ -48,15 +49,17 @@ public class SubmitComparisonProcessor
         return _cache;
     }
 
-    private void AddComparisonToTable(ComparisonResultsTable<SubmitComparisonResult> results, (SubmitInfo submit1, SubmitInfo submit2) pairToCompare)
+    private void AddComparisonToTable(ComparisonResultsTable<SubmitComparisonResult> results,
+        (SubmitInfo submit1, SubmitInfo submit2) pairToCompare)
     {
         (string dirName1, string dirName2) = GetPairOfDirNames(pairToCompare);
 
         ComparisonResultsTable<FileComparisonResult> curSubmitsFilesComparison =
             _fileProcessor.CompareDirectories(dirName1, dirName2);
 
-        SubmitComparisonResult curSubmitsComparison = new FilesToSubmitComparisonTransformer(pairToCompare.submit1, pairToCompare.submit2)
-            .Transform(curSubmitsFilesComparison);
+        SubmitComparisonResult curSubmitsComparison =
+            new FilesToSubmitComparisonTransformer(pairToCompare.submit1, pairToCompare.submit2)
+                .Transform(curSubmitsFilesComparison);
 
         results.AddComparisonResult(curSubmitsComparison);
     }

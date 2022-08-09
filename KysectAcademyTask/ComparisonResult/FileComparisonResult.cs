@@ -23,6 +23,7 @@ public readonly struct FileComparisonResult : IComparisonResult
 
     public override string ToString()
     {
-        return $"|{FileName1}\n|{FileName2}\n|{{using {Metrics} metrics}}\n* Received from {Source}\n=> {SimilarityRate:0.##}";
+        return
+            $"|{FileName1}\n|{FileName2}\n|{{using {Metrics} metrics}}\n* Received from {Source}\n=> {SimilarityRate:0.##}";
     }
 }

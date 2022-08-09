@@ -21,7 +21,8 @@ public class FilesToSubmitComparisonTransformer
         return GetCompositionResult(maxSimilaritiesTable);
     }
 
-    private SubmitComparisonResult GetCompositionResult(ComparisonResultsTable<FileComparisonResult> maxSimilaritiesTable)
+    private SubmitComparisonResult GetCompositionResult(
+        ComparisonResultsTable<FileComparisonResult> maxSimilaritiesTable)
     {
         double compositionSimilarityRate = maxSimilaritiesTable.Average(result => result.SimilarityRate);
 
@@ -29,27 +30,30 @@ public class FilesToSubmitComparisonTransformer
     }
 
 
-    private ComparisonResultsTable<FileComparisonResult> UniteMetrics(ComparisonResultsTable<FileComparisonResult> fileComparisonResults)
+    private ComparisonResultsTable<FileComparisonResult> UniteMetrics(
+        ComparisonResultsTable<FileComparisonResult> fileComparisonResults)
     {
         var unitedMetricsTable = new ComparisonResultsTable<FileComparisonResult>();
         foreach (FileComparisonResult result in fileComparisonResults)
         {
-            if (unitedMetricsTable.Any(listedResults => listedResults.FileName1 == result.FileName1 && listedResults.FileName2 == result.FileName2))
+            if (unitedMetricsTable.Any(listedResults =>
+                    listedResults.FileName1 == result.FileName1 && listedResults.FileName2 == result.FileName2))
                 continue;
 
             double combinedSimilarityRate = fileComparisonResults
                 .Where(r => r.FileName1 == result.FileName1 && r.FileName2 == result.FileName2)
                 .Average(r => r.SimilarityRate);
 
-            var combinedResult = new FileComparisonResult(result.FileName1, result.FileName2, result.Metrics, combinedSimilarityRate, result.Source);
+            var combinedResult = new FileComparisonResult(result.FileName1, result.FileName2, result.Metrics,
+                combinedSimilarityRate, result.Source);
             unitedMetricsTable.AddComparisonResult(combinedResult);
         }
 
         return unitedMetricsTable;
-
     }
 
-    private ComparisonResultsTable<FileComparisonResult> GetResultsWithMaxSimilarities(ComparisonResultsTable<FileComparisonResult> unitedMetricsTable)
+    private ComparisonResultsTable<FileComparisonResult> GetResultsWithMaxSimilarities(
+        ComparisonResultsTable<FileComparisonResult> unitedMetricsTable)
     {
         var maxSimilaritiesTable = new ComparisonResultsTable<FileComparisonResult>();
 

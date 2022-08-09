@@ -7,11 +7,13 @@ public class SubmitComparisonDbContextFactory
 {
     public SubmitComparisonDbContext GetDbContext(DataProvider dataProvider, string connectionString)
     {
-        DbContextOptionsBuilder<SubmitComparisonDbContext> optionsBuilder = GetOptionsBuilder(dataProvider, connectionString);
+        DbContextOptionsBuilder<SubmitComparisonDbContext> optionsBuilder =
+            GetOptionsBuilder(dataProvider, connectionString);
         return new SubmitComparisonDbContext(optionsBuilder.Options);
     }
 
-    private DbContextOptionsBuilder<SubmitComparisonDbContext> GetOptionsBuilder(DataProvider dataProvider, string connectionString)
+    private DbContextOptionsBuilder<SubmitComparisonDbContext> GetOptionsBuilder(DataProvider dataProvider,
+        string connectionString)
     {
         var optionsBuilder = new DbContextOptionsBuilder<SubmitComparisonDbContext>();
 
@@ -34,7 +36,8 @@ public class SubmitComparisonDbContextFactory
                 break;
             case DataProvider.MySql:
                 var connection = new MySqlConnection(connectionString);
-                optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection), options => options.EnableRetryOnFailure());
+                optionsBuilder.UseMySql(connection, ServerVersion.AutoDetect(connection),
+                    options => options.EnableRetryOnFailure());
                 break;
             default:
                 throw new NotImplementedException("Not implemented factory method for this provider");

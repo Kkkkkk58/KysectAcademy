@@ -171,7 +171,7 @@ public class AppSettingsParser
             IConfigurationSection section =
                 _configRoot.GetSection(nameof(ProgressBarConfig));
             ProgressBarConfig progressBarConfig = section.Get<ProgressBarConfig?>()
-                                ?? new ProgressBarConfig(true);
+                                                  ?? new ProgressBarConfig(true);
             return progressBarConfig;
         }
         catch (InvalidOperationException e)
@@ -179,5 +179,4 @@ public class AppSettingsParser
             throw new ArgumentException($"Invalid ProgressBarConfig argument: {e.Message}", e);
         }
     }
-
 }

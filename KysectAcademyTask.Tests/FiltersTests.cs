@@ -13,7 +13,8 @@ namespace KysectAcademyTask.Tests;
 
 public class FiltersTests : BaseTests
 {
-    private readonly string _relativeRootPath = @$"FilesForTests{Path.DirectorySeparatorChar}ReportTests{Path.DirectorySeparatorChar}RootDirectory";
+    private readonly string _relativeRootPath =
+        @$"FilesForTests{Path.DirectorySeparatorChar}ReportTests{Path.DirectorySeparatorChar}RootDirectory";
 
     [Fact]
     public void AnyFilter_IntersectionBetweenWhiteAndBlackLists_ThrowsArgumentException()
@@ -91,7 +92,6 @@ public class FiltersTests : BaseTests
         IEnumerable<string> fileNames = GetFileNames(null, directoryRequirements);
 
         Assert.False(DoesAnyPathContainBlackListed(fileNames, blackList));
-
     }
 
     [Fact]
@@ -105,7 +105,6 @@ public class FiltersTests : BaseTests
         IEnumerable<string> fileNames = GetFileNames(null, directoryRequirements);
 
         Assert.True(DoAllPathsContainWhiteListed(fileNames, whiteList));
-
     }
 
 
@@ -120,7 +119,6 @@ public class FiltersTests : BaseTests
         IEnumerable<string> fileNames = GetFileNames(fileRequirements, null);
 
         Assert.False(DoesAnyPathContainBlackListed(fileNames, blackList));
-
     }
 
     [Fact]
@@ -134,7 +132,6 @@ public class FiltersTests : BaseTests
         IEnumerable<string> fileNames = GetFileNames(fileRequirements, null);
 
         Assert.True(DoAllPathsContainWhiteListed(fileNames, whiteList));
-
     }
 
     [Fact]
@@ -148,7 +145,6 @@ public class FiltersTests : BaseTests
         IEnumerable<string> fileNames = GetFileNames(fileRequirements, null);
 
         Assert.False(DoesAnyPathContainBlackListed(fileNames, blackList));
-
     }
 
     [Fact]
@@ -162,7 +158,6 @@ public class FiltersTests : BaseTests
         IEnumerable<string> fileNames = GetFileNames(fileRequirements, null);
 
         Assert.True(DoAllPathsContainWhiteListed(fileNames, whiteList));
-
     }
 
     [Fact]
@@ -190,7 +185,6 @@ public class FiltersTests : BaseTests
             || result.SubmitInfo2.GroupName.Equals(group, StringComparison.OrdinalIgnoreCase)));
 
         Assert.False(condition);
-
     }
 
     [Fact]
@@ -218,7 +212,6 @@ public class FiltersTests : BaseTests
             || result.SubmitInfo2.GroupName.Equals(group, StringComparison.OrdinalIgnoreCase)));
 
         Assert.True(condition);
-
     }
 
     [Fact]
@@ -246,7 +239,6 @@ public class FiltersTests : BaseTests
             || result.SubmitInfo2.AuthorName.Equals(homeWork, StringComparison.OrdinalIgnoreCase)));
 
         Assert.False(condition);
-
     }
 
     [Fact]
@@ -274,7 +266,6 @@ public class FiltersTests : BaseTests
             || result.SubmitInfo2.HomeworkName.Equals(homeWork, StringComparison.OrdinalIgnoreCase)));
 
         Assert.True(condition);
-
     }
 
     [Fact]
@@ -284,8 +275,8 @@ public class FiltersTests : BaseTests
 
         var blackList = new List<DateTime>
         {
-            new(2019, 11, 18, 20, 23, 49),  // Andrew Gray - 4. INI файл
-            new(2019, 12, 2, 17, 56, 12)    // Barbara Jones - 4. INI файл
+            new(2019, 11, 18, 20, 23, 49), // Andrew Gray - 4. INI файл
+            new(2019, 12, 2, 17, 56, 12) // Barbara Jones - 4. INI файл
         };
         var submitDateFilter = new SubmitDateFilter(null, blackList);
         var filters = new Filters
@@ -306,7 +297,6 @@ public class FiltersTests : BaseTests
             || result.SubmitInfo2.SubmitDate.Equals(date)));
 
         Assert.False(condition);
-
     }
 
     [Fact]
@@ -316,8 +306,8 @@ public class FiltersTests : BaseTests
 
         var whiteList = new List<DateTime>
         {
-            new(2019, 11, 18, 20, 23, 49),  // Andrew Gray - 4. INI файл
-            new(2019, 12, 2, 17, 56, 12)    // Barbara Jones - 4. INI файл
+            new(2019, 11, 18, 20, 23, 49), // Andrew Gray - 4. INI файл
+            new(2019, 12, 2, 17, 56, 12) // Barbara Jones - 4. INI файл
         };
         var submitDateFilter = new SubmitDateFilter(whiteList, null);
         var filters = new Filters
@@ -338,7 +328,6 @@ public class FiltersTests : BaseTests
             || result.SubmitInfo2.SubmitDate.Equals(date)));
 
         Assert.True(condition);
-
     }
 
     private AppSettingsConfig GetConfig(Filters filters)
@@ -352,7 +341,8 @@ public class FiltersTests : BaseTests
         };
     }
 
-    private IEnumerable<string> GetFileNames(FileRequirements? fileRequirements, DirectoryRequirements? directoryRequirements)
+    private IEnumerable<string> GetFileNames(FileRequirements? fileRequirements,
+        DirectoryRequirements? directoryRequirements)
     {
         return new FileNamesGetter(fileRequirements, directoryRequirements)
             .GetFileNamesSatisfyingRequirements(RootPath);

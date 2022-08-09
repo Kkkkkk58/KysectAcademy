@@ -10,12 +10,13 @@ public readonly struct SubmitComparisonResult : IComparisonResult
     public double SimilarityRate { get; }
     public ResultSource Source { get; }
 
-    public SubmitComparisonResult(SubmitInfo submitInfo1, SubmitInfo submitInfo2, double similarityRate, ResultSource source = ResultSource.NewFileComparison)
+    public SubmitComparisonResult(SubmitInfo submitInfo1, SubmitInfo submitInfo2, double similarityRate,
+        ResultSource source = ResultSource.NewFileComparison)
     {
         SubmitInfo1 = submitInfo1;
         SubmitInfo2 = submitInfo2;
         SimilarityRate = similarityRate;
-        Source = source;    
+        Source = source;
     }
 
 
