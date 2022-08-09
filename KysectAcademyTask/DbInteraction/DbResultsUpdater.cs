@@ -1,5 +1,6 @@
 ﻿using KysectAcademyTask.ComparisonResult;
 using KysectAcademyTask.DataAccess.Repos.Interfaces;
+using KysectAcademyTask.FileComparison;
 using KysectAcademyTask.Submit;
 
 namespace KysectAcademyTask.DbInteraction;
@@ -15,35 +16,16 @@ public class DbResultsUpdater
         _submitRepo = submitRepo;
     }
 
-    public void SaveNewLeaveOld(ComparisonResultsTable<SubmitComparisonResult> results)
-    {
-        var resultsToAdd = new List<DataAccess.Models.Entities.ComparisonResult>();
-
-        foreach (SubmitComparisonResult result in results)
-        {
-            IQueryable<DataAccess.Models.Entities.ComparisonResult> dbQuery = GetSubmitComparisonResultQuery(result);
-            if (dbQuery.Any()) 
-                continue;
-
-            var resultData = new DataAccess.Models.Entities.ComparisonResult
-            {
-                Submit1Navigation = ToDataAccessModel(result.SubmitInfo1),
-                Submit2Navigation = ToDataAccessModel(result.SubmitInfo2),
-                SimilarityRate = result.SimilarityRate
-            };
-            resultsToAdd.Add(resultData);
-        }
-
-        _resultRepo.AddRange(resultsToAdd);
-    }
-
-    public void SaveNewUpdateChanged(ComparisonResultsTable<SubmitComparisonResult> results)
+    public void UpdateResults(ComparisonResultsTable<SubmitComparisonResult> results)
     {
         var resultsToUpdate = new List<DataAccess.Models.Entities.ComparisonResult>();
         var resultsToAdd = new List<DataAccess.Models.Entities.ComparisonResult>();
 
         foreach (SubmitComparisonResult result in results)
         {
+            if (result.Source == ResultSource.Database)
+                continue;
+
             IQueryable<DataAccess.Models.Entities.ComparisonResult> dbQuery = GetSubmitComparisonResultQuery(result);
             if (dbQuery.Any())
             {

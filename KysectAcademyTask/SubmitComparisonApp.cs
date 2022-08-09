@@ -50,7 +50,7 @@ public class SubmitComparisonApp
 
             if (dbContext is not null)
             {
-                SaveResultsToDatabase(allRepos.ComparisonResultRepo, allRepos.SubmitRepo, results, _config.DbConfig.Recheck);
+                SaveResultsToDatabase(allRepos.ComparisonResultRepo, allRepos.SubmitRepo, results);
             }
         }
         catch (Exception e)
@@ -125,17 +125,10 @@ public class SubmitComparisonApp
     }
 
     private void SaveResultsToDatabase(IComparisonResultRepo resultRepo, ISubmitRepo fileRepo,
-        ComparisonResultsTable<SubmitComparisonResult> results, bool recheck)
+        ComparisonResultsTable<SubmitComparisonResult> results)
     {
         var updater = new DbResultsUpdater(resultRepo, fileRepo);
-        if (recheck)
-        {
-            updater.SaveNewUpdateChanged(results);
-        }
-        else
-        {
-            updater.SaveNewLeaveOld(results);
-        }
+        updater.UpdateResults(results);
     }
 
     private void SetProgressBar(SubmitComparisonProcessor submitComparisonProcessor, ProgressBarConfig config)
