@@ -32,7 +32,7 @@ public class FileProcessor
     }
 
 
-    private FileLoader GetCombinedLoader(string[] fileNames1, string[] fileNames2)
+    private static FileLoader GetCombinedLoader(IEnumerable<string> fileNames1, IEnumerable<string> fileNames2)
     {
         FileLoader fileLoader1 = new(fileNames1);
         FileLoader fileLoader2 = new(fileNames2);
@@ -41,10 +41,11 @@ public class FileProcessor
         return commonLoader;
     }
 
-    private ComparisonResultsTable<FileComparisonResult> GetComparisonResults(string[] fileNames1, string[] fileNames2,
+    private ComparisonResultsTable<FileComparisonResult> GetComparisonResults(IReadOnlyCollection<string> fileNames1, IReadOnlyCollection<string> fileNames2,
         FileLoader loader)
     {
-        ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new();
+        int numberOfComparisons = GetNumberOfComparisonsWithMetrics(fileNames1, fileNames2);
+        var comparisonResultsTable = new ComparisonResultsTable<FileComparisonResult>(numberOfComparisons);
         foreach (ComparisonAlgorithm.Metrics metric in _metrics)
         {
             ComparisonResultsTable<FileComparisonResult> resultsUsingMetrics =
@@ -55,10 +56,11 @@ public class FileProcessor
         return comparisonResultsTable;
     }
 
-    private ComparisonResultsTable<FileComparisonResult> PerformFilesComparison(string[] fileNames1,
-        string[] fileNames2, FileLoader loader, ComparisonAlgorithm.Metrics metrics)
+    private static ComparisonResultsTable<FileComparisonResult> PerformFilesComparison(IReadOnlyCollection<string> fileNames1,
+        IReadOnlyCollection<string> fileNames2, FileLoader loader, ComparisonAlgorithm.Metrics metrics)
     {
-        ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new();
+        int numberOfComparisons = GetNumberOfPairToPairComparisons(fileNames1, fileNames2);
+        ComparisonResultsTable<FileComparisonResult> comparisonResultsTable = new(numberOfComparisons);
         FileComparer fileComparer = new(loader, metrics);
 
         foreach (string fileName1 in fileNames1)
@@ -79,5 +81,16 @@ public class FileProcessor
         FileComparisonResult fileComparisonResult = fileComparer.Compare(fileName1, fileName2);
 
         return fileComparisonResult;
+    }
+
+    private static int GetNumberOfPairToPairComparisons(IReadOnlyCollection<string> fileNames1, IReadOnlyCollection<string> fileNames2)
+    {
+        return fileNames1.Count * fileNames2.Count;
+    }
+
+    private int GetNumberOfComparisonsWithMetrics(IReadOnlyCollection<string> fileNames1,
+        IReadOnlyCollection<string> fileNames2)
+    {
+        return GetNumberOfPairToPairComparisons(fileNames1, fileNames2) * _metrics.Count;
     }
 }

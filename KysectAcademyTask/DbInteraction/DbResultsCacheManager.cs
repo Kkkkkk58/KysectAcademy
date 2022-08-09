@@ -24,11 +24,11 @@ public class DbResultsCacheManager
 
     private static ComparisonResultsTable<SubmitComparisonResult> GetCache(IComparisonResultRepo resultRepo)
     {
-        IEnumerable<DataAccess.Models.Entities.ComparisonResult> results = resultRepo?.GetAll();
-        var cache = new ComparisonResultsTable<SubmitComparisonResult>();
+        IReadOnlyCollection<DataAccess.Models.Entities.ComparisonResult> results = resultRepo?.GetAll()?.ToList();
         if (results is null)
-            return cache;
+            return new ComparisonResultsTable<SubmitComparisonResult>();
 
+        var cache = new ComparisonResultsTable<SubmitComparisonResult>(results.Count);
         var resultTransformer = new ResultFromDbToAppTransformer();
         foreach (DataAccess.Models.Entities.ComparisonResult resultData in results)
         {
