@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using KysectAcademyTask.AppSettings;
 using KysectAcademyTask.DbInteraction.Configuration;
 using KysectAcademyTask.Report;
@@ -81,16 +80,5 @@ public class ReportTests : BaseTests
         }
 
         return true;
-    }
-
-    private JsonSerializerOptions GetDeserializationOptions()
-    {
-        return new JsonSerializerOptions
-        {
-            Converters =
-            {
-                new JsonStringEnumConverter()
-            }
-        };
     }
 }

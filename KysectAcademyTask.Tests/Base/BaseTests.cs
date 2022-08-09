@@ -45,7 +45,7 @@ public class BaseTests : IDisposable
         ResultPath = GetResultPath(reportType);
     }
 
-    private string GetRootPath(string relativeRootPath)
+    private static string GetRootPath(string relativeRootPath)
     {
         return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativeRootPath);
     }
@@ -71,7 +71,7 @@ public class BaseTests : IDisposable
         return results;
     }
 
-    private JsonSerializerOptions GetDeserializationOptions()
+    protected JsonSerializerOptions GetDeserializationOptions()
     {
         return new JsonSerializerOptions
         {

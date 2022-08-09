@@ -78,12 +78,12 @@ public class DbTests : BaseTests
         };
     }
 
-    private bool AllResultsAreFromSource(IReadOnlyCollection<TestSubmitComparisonResult> results, ResultSource source)
+    private static bool AllResultsAreFromSource(IReadOnlyCollection<TestSubmitComparisonResult> results, ResultSource source)
     {
         return results.All(result => result.Source == source);
     }
 
-    private bool DbResultsWereRechecked(IReadOnlyCollection<TestSubmitComparisonResult> results)
+    private static bool DbResultsWereRechecked(IReadOnlyCollection<TestSubmitComparisonResult> results)
     {
         return results
             .All(result => result.Source != ResultSource.Database
