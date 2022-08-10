@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Submit.SubmitFilters;
 
-internal class FileExtensionFilter : Filter<string>
+public class FileExtensionFilter : Filter<string>
 {
     public FileExtensionFilter(IReadOnlyList<string> whiteList, IReadOnlyList<string> blackList)
         : base(whiteList, blackList)
@@ -9,9 +9,9 @@ internal class FileExtensionFilter : Filter<string>
 
     public FileExtensionFilter() : base() { }
 
-    public override bool IsSatisfiedBy(string path)
+    public override bool IsSatisfiedBy(string value)
     {
-        string extension = Path.GetExtension(path);
+        string extension = Path.GetExtension(value);
         return base.IsSatisfiedBy(extension);
     }
 }

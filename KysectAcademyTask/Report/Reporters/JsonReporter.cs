@@ -2,12 +2,12 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
-using KysectAcademyTask.FileComparison;
+using KysectAcademyTask.ComparisonResult;
 using KysectAcademyTask.Utils;
 
 namespace KysectAcademyTask.Report.Reporters;
 
-internal class JsonReporter : IReporter
+public class JsonReporter<T> : IReporter<T> where T : IComparisonResult
 {
     private readonly string _fileName;
 
@@ -21,11 +21,17 @@ internal class JsonReporter : IReporter
         _fileName = new ExtensionApplier().GetFileNameWithDesiredExtension(fileName, ".json");
     }
 
-    public void MakeReport(ComparisonResultsTable results)
+    public void MakeReport(ComparisonResultsTable<T> results)
     {
         using var writer = new StreamWriter(_fileName);
+        JsonSerializerOptions options = GetSerializerOptions();
+        string jsonOutput = JsonSerializer.Serialize(results, options);
+        writer.WriteLine(jsonOutput);
+    }
 
-        var options = new JsonSerializerOptions
+    private static JsonSerializerOptions GetSerializerOptions()
+    {
+        return new JsonSerializerOptions
         {
             Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
             WriteIndented = true,
@@ -34,7 +40,5 @@ internal class JsonReporter : IReporter
                 new JsonStringEnumConverter()
             }
         };
-        string jsonOutput = JsonSerializer.Serialize(results, options);
-        writer.WriteLine(jsonOutput);
     }
 }

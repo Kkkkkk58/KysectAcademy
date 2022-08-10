@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.FileComparison;
 
-internal class FileLoader
+public class FileLoader
 {
     public IReadOnlyDictionary<string, string> Files
     {
@@ -29,7 +29,7 @@ internal class FileLoader
         return fileContent;
     }
 
-    private Dictionary<string, string> GetAllContents(IEnumerable<string> fileNames)
+    private static Dictionary<string, string> GetAllContents(IEnumerable<string> fileNames)
     {
         return fileNames
             .ToDictionary(fileName => fileName, File.ReadAllText);

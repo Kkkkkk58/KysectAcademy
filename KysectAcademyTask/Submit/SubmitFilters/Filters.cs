@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Submit.SubmitFilters;
 
-internal readonly struct Filters
+public readonly struct Filters
 {
     public SubmitInfoRequirements? SubmitInfoRequirements { get; init; }
     public FileRequirements? FileRequirements { get; init; }
@@ -17,11 +17,6 @@ internal readonly struct Filters
     public bool AreDirectoryRequirementsNullOrSatisfied(string path)
     {
         return DirectoryRequirements is null || ((DirectoryRequirements)DirectoryRequirements).AreSatisfiedBy(path);
-    }
-
-    public bool AreFileRequirementsNullOrSatisfied(string path)
-    {
-        return FileRequirements is null || ((FileRequirements)FileRequirements).AreSatisfiedBy(path);
     }
 
     public bool AreSubmitRequirementsNullOrSatisfied(SubmitInfo submitInfo)

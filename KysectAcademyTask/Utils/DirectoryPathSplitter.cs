@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Utils;
 
-internal class DirectoryPathSplitter
+public class DirectoryPathSplitter
 {
     private readonly string[] _splitDirectories;
 

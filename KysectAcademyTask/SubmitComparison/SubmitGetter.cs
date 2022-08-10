@@ -5,7 +5,7 @@ using KysectAcademyTask.Utils;
 
 namespace KysectAcademyTask.SubmitComparison;
 
-internal class SubmitGetter
+public class SubmitGetter
 {
     private readonly SubmitConfig _config;
 

@@ -3,7 +3,7 @@ using KysectAcademyTask.Submit.SubmitFilters;
 
 namespace KysectAcademyTask.SubmitComparison;
 
-internal readonly struct SubmitConfig
+public readonly struct SubmitConfig
 {
     public string RootDir { get; }
     public Filters? Filters { get; }

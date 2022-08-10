@@ -367,3 +367,6 @@ FodyWeavers.xsd
 
 # VS Code generated files
 .vscode/
+
+# Database Design Factory file
+/KysectAcademyTask.DataAccess/EfStructures/DesignTimeSubmitComparisonDbContextFactory.cs

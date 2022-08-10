@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Utils;
 
-internal class DepthDirectoriesGetter
+public class DepthDirectoriesGetter
 {
     private readonly List<string> _depthDirectories;
     private readonly int _depth;

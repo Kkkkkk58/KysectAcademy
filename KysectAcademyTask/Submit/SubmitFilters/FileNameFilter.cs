@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Submit.SubmitFilters;
 
-internal class FileNameFilter : Filter<string>
+public class FileNameFilter : Filter<string>
 {
     public FileNameFilter(IReadOnlyList<string> whiteList, IReadOnlyList<string> blackList)
         : base(whiteList, blackList)
@@ -9,9 +9,9 @@ internal class FileNameFilter : Filter<string>
 
     public FileNameFilter() : base() { }
 
-    public override bool IsSatisfiedBy(string pathToFile)
+    public override bool IsSatisfiedBy(string value)
     {
-        string fileName = Path.GetFileName(pathToFile);
+        string fileName = Path.GetFileName(value);
         return base.IsSatisfiedBy(fileName);
     }
 }

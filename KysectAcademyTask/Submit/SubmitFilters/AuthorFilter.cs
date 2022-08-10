@@ -1,6 +1,6 @@
 ﻿namespace KysectAcademyTask.Submit.SubmitFilters;
 
-internal class AuthorFilter : Filter<string>
+public class AuthorFilter : Filter<string>
 {
     public AuthorFilter(IReadOnlyList<string> whiteList, IReadOnlyList<string> blackList)
         : base(whiteList, blackList)

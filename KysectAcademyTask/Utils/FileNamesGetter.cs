@@ -2,7 +2,7 @@
 
 namespace KysectAcademyTask.Utils;
 
-internal class FileNamesGetter
+public class FileNamesGetter
 {
     private readonly FileRequirements? _fileRequirements;
     private readonly DirectoryRequirements? _directoryRequirements;

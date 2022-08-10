@@ -1,12 +1,12 @@
-﻿using KysectAcademyTask.FileComparison;
+﻿using KysectAcademyTask.ComparisonResult;
 
 namespace KysectAcademyTask.Report.Reporters;
 
-internal class ConsoleReporter : IReporter
+public class ConsoleReporter<T> : IReporter<T> where T : IComparisonResult
 {
-    public void MakeReport(ComparisonResultsTable results)
+    public void MakeReport(ComparisonResultsTable<T> results)
     {
-        foreach (ComparisonResult result in results)
+        foreach (T result in results)
         {
             Console.WriteLine(result.ToString());
             Console.WriteLine();
